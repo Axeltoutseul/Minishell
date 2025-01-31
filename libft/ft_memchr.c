@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:14:13 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/13 14:14:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:36:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,3 @@ void	*ft_memchr(const void *str, int to_find, size_t size)
 	}
 	return (0);
 }
-
-/*int	main(void)
-{
-	const char str[] = {0, 1, 2, 3, 4, 5};
-	char *result = ft_memchr(str, 2, 3);
-	printf("%s", result);
-	return (0);
-}*/

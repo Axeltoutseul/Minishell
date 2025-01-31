@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:15:21 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 11:15:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,3 @@ char	*ft_strdup(const char *src)
 	dest[i] = 0;
 	return (dest);
 }
-
-/*int	main(void)
-{
-	char *src = "duplicate";
-	char *dest = ft_strdup(src);
-
-	printf("%s", dest);
-	return (0);
-}*/

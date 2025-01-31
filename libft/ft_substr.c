@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:14:45 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/05/14 15:27:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,3 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	dest[i] = 0;
 	return (dest);
 }
-
-/*int	main(void)
-{
-	const char s[50] = "Prenons exemple sur lui";
-	printf("%s", ft_substr(s, 1, 1));
-	return (0);
-}*/

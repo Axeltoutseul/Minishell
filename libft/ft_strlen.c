@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:10:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 11:11:02 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,3 @@ int	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
-/*int	main(void)
-{
-	char str[10] = "";
-	printf("%d", ft_strlen(str));
-	return (0);
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:14:33 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/13 14:14:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,3 @@ void	*ft_memset(void *src, int value, size_t n)
 	}
 	return ((char *) chaine);
 }
-
-/*int	main(void)
-{
-	char src[20] = "Ceci est une string";
-
-	memset(src, 0, 1);
-	printf("%s", src);
-	return (0);
-}*/

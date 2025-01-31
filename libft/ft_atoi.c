@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:15:08 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/04/24 15:52:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:28:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,3 @@ int	ft_atoi(const char *str)
 	}
 	return (nb * neg);
 }
-
-/*int	main(void)
-{
-	printf("%d\n", ft_atoi(" -122g"));
-	printf("%d\n", atoi(" -122g"));
-	return (0);
-}*/

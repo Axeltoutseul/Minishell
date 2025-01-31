@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:16:08 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/16 14:16:39 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:38:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,3 @@ char	*ft_itoa(int n)
 	number[size] = '\0';
 	return (number);
 }
-
-/*int	main(void)
-{
-	int nb = -2147483648;
-	char *str = ft_itoa(nb);
-	printf("%s\n", str);
-	return (0);
-}*/

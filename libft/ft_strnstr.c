@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:14:38 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/13 14:17:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:36 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,3 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 	}
 	return (NULL);
 }
-
-/*int	main(void)
-{
-	char str[10] = "";
-	char to_find[10] = "";
-	printf("%s", ft_strnstr(str, to_find, -1));
-	return (0);
-}*/

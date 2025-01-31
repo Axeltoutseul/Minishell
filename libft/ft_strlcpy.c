@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:05:04 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 12:05:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:26 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,3 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	}
 	return (length);
 }
-
-/*int	main(void)
-{
-	char dest[11] = "coucou";
-	char src[11] = "p";
-	printf("%ld\n", ft_strlcpy(dest, src, 0));
-	printf("%s", dest);
-	return (0);
-}*/

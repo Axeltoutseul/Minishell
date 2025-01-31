@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:13:23 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 11:13:25 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,3 @@ int	ft_tolower(int c)
 		c += 32;
 	return (c);
 }
-
-/*int	main(void)
-{
-	char chaine[6] = "AbcDE";
-	to_lower(chaine);
-	printf("%s", chaine);
-	return (0);
-}*/

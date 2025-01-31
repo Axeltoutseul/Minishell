@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_content.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/12/13 18:34:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:38:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**get_lines(char **envp)
 		lines[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	lines[i][0] = 0;
+	lines[i] = NULL;
 	return (lines);
 }
 

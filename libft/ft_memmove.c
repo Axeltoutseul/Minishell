@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:13:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/13 14:14:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:01 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,3 @@ void	*ft_memmove(void *dest, const void *src, size_t size)
 	}
 	return (dest);
 }
-
-/*int	main(void)
-{
-	const char src[] = "Aticleworld";
-	char dest[] = "Amlendra";
-
-	memmove(dest, src, 9);
-	printf("%s", dest);
-	return (0);
-}*/

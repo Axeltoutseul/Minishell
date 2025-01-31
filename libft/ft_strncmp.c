@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:14:14 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 11:14:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	return (chaine1[i] - chaine2[i]);
 }
-
-/*int	main(void)
-{
-	printf("%d\n", ft_strncmp("test\200", "test\0", 6));
-	printf("%d\n", strncmp("test\200", "test\0", 6));
-	return (0);
-}*/

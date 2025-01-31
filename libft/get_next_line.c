@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:52:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/06/04 19:29:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,3 @@ char	*get_next_line(int fd)
 	line = next(line);
 	return (texte);
 }
-
-/*int	main(void)
-{
-	int		fd;
-	char	*gnl;
-
-	fd = open("../../training.txt", O_RDWR);
-	gnl = "l";
-	while (gnl != NULL)
-	{
-		gnl = get_next_line(fd);
-		printf("return %s \n", gnl);
-		free(gnl);
-	}
-	close(fd);
-	return (0);
-}*/

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2024/12/13 18:10:43 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/01/31 13:07:53 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,12 @@ NAME = minishell
 
 RM = rm -f
 
-SRCS = check_argv.c \
+SRCS = check_command_line.c \
 	free_terminal.c \
+	handle_strings.c \
 	minishell.c \
 	new_terminal.c \
+	pipex.c \
 	read_content.c \
 	write_content.c
 
@@ -30,7 +32,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) libft/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

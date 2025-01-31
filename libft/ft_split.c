@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 17:38:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/07/03 11:37:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,3 @@ char	**ft_split(char const *s, char c)
 	string_array[i] = 0;
 	return (string_array);
 }
-
-/*int	main(void)
-{
-	char const *str = "  tripouille  42  ";
-	char	**string_array = ft_split(str, ' ');
-	int	i = 0;
-	int	taille = count_strings(str, ' ');
-
-	while (i < taille)
-	{
-		printf("%s\n", string_array[i]);
-		i++;
-	}
-	free(string_array);
-	return (0);
-}*/

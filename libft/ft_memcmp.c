@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:13:07 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 11:13:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:36:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,3 @@ int	ft_memcmp(const void *s1, const void *s2, size_t size)
 	}
 	return (0);
 }
-
-/*int	main(void)
-{
-	//char s[] = {-128, 0, 127, 0};
-	//char sCpy[] = {-128, 0, 127, 0};
-	char s2[] = {0, 0, 127, 0};
-	char s3[] = {0, 0, 42, 0};
-
-	printf("%d\n", ft_memcmp(s2, s3, 3));
-	return (0);
-}*/

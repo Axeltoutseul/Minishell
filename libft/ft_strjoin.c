@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:16:12 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/05/15 13:29:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:21 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	new_string[size] = '\0';
 	return (new_string);
 }
-
-/*int	main(void)
-{
-	char const *s1 = "1ere chaine";
-	char const *s2 = "2eme chaine";
-
-	char *new_string = ft_strjoin(s1, s2);
-	printf("%s", new_string);
-	free(new_string);
-	return (0);
-}*/

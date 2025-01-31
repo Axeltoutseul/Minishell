@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:01:00 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/07 12:01:03 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:36:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,3 @@ void	*ft_memcpy(void *dest, const void *src, size_t size)
 	}
 	return (dest);
 }
-
-/*int	main(void)
-{
-	const char src[] = "Amlendra";
-	char dest[] = "Aticleworld";
-
-	ft_memcpy(dest, src, 9);
-	printf("%s", dest);
-	return (0);
-}*/

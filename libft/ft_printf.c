@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 14:18:54 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/01/12 14:58:51 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (count);
 }
-
-/*#define S2 "Mussum Ipsum, cacilds vidis litro abertis. \
-Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. \
-Aenean sit amet nisi. Atirei o pau no gatis, per gatis num morreus."
-#define TEST "%p", &s2
-
-int	main(void)
-{
-	printf(" %d \n", printf("i"));
-	printf(" %d \n", ft_printf("i"));
-	return (0);
-}*/

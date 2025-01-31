@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:42:22 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/16 10:42:25 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	trimmed_str[j] = '\0';
 	return (trimmed_str);
 }
-
-/*int	main(void)
-{
-	char s1[30] = "  Que faites vous ?  ";
-	char set[5] = " ?";
-	char *trimmed_str = ft_strtrim(" lorem ipsum dolor sit amet", "l ");
-	printf("%s", trimmed_str);
-	return (0);
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:27:04 by axbaudri          #+#    #+#             */
-/*   Updated: 2023/11/16 19:27:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	new_string[i] = '\0';
 	return (new_string);
 }
-
-/*static char	my_function(unsigned int i, char c)
-{
-	(void) i;
-	return (c);
-}
-
-int main(void)
-{
-	char *str = "Welcome to 42 school";
-	char *new_string = ft_strmapi(str, &my_function);
-	printf("%s", new_string);
-	return (0);
-}*/
