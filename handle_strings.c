@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 13:58:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:10:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,27 @@ void	write_sorted_strings(char **strs)
 		ft_printf("%s\n", strs[i++]);
 }
 
-char	*exec_echo(char *command_line)
+char	*exec_echo(char *cmd_line, char **strs)
 {
+	int		i;
 	char	*echo;
 
-	echo = ft_strtrim(command_line, ("\""));
+	i = 0;
+	if (!count_quotes(cmd_line))
+	{
+		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
+		ft_printf("strs[1] = %s\n", strs[2]);
+	}
+	if (count_quotes(cmd_line) % 2 == 1)
+		echo = ft_strdup("Error");
+	else
+	{
+		while (cmd_line[i] != '\'' && cmd_line[i] != '"')
+			i++;
+		if (cmd_line[i] == '\'')
+			echo = ft_strtrim(cmd_line + i, "'");
+		else
+			echo = ft_strtrim(cmd_line + i, "\"");
+	}
 	return (echo);
 }

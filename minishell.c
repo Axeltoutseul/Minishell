@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 13:52:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:26:05 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@
 
 void	execute_command(char **strs, char **envp, t_shell *shell)
 {
-	char	**words;
-	char	*echo;
+	//char	**words;
 
+	if (!strs)
+		ft_printf("");
 	if (ft_strcmp(strs[0], "echo") == 0 && ft_strcmp(strs[1], "-n") == 0)
 	{
-		words = ft_split(shell->cmd_line, ' ');
-		echo = ft_strjoin2(count_words(shell->cmd_line) - 2, words + 2, " ");
-		ft_printf("%s\n", echo);
-		free_2d_array(words);
-		free(echo);
+		//words = ft_split(shell->cmd_line, ' ');
+		//echo = ft_strjoin2(count_words(shell->cmd_line) - 2, words + 2, " ");
+		shell->echo = exec_echo(shell->cmd_line, strs);
+		ft_printf("%s\n", shell->echo);
+		free(shell->echo);
 	}
 	else if (ft_strcmp(shell->cmd_line, "export") == 0
 		&& count_words(shell->cmd_line) == 1)
@@ -56,9 +57,11 @@ void	execute_command(char **strs, char **envp, t_shell *shell)
 	else if (ft_strcmp(shell->cmd_line, "exit") == 0
 		&& count_words(shell->cmd_line) == 1)
 		exit(1);
+	else
+		ft_printf("command not found: %s\n", shell->cmd_line);
 }
 
-/*int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	int			buffer_size;
@@ -83,9 +86,9 @@ void	execute_command(char **strs, char **envp, t_shell *shell)
 		free_terminal(shell);
 	}
 	return (0);
-}*/
+}
 
-int	main(int argc, char **argv)
+/*int	main(int argc, char **argv)
 {
 	int		count;
 	if (argc > 1)
@@ -94,4 +97,4 @@ int	main(int argc, char **argv)
 		ft_printf("%d", count);
 	}
 	return (0);
-}
+}*/

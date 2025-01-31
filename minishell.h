@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 13:06:56 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:46:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		count_occurrences(char *cmd_line, int to_find);
 int		count_quotes(char *cmd_line);
 int		count_strings(char **strs);
 int		count_words(const char *str);
-char	*exec_echo(char *command_line);
+char	*exec_echo(char *cmd_line, char **strs);
 void	execute_command(char **argv, char **envp, t_shell *shell);
 char	*find_path_line(char **envp);
 char	*first_word(char *str);

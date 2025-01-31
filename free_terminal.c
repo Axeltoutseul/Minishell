@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/30 18:15:14 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:06:39 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_terminal(t_shell *shell)
 	i = 0;
 	free(shell->path);
 	free(shell->folder_path);
+	free(shell->echo);
 	free_2d_array(shell->splitted_path);
 	free_2d_array(shell->export);
 	free(shell);
