@@ -22,7 +22,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	count_occurrences(char *cmd_line, int to_find)
+int	count_occurrences(const char *cmd_line, int to_find)
 {
 	int	i;
 	int	count;
@@ -38,7 +38,7 @@ int	count_occurrences(char *cmd_line, int to_find)
 	return (count);
 }
 
-int	count_quotes(char *cmd_line)
+int	count_quotes(const char *cmd_line)
 {
 	int	i;
 	int	count;

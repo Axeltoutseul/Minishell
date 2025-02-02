@@ -26,9 +26,11 @@ typedef struct s_shell
 	char	**export;
 }	t_shell;
 
+int     calculate_size_for_replace(const char *str, char *a, char *b);
 int		calculate_total_size(int size, char **strs, char *sep);
-int		count_occurrences(char *cmd_line, int to_find);
-int		count_quotes(char *cmd_line);
+int		count_occurrences(const char *cmd_line, int to_find);
+int     count_occurrences2(const char *str, char *to_find);
+int		count_quotes(const char *cmd_line);
 int		count_strings(char **strs);
 int		count_words(const char *str);
 char	*exec_echo(char *cmd_line, char **strs);
@@ -44,6 +46,7 @@ void	ft_swap(char **s1, char **s2);
 char	*get_folder_path(char **envp);
 char	**get_lines(char **envp);
 t_shell	*init_shell(int argc, char **argv, char **envp);
+char    *replace(const char *str, char *a, char *b);
 char	*save_text(int fd);
 void	sort_strings(char **envp, int size);
 void	write_env(char **envp);

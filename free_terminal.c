@@ -24,9 +24,6 @@ void	free_2d_array(char **strs)
 
 void	free_terminal(t_shell *shell)
 {
-	int	i;
-
-	i = 0;
 	free(shell->path);
 	free(shell->folder_path);
 	free(shell->echo);

@@ -25,6 +25,7 @@ SRCS = check_command_line.c \
 	new_terminal.c \
 	pipex.c \
 	read_content.c \
+	replace.c \
 	write_content.c
 
 OBJS = $(SRCS:.c=.o)
@@ -32,7 +33,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME) -no-pie
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

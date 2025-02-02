@@ -90,11 +90,14 @@ int	main(int argc, char **argv, char **envp)
 
 /*int	main(int argc, char **argv)
 {
-	int		count;
-	if (argc > 1)
+	char *chaine;
+	if (argc != 4)
+		ft_printf("ERROR\n");
+	else
 	{
-		count = count_quotes(argv[1]);
-		ft_printf("%d", count);
+		chaine = replace(argv[1], argv[2], argv[3]);
+		ft_printf("%s\n", chaine);
+		free(chaine);
 	}
 	return (0);
 }*/
