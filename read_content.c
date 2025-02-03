@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 17:51:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:40:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,15 @@ char	**get_lines(char **envp)
 
 	i = 0;
 	size = count_strings(envp);
-	lines = (char **)malloc(sizeof(char *) * size + 1);
+	lines = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!lines)
 		return (NULL);
 	while (i < size)
 	{
-		lines[i] = ft_strdup(envp[i]);
+		if (ft_strncmp(envp[i], "_=", 2) == 0)
+			lines[i] = ft_strdup("_=/usr/bin/env");
+		else
+			lines[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	lines[i] = NULL;

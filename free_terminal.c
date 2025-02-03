@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 16:06:39 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:05:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,19 @@ void	free_2d_array(char **strs)
 	free(strs);
 }
 
+void	free_prompt(t_prompt *prompt)
+{
+	free(prompt->cmd_line);
+	free_2d_array(prompt->strs);
+}
+
 void	free_terminal(t_shell *shell)
 {
+	int	size_splitted_path;
+	int	size_export;
+
+	size_splitted_path = count_strings(shell->splitted_path);
+	size_export = count_strings(shell->export);
 	free(shell->path);
 	free(shell->folder_path);
 	free(shell->echo);

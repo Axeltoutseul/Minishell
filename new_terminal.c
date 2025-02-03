@@ -6,27 +6,36 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 16:00:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:43:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	*init_shell(int argc, char **argv, char **envp)
+t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
-	(void)argc;
-	(void)argv;
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->path = find_path_line(envp);
 	shell->folder_path = get_folder_path(envp);
 	shell->splitted_path = ft_split(shell->path, ':');
+	shell->env = get_lines(envp);
 	shell->export = get_lines(envp);
 	sort_strings(shell->export, count_strings(envp));
 	return (shell);
+}
+
+t_prompt	*parse_prompt(const char *buffer)
+{
+	t_prompt	*prompt;
+
+	prompt = (t_prompt *)malloc(sizeof(prompt));
+	prompt->cmd_line = ft_strdup(buffer);
+	prompt->strs = ft_split(buffer, ' ');
+	return (prompt);
 }
 
 char	*find_path_line(char **envp)

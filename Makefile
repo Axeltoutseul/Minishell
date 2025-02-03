@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/01/31 13:07:53 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/03 11:56:38 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME) -no-pie
+	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -3,22 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   write_content.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2024/12/13 18:18:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:41:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_env(char **envp)
+void	write_env(char **envp, t_prompt *prompt)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
-		ft_printf("%s\n", envp[i++]);
+	{
+		if (!(ft_strcmp(prompt->strs[0], "export") == 0
+			&& ft_strncmp(envp[i], "_=", 2) == 0))
+			ft_printf("%s\n", envp[i]);
+		i++;
+	}
 }
 
 char	*ft_strcpy(char *dest, const char *src)
