@@ -6,18 +6,17 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 19:25:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:01:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	display_echo(t_shell *shell, t_prompt *prompt)
+void	display_echo(t_prompt *prompt)
 {
-	shell->echo = exec_echo(prompt->cmd_line, prompt->strs);
-	ft_printf("%s", shell->echo);
-	ft_printf("\nfind third word = %s", find_third_word(prompt->cmd_line));
-	free(shell->echo);
+	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
+	ft_printf("%s", prompt->echo);
+	free(prompt->echo);
 }
 
 void	execute_command(t_shell *shell, t_prompt *prompt)
@@ -26,7 +25,7 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0
 		&& ft_strcmp(prompt->strs[1], "-n") == 0)
-		display_echo(shell, prompt);
+		display_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		write_env(shell->export, prompt);

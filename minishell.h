@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 19:25:36 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:01:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_shell
 {
 	char	*path;
 	char	*folder_path;
-	char	*echo;
 	char	**splitted_path;
 	char	**env;
 	char	**export;
@@ -29,6 +28,7 @@ typedef struct s_shell
 typedef struct s_prompt
 {
 	char	*cmd_line;
+	char	*echo;
 	char	**strs;
 }	t_prompt;
 
@@ -40,7 +40,7 @@ int			count_occurrences2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
-void		display_echo(t_shell *shell, t_prompt *prompt);
+void		display_echo(t_prompt *prompt);
 void    	exec_cd(char *path);
 char		*exec_echo(char *cmd_line, char **strs);
 int			existing_command(char **paths, char *cmd);

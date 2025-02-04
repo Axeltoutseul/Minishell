@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 15:57:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:00:22 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,13 @@ char	*find_third_word(const char *cmd_line)
 	return (echo);
 }
 
-/*char	*exec_echo(char *cmd_line, char **strs)
+char	**parse_echo(t_prompt *prompt)
 {
-	int		i;
-	char	*echo;
+	char	**strs;
 
-	i = 0;
-	if (!count_quotes(cmd_line))
-		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
-	else if (count_quotes(cmd_line) % 2 == 1)
-		echo = ft_strdup("Error");
-	else
-	{
-		while (cmd_line[i] != '\'' && cmd_line[i] != '"')
-			i++;
-		if (cmd_line[i] == '\'')
-			echo = ft_strtrim(cmd_line + i, "'");
-		else
-			echo = ft_strtrim(cmd_line + i, "\"");
-	}
-	return (echo);
-}*/
+	strs = ft_split(prompt->echo, '"');
+	return (strs);
+}
 
 char	*exec_echo(char *cmd_line, char **strs)
 {
