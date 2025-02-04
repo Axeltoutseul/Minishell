@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/03 11:56:38 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/04 18:07:55 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ RM = rm -f
 
 SRCS = check_command_line.c \
 	free_terminal.c \
+	handle_paths.c \
 	handle_strings.c \
 	minishell.c \
 	new_terminal.c \
