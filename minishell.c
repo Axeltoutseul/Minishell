@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 14:57:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:37:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	display_echo(t_shell *shell, t_prompt *prompt)
 {
 	shell->echo = exec_echo(prompt->cmd_line, prompt->strs);
 	ft_printf("%s", shell->echo);
+	ft_printf("\nfind third word = %s", find_third_word(prompt->cmd_line));
 	free(shell->echo);
 }
 

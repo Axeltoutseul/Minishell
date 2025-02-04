@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 14:56:17 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:36:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char		*exec_echo(char *cmd_line, char **strs);
 int			existing_command(char **paths, char *cmd);
 void		execute_command(t_shell *shell, t_prompt *prompt);
 char		*find_path_line(char **envp);
+char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
 void		free_2d_array(char **strs);
 void		free_prompt(t_prompt *prompt);
