@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/03 16:45:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:19:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,36 +41,37 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argv;
 	t_shell		*shell;
 	t_prompt	*prompt;
-	int			buffer_size;
 	const char	*buffer;
 
+	(void)argv;
 	if (argc == 1)
 	{
-		buffer_size = 2048;
-		buffer = (char *)ft_calloc(sizeof(char), buffer_size);
 		shell = init_shell(envp);
-		buffer = readline("$> ");
+		buffer = readline("\033[0;36m> \033[0m");
 		while (buffer)
 		{
 			prompt = parse_prompt(buffer);
 			execute_command(shell, prompt);
 			free_prompt(prompt);
-			buffer = readline("$> ");
+			buffer = readline("\033[0;36m> \033[0m");
 		}
+		free_prompt(prompt);
 		free_terminal(shell);
 	}
 	return (0);
 }
 
-/*int	main(int argc, char **argv)
+/*int	main(void)
 {
-	char **strs = get_lines(argv + 1);
 	int i = 0;
-	while (i < argc - 1)
+	char *buffer = readline("> ");
+	char **strs = ft_split(buffer, ' ');
+	while (strs[i])
 		ft_printf("%s\n", strs[i++]);
+	rl_clear_history();
+	free(buffer);
 	free_2d_array(strs);
 	return (0);
 }*/

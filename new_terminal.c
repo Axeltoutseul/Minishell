@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/03 16:43:42 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:39:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ t_prompt	*parse_prompt(const char *buffer)
 {
 	t_prompt	*prompt;
 
-	prompt = (t_prompt *)malloc(sizeof(prompt));
+	prompt = (t_prompt *)malloc(sizeof(t_prompt));
+	if (!prompt)
+		return (NULL);
 	prompt->cmd_line = ft_strdup(buffer);
 	prompt->strs = ft_split(buffer, ' ');
 	return (prompt);

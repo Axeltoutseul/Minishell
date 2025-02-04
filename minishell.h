@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/03 16:45:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:21:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ typedef struct s_prompt
 	char	**strs;
 }	t_prompt;
 
-int     	calculate_size_for_replace(const char *str, char *a, char *b);
+int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
 int			count_occurrences(const char *cmd_line, int to_find);
-int     	count_occurrences2(const char *str, char *to_find);
+int			count_occurrences2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
@@ -56,7 +56,7 @@ char		*get_folder_path(char **envp);
 char		**get_lines(char **envp);
 t_shell		*init_shell(char **envp);
 t_prompt	*parse_prompt(const char *buffer);
-char    	*replace(const char *str, char *a, char *b);
+char		*replace(const char *str, char *a, char *b);
 char		*save_text(int fd);
 void		sort_strings(char **envp, int size);
 void		write_env(char **envp, t_prompt *prompt);

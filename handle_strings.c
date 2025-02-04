@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/31 17:10:19 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:03:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ char	*exec_echo(char *cmd_line, char **strs)
 
 	i = 0;
 	if (!count_quotes(cmd_line))
-	{
 		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
-		ft_printf("strs[1] = %s\n", strs[2]);
-	}
 	if (count_quotes(cmd_line) % 2 == 1)
 		echo = ft_strdup("Error");
 	else
