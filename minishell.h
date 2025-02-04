@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 12:21:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:56:17 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int			count_occurrences2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
+void		display_echo(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
 int			existing_command(char **paths, char *cmd);
 void		execute_command(t_shell *shell, t_prompt *prompt);
@@ -60,6 +61,5 @@ char		*replace(const char *str, char *a, char *b);
 char		*save_text(int fd);
 void		sort_strings(char **envp, int size);
 void		write_env(char **envp, t_prompt *prompt);
-void		write_sorted_strings(char **strs);
 
 #endif

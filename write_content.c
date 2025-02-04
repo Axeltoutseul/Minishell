@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 12:19:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:58:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 	new_string = (char *)malloc(sizeof(char) * total_size + 1);
 	if (!new_string)
 		return (NULL);
-	new_string[total_size] = 0;
 	while (i < size)
 	{
 		ft_strcpy(new_string + j, strs[i]);
@@ -82,5 +81,6 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 		}
 		i++;
 	}
+	new_string[total_size] = 0;
 	return (new_string);
 }
