@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 20:01:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:43:52 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "env") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		write_env(shell->env, prompt);
-	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
-		exec_cd(prompt->strs[1]);
+	else if (ft_strcmp(prompt->strs[0], "cd") == 0
+		&& count_strings(prompt->strs) == 2)
+		exec_cd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		ft_printf("%s\n", shell->folder_path);
@@ -70,13 +71,6 @@ int	main(int argc, char **argv, char **envp)
 
 /*int	main(void)
 {
-	int i = 0;
-	char *buffer = readline("> ");
-	char **strs = ft_split(buffer, ' ');
-	while (strs[i])
-		ft_printf("%s\n", strs[i++]);
-	rl_clear_history();
-	free(buffer);
-	free_2d_array(strs);
+	printf("%s\n", getenv("HOME"));
 	return (0);
 }*/

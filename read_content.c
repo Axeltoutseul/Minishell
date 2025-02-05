@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 14:44:54 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:29:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ char	**get_lines(char **envp)
 		return (NULL);
 	while (i < size)
 	{
-		/*if (ft_strncmp(envp[i], "_=", 2) == 0)
-			lines[i] = ft_strdup("_=/usr/bin/env");
-		else*/
 		lines[i] = ft_strdup(envp[i]);
 		i++;
 	}

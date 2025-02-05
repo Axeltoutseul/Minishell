@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 20:01:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:52:00 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <linux/limits.h>
 # include "libft/libft.h"
 
 typedef struct s_shell
@@ -41,7 +42,7 @@ int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
 void		display_echo(t_prompt *prompt);
-void    	exec_cd(char *path);
+void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
 int			existing_command(char **paths, char *cmd);
 void		execute_command(t_shell *shell, t_prompt *prompt);
