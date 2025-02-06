@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/04 18:07:55 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/06 14:34:53 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,10 @@ all: $(NAME)
 
 clean:
 	$(RM) $(OBJS)
+	make clean -C libft/
 
 fclean: clean
 	$(RM) $(NAME)
-	make clean -C libft/
 
 re: fclean all
 
