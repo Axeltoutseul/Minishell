@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/06 13:25:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:46:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_prompt	*parse_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 char		*save_text(int fd);
 void		sort_strings(char **envp, int size);
-void		update_paths(t_shell *shell);
+void		update_paths(t_shell *shell, char **envp);
 void		write_env(char **envp, t_prompt *prompt);
 
 #endif

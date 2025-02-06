@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/06 13:33:49 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:57:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,26 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 		free(shell->pwd);
 		shell->pwd = ft_strdup(buffer);
 	}
-	update_paths(shell);
+	update_paths(shell, shell->env);
+	update_paths(shell, shell->export);
 }
 
-void	update_paths(t_shell *shell)
+void	update_paths(t_shell *shell, char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (shell->env[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(shell->env[i], "OLDPWD=", 8) == 0)
+		if (ft_strncmp(envp[i], "OLDPWD=", 7) == 0)
 		{
-			free(shell->env[i]);
-			shell->env[i] = ft_strjoin("OLDPWD=", shell->old_pwd);
+			free(envp[i]);
+			envp[i] = ft_strjoin("OLDPWD=", shell->old_pwd);
 		}
-		else if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
+		else if (ft_strncmp(envp[i], "PWD=", 4) == 0)
 		{
-			free(shell->env[i]);
-			shell->env[i] = ft_strjoin("PWD=", shell->pwd);
+			free(envp[i]);
+			envp[i] = ft_strjoin("PWD=", shell->pwd);
 		}
 		i++;
 	}
