@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/05 11:26:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:23:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_shell	*init_shell(char **envp)
 	if (!shell)
 		return (NULL);
 	shell->path = find_path_line(envp);
-	shell->folder_path = get_folder_path(envp);
+	shell->old_pwd = get_pwd(envp);
+	shell->pwd = get_pwd(envp);
 	shell->splitted_path = ft_split(shell->path, ':');
 	shell->env = get_lines(envp);
 	shell->export = get_lines(envp);
@@ -52,7 +53,7 @@ char	*find_path_line(char **envp)
 	return (path_line);
 }
 
-char	*get_folder_path(char **envp)
+char	*get_pwd(char **envp)
 {
 	int		i;
 	char	*path;

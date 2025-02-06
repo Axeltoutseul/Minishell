@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/05 12:43:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:23:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		exec_cd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0
 		&& count_words(prompt->cmd_line) == 1)
-		ft_printf("%s\n", shell->folder_path);
+	{
+		ft_printf("old_pwd = %s\n", shell->old_pwd);
+		ft_printf("%s\n", shell->pwd);
+	}
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		exit(1);

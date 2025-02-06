@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/05 14:52:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:25:05 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 typedef struct s_shell
 {
 	char	*path;
-	char	*folder_path;
+	char	*pwd;
+	char	*old_pwd;
 	char	**splitted_path;
 	char	**env;
 	char	**export;
@@ -56,13 +57,14 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, unsigned int n);
 void		ft_swap(char **s1, char **s2);
-char		*get_folder_path(char **envp);
+char		*get_pwd(char **envp);
 char		**get_lines(char **envp);
 t_shell		*init_shell(char **envp);
 t_prompt	*parse_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 char		*save_text(int fd);
 void		sort_strings(char **envp, int size);
+void		update_paths(t_shell *shell);
 void		write_env(char **envp, t_prompt *prompt);
 
 #endif

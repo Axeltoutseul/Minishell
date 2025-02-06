@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 20:03:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:23:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_terminal(t_shell *shell)
 	size_splitted_path = count_strings(shell->splitted_path);
 	size_export = count_strings(shell->export);
 	free(shell->path);
-	free(shell->folder_path);
+	free(shell->pwd);
 	free_2d_array(shell->splitted_path);
 	free_2d_array(shell->env);
 	free_2d_array(shell->export);
