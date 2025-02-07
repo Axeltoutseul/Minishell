@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/06 12:23:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:48:34 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_shell	*init_shell(char **envp)
 	shell->env = get_lines(envp);
 	shell->export = get_lines(envp);
 	sort_strings(shell->export, count_strings(envp));
+	shell->var_names = get_var_names(envp);
 	return (shell);
 }
 

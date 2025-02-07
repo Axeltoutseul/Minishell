@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/06 16:59:04 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:51:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void	display_echo(t_prompt *prompt)
 {
+	char	**strs;
+
 	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
-	ft_printf("%s", prompt->echo);
+	{
+		strs = parse_echo(prompt);
+		ft_printf("join strings = %s\n", join_strings(strs));
+		ft_printf("%s", prompt->echo);
+	}
 	free(prompt->echo);
 }
 
@@ -38,6 +44,9 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		ft_printf("%s\n", shell->pwd);
+	else if (ft_strcmp(prompt->strs[0], "unset") == 0
+		&& count_words(prompt->cmd_line) > 1)
+		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		exit(1);
@@ -69,8 +78,18 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-/*int	main(void)
+/*int	main(int argc, char **argv, char **envp)
 {
-	printf("%s\n", getenv("HOME"));
+	t_shell		*shell;
+	int i = 0;
+
+	(void)argv;
+	if (argc == 1)
+	{
+		shell = init_shell(envp);
+		while (shell->var_names[i])
+			ft_printf("%s\n", shell->var_names[i++]);
+		free_terminal(shell);
+	}
 	return (0);
 }*/

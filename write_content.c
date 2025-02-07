@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/04 13:58:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/07 17:21:17 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	write_env(char **envp, t_prompt *prompt)
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (i < count_strings(envp))
 	{
 		if (!(ft_strcmp(prompt->strs[0], "export") == 0
-				&& ft_strncmp(envp[i], "_=", 2) == 0))
+				&& ft_strncmp(envp[i], "_=", 2) == 0) && envp[i][0])
 			ft_printf("%s\n", envp[i]);
 		i++;
 	}

@@ -6,37 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/03 16:50:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:54:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-int	count_occurrences(const char *cmd_line, int to_find)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == to_find)
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 int	count_quotes(const char *cmd_line)
 {
@@ -84,4 +58,35 @@ int	existing_command(char **paths, char *cmd)
 		i++;
 	}
 	return (0);
+}
+
+void	exec_unset(t_shell *shell, t_prompt *prompt)
+{
+	int	i;
+
+	i = 1;
+	while (prompt->strs[i])
+		remove_line(shell, prompt->strs[i++]);
+}
+
+void	remove_line(t_shell *shell, char *var)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (shell->var_names[i] 
+		&& ft_strcmp(shell->var_names[i], var) != 0)
+		i++;
+	if (shell->var_names[i])
+	{
+		while (ft_strcmp(shell->env[i], shell->export[j]) != 0)
+			j++;
+		if (ft_strcmp(shell->var_names[i], "_") != 0)
+		{
+			shell->env[i][0] = 0;
+			shell->export[j][0] = 0;
+		}
+	}
 }

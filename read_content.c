@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/05 11:29:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/07 12:37:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,24 @@ char	**get_lines(char **envp)
 	return (lines);
 }
 
-int	count_words(const char *str)
+char	**get_var_names(char **envp)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		j;
+	int		size;
+	char	**var_names;
 
 	i = 0;
-	count = 0;
-	if (str[0] != 0 && str[0] != 32)
+	size = count_strings(envp);
+	var_names = (char **)malloc(sizeof(char *) * (size + 1));
+	while (i < size)
 	{
-		i++;
-		count++;
-	}
-	while (str[i])
-	{
-		if (str[i] == 32 && (str[i + 1] != 0 && str[i + 1] != 32))
-			count++;
+		j = 0;
+		while (envp[i][j] && envp[i][j] != '=')
+			j++;
+		var_names[i] = ft_strndup(envp[i], j);
 		i++;
 	}
-	return (count);
+	var_names[i] = NULL;
+	return (var_names);
 }
