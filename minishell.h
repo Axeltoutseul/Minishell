@@ -62,6 +62,7 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 char		**get_lines(char **envp);
 char		*get_pwd(char **envp);
+int			get_shell_level(char **envp);
 char		**get_var_names(char **envp);
 t_shell		*init_shell(char **envp);
 char		*join_strings(char **strs);

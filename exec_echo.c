@@ -60,13 +60,11 @@ char	**parse_echo(t_prompt *prompt)
 {
 	char	**strs;
 	int		i;
-	int		j;
-	int		number_of_quotes;
+	//int		number_of_quotes;
 	int		quote;
 
 	i = 0;
-	j = 0;
-	number_of_quotes = count_quotes(prompt->echo);
+	//number_of_quotes = count_quotes(prompt->echo);
 	while (prompt->echo[i] && prompt->echo[i] != '\'' && prompt->echo[i] != '"')
 		i++;
 	if (prompt->echo[i] == '\'')
@@ -80,10 +78,8 @@ char	**parse_echo(t_prompt *prompt)
 
 char	*exec_echo(char *cmd_line, char **strs)
 {
-	int		i;
 	char	*echo;
 
-	i = 0;
 	if (!count_quotes(cmd_line))
 		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
 	else if (count_quotes(cmd_line) % 2 == 1)

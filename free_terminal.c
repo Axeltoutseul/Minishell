@@ -32,11 +32,6 @@ void	free_prompt(t_prompt *prompt)
 
 void	free_terminal(t_shell *shell)
 {
-	int	size_splitted_path;
-	int	size_export;
-
-	size_splitted_path = count_strings(shell->splitted_path);
-	size_export = count_strings(shell->export);
 	free(shell->path);
 	free(shell->pwd);
 	free(shell->old_pwd);

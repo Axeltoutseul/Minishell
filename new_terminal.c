@@ -23,6 +23,7 @@ t_shell	*init_shell(char **envp)
 	shell->old_pwd = get_pwd(envp);
 	shell->pwd = get_pwd(envp);
 	shell->splitted_path = ft_split(shell->path, ':');
+	shell->shlvl = get_shell_level(envp);
 	shell->env = get_lines(envp);
 	shell->export = get_lines(envp);
 	sort_strings(shell->export, count_strings(envp));
@@ -64,4 +65,16 @@ char	*get_pwd(char **envp)
 		i++;
 	path = ft_strdup(envp[i] + 4);
 	return (path);
+}
+
+int	get_shell_level(char **envp)
+{
+	int	i;
+	int	shlvl;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
+		i++;
+	shlvl = ft_atoi(envp[i] + 6);
+	return (shlvl);
 }
