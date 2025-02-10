@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/07 18:55:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:01:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_prompt
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
+char		*copy_line_with_quotes(char *src);
 int			count_occurrences(const char *cmd_line, int to_find);
 int			count_occurrences2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
@@ -60,6 +61,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
+char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
 char		*get_pwd(char **envp);
 int			get_shell_level(char **envp);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/07 12:46:54 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:49:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,9 @@ char	**parse_echo(t_prompt *prompt)
 {
 	char	**strs;
 	int		i;
-	//int		number_of_quotes;
 	int		quote;
 
 	i = 0;
-	//number_of_quotes = count_quotes(prompt->echo);
 	while (prompt->echo[i] && prompt->echo[i] != '\'' && prompt->echo[i] != '"')
 		i++;
 	if (prompt->echo[i] == '\'')

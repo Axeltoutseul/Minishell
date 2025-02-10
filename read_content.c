@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/07 12:37:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:02:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,22 @@ char	**get_var_names(char **envp)
 	}
 	var_names[i] = NULL;
 	return (var_names);
+}
+
+char	**get_lines_export(char **envp)
+{
+	int		i;
+	int		size;
+	char	**vars;
+
+	i = 0;
+	size = count_strings(envp);
+	vars = (char **)malloc(sizeof(char *) * (size + 1));
+	while (i < size)
+	{
+		vars[i] = copy_line_with_quotes(envp[i]);
+		i++;
+	}
+	vars[i] = NULL;
+	return (vars);
 }
