@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 14:02:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:26:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,35 @@ int	main(int argc, char **argv, char **envp)
 	t_prompt	*prompt;
 	const char	*buffer;
 
+	setup_signal();
+	(void)argc;
+	(void)argv;
+	shell = init_shell(envp);
+	buffer = readline("\033[0;32mminishell> \033[0m");
+	while (buffer)
+	{
+		prompt = parse_prompt(buffer);
+		execute_command(shell, prompt);
+		free_prompt(prompt);
+		buffer = readline("\033[0;32mminishell> \033[0m");
+		if (!buffer)
+		{
+			write(2, "exit\n", 5);
+			break ;
+		}
+	}
+	free_prompt(prompt);
+	free_terminal(shell);
+	return (0);
+}
+
+/*int    main(int argc, char **argv, char **envp)
+{
+	t_shell		*shell;
+	t_prompt	*prompt;
+	const char	*buffer;
+
+	//setup_signal();
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
@@ -70,11 +99,16 @@ int	main(int argc, char **argv, char **envp)
 		execute_command(shell, prompt);
 		free_prompt(prompt);
 		buffer = readline("\033[0;36m> \033[0m");
+		//if (!buffer)
+		//{
+		//	write(2, "exit\n", 5);
+		//	break ;
+		//}
 	}
 	free_prompt(prompt);
 	free_terminal(shell);
 	return (0);
-}
+}*/
 
 /*int	main(int argc, char **argv, char **envp)
 {

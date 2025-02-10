@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 14:01:47 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:17:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <linux/limits.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include "libft/libft.h"
 
 typedef struct s_shell
@@ -66,6 +69,10 @@ char		**get_lines(char **envp);
 char		*get_pwd(char **envp);
 int			get_shell_level(char **envp);
 char		**get_var_names(char **envp);
+void		handle_pipe(char *cmd1[], char *cmd2[]);
+int			handle_redirection(const char *file, int io_flag);
+void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
 t_shell		*init_shell(char **envp);
 char		*join_strings(char **strs);
 char		**parse_echo(t_prompt *prompt);
@@ -73,6 +80,7 @@ t_prompt	*parse_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 void		remove_line(t_shell *shell, char *var);
 char		*save_text(int fd);
+void		setup_signal(void);
 void		sort_strings(char **envp, int size);
 void		update_paths(t_shell *shell, char **envp);
 void		write_env(char **envp, t_prompt *prompt);
