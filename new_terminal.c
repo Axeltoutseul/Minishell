@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 21:27:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:30:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_shell	*init_shell(char **envp)
 	shell->splitted_path = ft_split(shell->path, ':');
 	shell->shlvl = get_shell_level(envp);
 	shell->env = get_lines(envp);
+	copy_env(shell, envp);
 	shell->export = get_lines_export(envp);
 	sort_strings(shell->export, count_strings(envp));
 	shell->var_names = get_var_names(envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/11 14:45:07 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/02/11 18:47:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	verif_history(char *input)
 }
 
 //ajout dans le main apres if (!input)
-int main(void)
+/*int main(void)
 {
 	char	*input;
 
@@ -56,4 +56,4 @@ int main(void)
 	}
 	write_history("history.txt");
 	return (0);
-}
+}*/

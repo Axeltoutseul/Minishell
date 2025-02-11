@@ -23,6 +23,7 @@ SRCS = check_command_line.c \
 	free_terminal.c \
 	handle_paths.c \
 	handle_strings.c \
+	history.c \
 	minishell.c \
 	new_terminal.c \
 	parse_command_line.c \

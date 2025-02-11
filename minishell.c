@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 21:26:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:41:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 
+void	copy_env(t_shell *shell, char **envp)
+{
+	int		i;
+	t_list	*new;
+
+	shell->env_lines = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		new = ft_lstnew(ft_strdup(envp[i]));
+		ft_lstadd_back(&shell->env_lines, new);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
@@ -80,45 +95,48 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-/*int    main(int argc, char **argv, char **envp)
+/*int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
-	t_prompt	*prompt;
-	const char	*buffer;
+	t_list		*temp;
+	int			i;
 
-	//setup_signal();
+	setup_signal();
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
-	buffer = readline("\033[0;36m> \033[0m");
-	while (buffer)
+	temp = shell->env_lines;
+	i = 0;
+	while (temp)
 	{
-		prompt = init_prompt(buffer);
-		execute_command(shell, prompt);
-		free_prompt(prompt);
-		buffer = readline("\033[0;36m> \033[0m");
-		//if (!buffer)
-		//{
-		//	write(2, "exit\n", 5);
-		//	break ;
-		//}
+		ft_printf("%s\n", temp->content);
+		temp = temp->next;
 	}
-	free_prompt(prompt);
 	free_terminal(shell);
 	return (0);
 }*/
 
 /*int	main(int argc, char **argv, char **envp)
 {
-	t_shell		*shell;
-	int i = 0;
+	t_list	*lst;
+	t_list	*new;
+	t_list	*temp;
+	int		i;
 
 	(void)argc;
 	(void)argv;
-	shell = init_shell(envp);
-	char **vars = get_lines_export(envp);
-	while (vars[i])
-		ft_printf("%s\n", vars[i++]);
-	free_terminal(shell);
+	lst = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		new = ft_lstnew((void *)envp[i++]);
+		ft_lstadd_back(&lst, new);
+	}
+	temp = lst;
+	while (temp->next)
+	{
+		ft_printf("%s\n", temp->content);
+		temp = temp->next;
+	}
 	return (0);
 }*/
