@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 11:49:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:43:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	check_each_string(char *echo, char **strs, int quote)
 		{
 			if (count % 2 == 0)
 			{
+				i += ft_strlen(strs[j]);
 				splitted_str = ft_split(strs[j], ' ');
-				free(strs[j]);
-				strs[j] = ft_strjoin2(count_words(strs[j]), splitted_str, " ");
+				strs[j] = ft_strjoin2(count_words(strs[j]), splitted_str, " - ");
 				free_2d_array(splitted_str);
 			}
 			j++;
@@ -81,7 +81,7 @@ char	*exec_echo(char *cmd_line, char **strs)
 	if (!count_quotes(cmd_line))
 		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
 	else if (count_quotes(cmd_line) % 2 == 1)
-		echo = ft_strdup("Error");
+		echo = ft_strdup("Error\n");
 	else
 		echo = find_third_word(cmd_line);
 	return (echo);

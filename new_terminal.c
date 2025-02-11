@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 14:44:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:27:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,19 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-t_prompt	*parse_prompt(const char *buffer)
+// echo "salut commment ca" va mon "amis"
+
+/*
+	char **cmd;
+
+	cmd[0] = echo;
+	cmd[0] = salut comment ca;
+	cmd[0] = va;
+	cmd[0] = mon;
+	cmd[0] = amis;
+*/
+
+t_prompt	*init_prompt(const char *buffer)
 {
 	t_prompt	*prompt;
 

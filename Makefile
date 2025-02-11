@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/10 15:00:27 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/10 19:58:10 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = check_command_line.c \
 	handle_strings.c \
 	minishell.c \
 	new_terminal.c \
+	parse_command_line.c \
 	pipex.c \
 	read_content.c \
 	replace.c \

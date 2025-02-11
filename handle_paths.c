@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/06 14:30:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:23:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 	char	buffer[PATH_MAX];
 
 	if (chdir(prompt->strs[1]) != 0)
-		ft_putstr_fd("cd command failed\n", 2);
+		ft_printf("cd: no such file or directory: %s\n", prompt->strs[1]);
 	else
 	{
 		if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)

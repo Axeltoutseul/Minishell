@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:38:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 15:36:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:41:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	handle_pipe(char *cmd1[], char *cmd2[])
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }

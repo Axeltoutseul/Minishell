@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 16:26:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:26:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	display_echo(t_prompt *prompt)
 {
-	char	**strs;
-
 	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
-	{
-		strs = parse_echo(prompt);
-		ft_printf("join strings = %s\n", join_strings(strs));
-		ft_printf("%s", prompt->echo);
-	}
+	ft_printf("%s", prompt->echo);
 	free(prompt->echo);
+}
+
+void	exec_exit(void)
+{
+	write(2, "exit\n", 5);
+	exit(1);
 }
 
 void	execute_command(t_shell *shell, t_prompt *prompt)
@@ -49,7 +49,7 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0
 		&& count_words(prompt->cmd_line) == 1)
-		exit(1);
+		exec_exit();
 	else
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
@@ -64,20 +64,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
-	buffer = readline("\033[0;32mminishell> \033[0m");
-	while (buffer)
+	while (1)
 	{
-		prompt = parse_prompt(buffer);
-		execute_command(shell, prompt);
-		free_prompt(prompt);
 		buffer = readline("\033[0;32mminishell> \033[0m");
 		if (!buffer)
 		{
 			write(2, "exit\n", 5);
 			break ;
 		}
+		prompt = init_prompt(buffer);
+		execute_command(shell, prompt);
+		free_prompt(prompt);
 	}
-	free_prompt(prompt);
 	free_terminal(shell);
 	return (0);
 }
@@ -95,7 +93,7 @@ int	main(int argc, char **argv, char **envp)
 	buffer = readline("\033[0;36m> \033[0m");
 	while (buffer)
 	{
-		prompt = parse_prompt(buffer);
+		prompt = init_prompt(buffer);
 		execute_command(shell, prompt);
 		free_prompt(prompt);
 		buffer = readline("\033[0;36m> \033[0m");

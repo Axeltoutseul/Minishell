@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 15:17:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:40:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void		handle_sigquit(int sig);
 t_shell		*init_shell(char **envp);
 char		*join_strings(char **strs);
 char		**parse_echo(t_prompt *prompt);
-t_prompt	*parse_prompt(const char *buffer);
+void		parse_command_line(char *line);
+t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 void		remove_line(t_shell *shell, char *var);
 char		*save_text(int fd);
