@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 12:55:04 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:50:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,40 +54,4 @@ t_prompt	*init_prompt(const char *buffer)
 	prompt->cmd_line = ft_strdup(buffer);
 	prompt->strs = ft_split(buffer, ' ');
 	return (prompt);
-}
-
-char	*find_path_line(char **envp)
-{
-	int		i;
-	char	*path_line;
-
-	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;
-	path_line = ft_strdup(envp[i] + 5);
-	return (path_line);
-}
-
-char	*get_pwd(char **envp)
-{
-	int		i;
-	char	*path;
-
-	i = 0;
-	while (ft_strncmp(envp[i], "PWD=", 4) != 0)
-		i++;
-	path = ft_strdup(envp[i] + 4);
-	return (path);
-}
-
-int	get_shell_level(char **envp)
-{
-	int	i;
-	int	shlvl;
-
-	i = 0;
-	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
-		i++;
-	shlvl = ft_atoi(envp[i] + 6);
-	return (shlvl);
 }
