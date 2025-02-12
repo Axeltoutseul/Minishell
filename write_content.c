@@ -6,25 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 18:41:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:27:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*void	write_env(char **envp, t_prompt *prompt)
-{
-	int	i;
-
-	i = 0;
-	while (i < count_strings(envp))
-	{
-		if (!(ft_strcmp(prompt->strs[0], "export") == 0
-				&& ft_strncmp(envp[i], "_=", 2) == 0) && envp[i][0])
-			ft_printf("%s\n", envp[i]);
-		i++;
-	}
-}*/
 
 void	write_env(t_list *lst)
 {
@@ -36,20 +22,6 @@ void	write_env(t_list *lst)
 		ft_printf("%s\n", temp->content);
 		temp = temp->next;
 	}
-}
-
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
 }
 
 int	calculate_total_size(int size, char **strs, char *sep)

@@ -6,11 +6,25 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/07 12:12:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:27:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

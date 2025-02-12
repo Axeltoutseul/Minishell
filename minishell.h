@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 18:18:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:29:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char		*first_word(char *str);
 void		free_2d_array(char **strs);
 void		free_prompt(t_prompt *prompt);
 void		free_terminal(t_shell *shell);
+char		*ft_strcpy(char *dest, const char *src);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
