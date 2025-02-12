@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/11 16:35:04 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:49:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ typedef struct s_shell
 	char	*pwd;
 	char	*old_pwd;
 	char	**splitted_path;
-	t_list	*env_lines;
 	char	**env;
 	char	**export;
+	t_list	*env_lines;
+	t_list	*export_lines;
 	char	**var_names;
 }	t_shell;
 
@@ -44,6 +45,7 @@ int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
 void		copy_env(t_shell *shell, char **envp);
+void		copy_export(t_shell *shell);
 char		*copy_line_with_quotes(char *src);
 int			count_occurrences(const char *cmd_line, int to_find);
 int			count_occurrences2(const char *str, char *to_find);
@@ -51,6 +53,7 @@ int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
 void		display_echo(t_prompt *prompt);
+void		display_history();
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
@@ -85,7 +88,9 @@ void		remove_line(t_shell *shell, char *var);
 char		*save_text(int fd);
 void		setup_signal(void);
 void		sort_strings(char **envp, int size);
-void		update_paths(t_shell *shell, char **envp);
-void		write_env(char **envp, t_prompt *prompt);
+void		update_paths(t_shell *shell, t_list *lst);
+void		update_paths_export(t_shell *shell, t_list *lst);
+void		verif_history(char *input);
+void		write_env(t_list *lst);
 
 #endif

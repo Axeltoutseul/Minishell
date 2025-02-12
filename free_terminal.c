@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/11 18:30:30 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:22:26 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	free_terminal(t_shell *shell)
 	free(shell->pwd);
 	free(shell->old_pwd);
 	free_2d_array(shell->splitted_path);
-	free_2d_array(shell->env);
 	free_2d_array(shell->export);
 	free_2d_array(shell->var_names);
 	ft_lstclear(&shell->env_lines, &free);

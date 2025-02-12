@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 14:06:08 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:33:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_env(char **envp, t_prompt *prompt)
+/*void	write_env(char **envp, t_prompt *prompt)
 {
 	int	i;
 
@@ -23,6 +23,18 @@ void	write_env(char **envp, t_prompt *prompt)
 				&& ft_strncmp(envp[i], "_=", 2) == 0) && envp[i][0])
 			ft_printf("%s\n", envp[i]);
 		i++;
+	}
+}*/
+
+void	write_env(t_list *lst)
+{
+	t_list	*temp;
+
+	temp = lst;
+	while (temp)
+	{
+		ft_printf("%s\n", temp->content);
+		temp = temp->next;
 	}
 }
 
