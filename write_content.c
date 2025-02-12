@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 12:33:47 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:41:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ char	*copy_line_with_quotes(char *src)
 	dest = (char *)malloc(sizeof(char) * (ft_strlen(src) + 3));
 	if (!dest)
 		return (NULL);
-	while (src[i] && src[i - 1] != '=')
+	while (src[i] && src[i] != '=')
 		dest[j++] = src[i++];
-	if (src[i - 1] == '=')
-		dest[j++] = '"';
+	if (src[i] == '=')
+		dest[j++] = src[i++];
+	dest[j++] = '"';
 	while (src[i])
 		dest[j++] = src[i++];
 	dest[j++] = '"';

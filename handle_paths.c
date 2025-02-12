@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 15:51:39 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:22:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	update_paths_export(t_shell *shell, t_list *lst)
 	char	*line;
 
 	temp = lst;
+	line = NULL;
 	while (temp)
 	{
 		if (ft_strncmp(temp->content, "OLDPWD=", 7) == 0)

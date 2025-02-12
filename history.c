@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/12 12:37:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:56:22 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	display_history()
+void	display_history(void)
 {
 	HIST_ENTRY	**history_list;
 	int			i;
