@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 15:28:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 11:28:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,6 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		exec_exit();
 	else
 		ft_printf("command not found: %s\n", prompt->strs[0]);
-}
-
-void	copy_env(t_shell *shell, char **envp)
-{
-	t_list	*new;
-	int		i;
-
-	shell->env_lines = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		new = ft_lstnew(ft_strdup(envp[i]));
-		ft_lstadd_back(&shell->env_lines, new);
-		i++;
-	}
-}
-
-void	copy_export(t_shell *shell)
-{
-	t_list	*new;
-	int		i;
-
-	shell->export_lines = NULL;
-	i = 0;
-	while (shell->export[i + 1])
-	{
-		new = ft_lstnew(ft_strdup(shell->export[i]));
-		ft_lstadd_back(&shell->export_lines, new);
-		i++;
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
