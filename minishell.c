@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 13:47:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:58:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	display_echo(t_prompt *prompt)
 {
-	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
-	ft_printf("%s", prompt->echo);
-	free(prompt->echo);
+	if (prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0)
+	{
+		prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
+		ft_printf("%s", prompt->echo);
+		free(prompt->echo);
+	}
 }
 
 void	exec_exit(void)
@@ -32,8 +35,7 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	temp = shell->export_lines;
 	if (!ft_strlen(prompt->cmd_line))
 		ft_printf("");
-	else if (ft_strcmp(prompt->strs[0], "echo") == 0
-		&& ft_strcmp(prompt->strs[1], "-n") == 0)
+	else if (ft_strcmp(prompt->strs[0], "echo") == 0)
 		display_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0
 		&& count_words(prompt->cmd_line) == 1)
@@ -53,7 +55,7 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		exec_exit();
-	else
+	else if (!existing_command(shell->splitted_path, prompt->strs[0]))
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 

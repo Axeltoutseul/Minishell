@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 15:32:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:55:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,20 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 
 void	remove_line(t_shell *shell, char *var)
 {
-	int	i;
-	int	j;
-	int	size;
+	int		i;
+	int		size;
+	t_list	*temp;
 
 	i = 0;
-	j = 0;
+	temp = shell->export_lines;
 	while (shell->var_names[i]
 		&& ft_strcmp(shell->var_names[i], var) != 0)
 		i++;
-	if (shell->var_names[i])
+	if (shell->var_names[i] && ft_strcmp(shell->var_names[i], "_") != 0)
 	{
 		size = ft_strlen(shell->var_names[i]);
-		while (ft_strncmp(shell->var_names[i], shell->export[j], size) != 0)
-			j++;
-		if (ft_strcmp(shell->var_names[i], "_") != 0)
-		{
-			shell->env[i][0] = 0;
-			shell->export[j][0] = 0;
-		}
+		while (ft_strncmp(shell->var_names[i], temp->content, size) != 0)
+			temp = temp->next;
+		ft_printf("temp->content = %s\n", temp->content);
 	}
 }
