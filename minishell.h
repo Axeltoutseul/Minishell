@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 12:58:24 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:55:03 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
 void		display_echo(t_prompt *prompt);
-void		display_history();
+void		display_history(void);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
