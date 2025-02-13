@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 19:29:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:58:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ void		remove_line(t_shell *shell, char *var);
 char		*save_text(int fd);
 void		setup_signal(void);
 void		sort_strings(char **envp, int size);
+char		**split_path(char **envp);
 void		update_paths(t_shell *shell, t_list *lst);
 void		update_paths_export(t_shell *shell, t_list *lst);
-void		verif_history(char *input);
+void		verif_history(const char *input);
 void		write_env(t_list *lst);
 
 #endif

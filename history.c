@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/12 15:56:22 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:52:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,12 @@ void	display_history(void)
 	}
 }
 
-void	verif_history(char *input)
+void	verif_history(const char *input)
 {
 	if (strcmp(input, "history") == 0)
-	{
 		display_history();
-	}
 	else
-	{
 		ft_printf("Exécution de la commande : %s\n", input);
-	}
 }
 
 //ajout dans le main apres if (!input)
