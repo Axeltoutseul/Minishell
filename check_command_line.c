@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 14:55:13 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:53:00 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,3 +112,32 @@ void	remove_line(t_shell *shell, char *var)
 		ft_printf("temp->content = %s\n", temp->content);
 	}
 }
+
+/*static void	find_var_name(char *name, t_env **env)
+{
+	t_env	*curr;
+	t_env	*tmp;
+
+	curr = *env;
+	if (curr && !ft_strcmp(curr->name, name))
+	{
+		*env = curr->next;
+		free(curr->name);
+		free(curr->value);
+		free(curr);
+		return ;
+	}
+	while (curr)
+	{
+		if (curr->next && !ft_strcmp(curr->next->name, name))
+		{
+			tmp = curr->next;
+			curr->next = curr->next->next;
+			free(tmp->name);
+			free(tmp->value);
+			free(tmp);
+			return ;
+		}
+		curr = curr->next;
+	}
+}*/
