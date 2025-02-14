@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 14:58:42 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:13:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		exec_exit();
-	else if (!existing_command(shell->splitted_path, prompt->strs[0]))
+	else if (!existing_command(shell->splitted_path, prompt->strs[0])
+		&& ft_strcmp(prompt->strs[0], "history") != 0)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 
@@ -110,25 +111,19 @@ int	main(int argc, char **argv, char **envp)
 
 /*int	main(int argc, char **argv, char **envp)
 {
-	t_list	*lst;
-	t_list	*new;
-	t_list	*temp;
-	int		i;
+	t_shell		*shell;
+	t_list		*temp;
 
+	setup_signal();
 	(void)argc;
 	(void)argv;
-	lst = NULL;
-	i = 0;
-	while (envp[i])
+	shell = init_shell(envp);
+	temp = shell->vars;
+	while (temp)
 	{
-		new = ft_lstnew((void *)envp[i++]);
-		ft_lstadd_back(&lst, new);
-	}
-	temp = lst;
-	while (temp->next)
-	{
-		ft_printf("%s\n", temp->content);
+		ft_printf("temp->content = %s\n", temp->content);
 		temp = temp->next;
 	}
+	free_terminal(shell);
 	return (0);
 }*/

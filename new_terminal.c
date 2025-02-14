@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 12:54:51 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:01:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ t_shell	*init_shell(char **envp)
 	shell->pwd = get_pwd(envp);
 	shell->splitted_path = split_path(envp);
 	shell->shlvl = get_shell_level(envp);
-	copy_env(shell, envp);
+	shell->env_lines = NULL;
+	copy_env(&shell->env_lines, envp);
 	shell->export = get_lines_export(envp);
 	sort_strings(shell->export, count_strings(envp));
 	copy_export(shell);
 	shell->var_names = get_var_names(envp);
+	shell->vars = NULL;
+	copy_env(&shell->vars, shell->var_names);
 	return (shell);
 }
 
@@ -56,17 +59,16 @@ t_prompt	*init_prompt(const char *buffer)
 	return (prompt);
 }
 
-void	copy_env(t_shell *shell, char **envp)
+void	copy_env(t_list **lst, char **envp)
 {
 	t_list	*new;
 	int		i;
 
-	shell->env_lines = NULL;
 	i = 0;
 	while (envp[i])
 	{
 		new = ft_lstnew(ft_strdup(envp[i]));
-		ft_lstadd_back(&shell->env_lines, new);
+		ft_lstadd_back(lst, new);
 		i++;
 	}
 }
