@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 16:13:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:54:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 	t_list	*temp;
 
 	temp = shell->export_lines;
-	if (!ft_strlen(prompt->cmd_line))
+	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0)
 		display_echo(prompt);

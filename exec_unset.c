@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 15:34:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:33:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,21 @@ void	find_env_line(t_shell *shell, char *var, t_list **lst)
 {
 	int		i;
 	int		size;
+	t_list	*name;
 	t_list	*temp;
 
 	i = 0;
 	temp = *lst;
-	while (shell->var_names[i]
-		&& ft_strcmp(shell->var_names[i], var) != 0)
-		i++;
-	if (shell->var_names[i] && ft_strcmp(shell->var_names[i], "_") != 0)
+	name = shell->vars;
+	while (name && ft_strcmp(name->content, var) != 0)
+		name = name->next;
+	if (name && ft_strcmp(name->content, "_") != 0)
 	{
-		size = ft_strlen(shell->var_names[i]);
-		while (ft_strncmp(shell->var_names[i], temp->content, size) != 0)
+		size = ft_strlen(name->content);
+		while (temp && ft_strncmp(name->content, temp->content, size) != 0)
 			temp = temp->next;
-		remove_line(lst, temp->content);
+		if (temp)
+			remove_line(lst, temp->content);
 	}
 }
 
