@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 13:54:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:34:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ typedef struct s_shell
 	char	*pwd;
 	char	*old_pwd;
 	char	**splitted_path;
-	char	**env;
 	char	**export;
+	char	**var_names;
 	t_list	*env_lines;
 	t_list	*export_lines;
-	char	**var_names;
 }	t_shell;
 
 typedef struct s_prompt
