@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 13:55:03 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:33:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char		*exec_echo(char *cmd_line, char **strs);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_command(t_shell *shell, t_prompt *prompt);
+void		find_env_line(t_shell *shell, char *var);
 char		*find_path_line(char **envp);
 char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
@@ -85,7 +86,7 @@ char		**parse_echo(t_prompt *prompt);
 void		parse_command_line(char *line);
 t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
-void		remove_line(t_shell *shell, char *var);
+void		remove_line(t_list **lst, char *line);
 char		*save_text(int fd);
 void		setup_signal(void);
 void		sort_strings(char **envp, int size);

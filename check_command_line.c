@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/13 19:53:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:32:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 
 	i = 1;
 	while (prompt->strs[i])
-		remove_line(shell, prompt->strs[i++]);
+		find_env_line(shell, prompt->strs[i++]);
 }
 
-/*void	remove_line(t_shell *shell, char *var)
+/*void	find_env_line(t_shell *shell, char *var)
 {
 	int	i;
 	int	j;
@@ -93,7 +93,7 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 	}
 }*/
 
-void	remove_line(t_shell *shell, char *var)
+void	find_env_line(t_shell *shell, char *var)
 {
 	int		i;
 	int		size;
@@ -109,7 +109,34 @@ void	remove_line(t_shell *shell, char *var)
 		size = ft_strlen(shell->var_names[i]);
 		while (ft_strncmp(shell->var_names[i], temp->content, size) != 0)
 			temp = temp->next;
-		ft_printf("temp->content = %s\n", temp->content);
+		remove_line(&shell->export_lines, temp->content);
+	}
+}
+
+void	remove_line(t_list **lst, char *line)
+{
+	t_list	*next_one;
+	t_list	*temp;
+
+	temp = *lst;
+	if (ft_strcmp(temp->content, line) == 0)
+	{
+		*lst = temp->next;
+		free(temp->content);
+		free(temp);
+		return ;
+	}
+	while (temp)
+	{
+		if (temp->next && ft_strcmp(temp->next->content, line) == 0)
+		{
+			next_one = temp->next;
+			temp->next = temp->next->next;
+			free(next_one->content);
+			free(next_one);
+			return ;
+		}
+		temp = temp->next;
 	}
 }
 
