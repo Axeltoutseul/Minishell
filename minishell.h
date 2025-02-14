@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 15:56:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:44:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void		display_echo(t_prompt *prompt);
 void		display_history(void);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
+void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_command(t_shell *shell, t_prompt *prompt);

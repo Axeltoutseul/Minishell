@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/14 13:38:32 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/14 18:42:55 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ RM = rm -f
 
 SRCS = check_command_line.c \
 	exec_echo.c \
+	exec_export.c \
 	exec_unset.c \
 	free_terminal.c \
 	get_env_paths.c \

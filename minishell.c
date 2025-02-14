@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 17:54:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:45:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0)
 		display_echo(prompt);
-	else if (ft_strcmp(prompt->strs[0], "export") == 0
-		&& count_words(prompt->cmd_line) == 1)
-		write_env(shell->export_lines);
+	else if (ft_strcmp(prompt->strs[0], "export") == 0)
+		exec_export(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "env") == 0
 		&& count_words(prompt->cmd_line) == 1)
 		write_env(shell->env_lines);
