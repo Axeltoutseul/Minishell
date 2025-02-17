@@ -30,9 +30,6 @@ void	exec_exit(void)
 
 void	execute_command(t_shell *shell, t_prompt *prompt)
 {
-	t_list	*temp;
-
-	temp = shell->export_lines;
 	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0)
@@ -59,7 +56,36 @@ void	execute_command(t_shell *shell, t_prompt *prompt)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **env)
+{
+	char		*line;
+	t_pipeline	*pipeline;
+
+	(void)argc;
+	(void)argv;
+	setup_signal();
+	while (1)
+	{
+		line = readline("minishell> ");
+		if (!line)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
+		if (line[0] != '\0')
+			add_history(line);
+		pipeline = parse_input(line);
+		if (pipeline)
+		{
+			execute_pipeline(pipeline, env);
+			free_pipeline(pipeline);
+		}
+		free(line);
+	}
+	return (0);
+}
+
+/*int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -82,27 +108,6 @@ int	main(int argc, char **argv, char **envp)
 		prompt = init_prompt(buffer);
 		execute_command(shell, prompt);
 		free_prompt(prompt);
-	}
-	free_terminal(shell);
-	return (0);
-}
-
-/*int	main(int argc, char **argv, char **envp)
-{
-	t_shell		*shell;
-	t_list		*temp;
-	int			i;
-
-	setup_signal();
-	(void)argc;
-	(void)argv;
-	shell = init_shell(envp);
-	temp = shell->env_lines;
-	i = 0;
-	while (temp)
-	{
-		ft_printf("%s\n", temp->content);
-		temp = temp->next;
 	}
 	free_terminal(shell);
 	return (0);

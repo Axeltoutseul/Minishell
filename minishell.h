@@ -20,6 +20,26 @@
 # include <sys/types.h>
 # include "libft/libft.h"
 
+typedef struct s_command
+{
+	char	**args;
+	char	*heredoc_delim;
+}	t_command;
+
+
+typedef struct s_pipeline
+{
+	t_command	*commands;
+	int			count;
+}	t_pipeline;
+
+typedef struct s_exec_context
+{
+	t_pipeline	*pipeline;
+	char		**env;
+	int			cmd_count;
+}	t_exec_context;
+
 typedef struct s_shell
 {
 	int		shlvl;
@@ -40,6 +60,18 @@ typedef struct s_prompt
 	char	*echo;
 	char	**strs;
 }	t_prompt;
+
+int			handle_heredoc(const char *delimiter);
+t_pipeline	*parse_input(const char *line);
+void		free_pipeline(t_pipeline *pipeline);
+void		execute_pipeline(t_pipeline *pipeline, char **env);
+int			adv_handle_redirect(const char *target, const char *op, int std_fd);
+int			handle_redirection_char(const char *file, const char *op);
+int			redirect_file(const char *target, int std_fd, int flags, int mode);
+int			handle_heredoc(const char *delimiter);
+void		setup_signal(void);
+void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
 
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);

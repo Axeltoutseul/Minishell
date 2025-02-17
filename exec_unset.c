@@ -27,12 +27,10 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 
 void	find_env_line(t_shell *shell, char *var, t_list **lst)
 {
-	int		i;
 	int		size;
 	t_list	*name;
 	t_list	*temp;
 
-	i = 0;
 	temp = *lst;
 	name = shell->vars;
 	while (name && ft_strcmp(name->content, var) != 0)

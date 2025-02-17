@@ -18,7 +18,10 @@ NAME = minishell
 
 RM = rm -f
 
-SRCS = check_command_line.c \
+SRCS = adv_tokeniser.c \
+	advanced_redirection.c \
+	append_char.c \
+	check_command_line.c \
 	exec_echo.c \
 	exec_export.c \
 	exec_unset.c \
@@ -26,12 +29,17 @@ SRCS = check_command_line.c \
 	get_env_paths.c \
 	handle_paths.c \
 	handle_strings.c \
+	heredoc.c \
 	history.c \
 	minishell.c \
 	new_terminal.c \
 	parse_command_line.c \
+	parser.c \
+	pipe_handling.c \
+	pipeline.c \
 	pipex.c \
 	read_content.c \
+	redirect_file.c \
 	replace.c \
 	signal.c \
 	string_utils.c \
@@ -42,7 +50,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline -no-pie
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
