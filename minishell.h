@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 18:44:49 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:25:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <linux/limits.h>
 # include <signal.h>
 # include <sys/wait.h>
-# include <sys/types.h>
 # include "libft/libft.h"
 
 typedef struct s_command
@@ -61,6 +60,14 @@ typedef struct s_prompt
 	char	**strs;
 }	t_prompt;
 
+typedef enum e_state
+{
+	STATE_DEFAULT,
+	STATE_IN_SINGLE,
+	STATE_IN_DOUBLE,
+	STATE_ESCAPING
+}				t_state;
+
 int			handle_heredoc(const char *delimiter);
 t_pipeline	*parse_input(const char *line);
 void		free_pipeline(t_pipeline *pipeline);
@@ -72,6 +79,7 @@ int			handle_heredoc(const char *delimiter);
 void		setup_signal(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
+char		**advanced_tokenize(const char *line);
 
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);

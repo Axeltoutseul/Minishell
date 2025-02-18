@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/14 18:42:55 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/18 18:26:03 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRCS = adv_tokeniser.c \
 	parser.c \
 	pipe_handling.c \
 	pipeline.c \
-	pipex.c \
 	read_content.c \
 	redirect_file.c \
 	replace.c \
@@ -50,7 +49,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft/libft.a
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline -no-pie
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

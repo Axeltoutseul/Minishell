@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   adv_tokeniser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:00:00 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/17 14:20:19 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:51:14 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include "minishell.h"
-
-typedef enum e_state
-{
-	STATE_DEFAULT,
-	STATE_IN_SINGLE,
-	STATE_IN_DOUBLE,
-	STATE_ESCAPING
-}				t_state;
+#include "minishell.h"
 
 static char	*append_char(char *str, char c)
 {
@@ -104,4 +96,4 @@ char	**advanced_tokenize(const char *line)
 	tokens[ti] = NULL;
 	return (tokens);
 }
-*/
+
