@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 16:33:29 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:04:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 
 	i = 1;
 	while (prompt->strs[i])
-    {
+	{
 		find_env_line(shell, prompt->strs[i], &shell->env_lines);
 		find_env_line(shell, prompt->strs[i], &shell->export_lines);
-        i++;
-    }
+		i++;
+	}
 }
 
 void	find_env_line(t_shell *shell, char *var, t_list **lst)

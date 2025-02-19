@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:00:00 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/19 15:17:14 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:40:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ char	**advanced_tokenize(const char *line)
 		i++;
 	}
 	if (curr)
-	{
-		tokens[ti] = curr;
-		ti++;
-	}
+		tokens[ti++] = curr;
 	tokens[ti] = NULL;
 	return (tokens);
 }

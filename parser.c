@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:43:22 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/19 15:15:22 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:53:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ static int	count_raw_cmds(char **raw_cmds)
 
 	count = 0;
 	while (raw_cmds[count])
-	{
 		count++;
-	}
 	return (count);
 }
 
@@ -169,10 +167,7 @@ t_pipeline	*parse_input(const char *line)
 	fill_pipeline(pipeline, raw_cmds, count);
 	i = 0;
 	while (raw_cmds[i])
-	{
-		free(raw_cmds[i]);
-		i++;
-	}
+		free(raw_cmds[i++]);
 	free(raw_cmds);
 	return (pipeline);
 }

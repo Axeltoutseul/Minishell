@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/17 14:23:33 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:34:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static void	setup_child(int i, int prev_fd, int pipe_fd[2],
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	execve(ctx->pipeline->commands[i].args[0],
-		ctx->pipeline->commands[i].args, ctx->env);
+	execvp(ctx->pipeline->commands[i].args[0],
+		ctx->pipeline->commands[i].args);
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
@@ -126,7 +126,6 @@ void	execute_pipeline(t_pipeline *pipeline, char **env)
 	if (prev_fd != -1)
 		close(prev_fd);
 }
-
 
 /*
 	setup_child : configure l'environnement du processus enfant.
