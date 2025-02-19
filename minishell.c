@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 18:45:07 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:49:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exec_exit(void)
 	exit(1);
 }
 
-void	execute_command(t_shell *shell, t_prompt *prompt)
+void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
 	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
 		ft_printf("");
@@ -106,7 +106,7 @@ int	main(int argc, char **argv, char **env)
 		add_history(buffer);
 		verif_history(buffer);
 		prompt = init_prompt(buffer);
-		execute_command(shell, prompt);
+		execute_builtin(shell, prompt);
 		free_prompt(prompt);
 	}
 	free_terminal(shell);

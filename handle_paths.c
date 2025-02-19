@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 17:10:38 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:57:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,3 @@ void	update_paths_export(t_shell *shell, t_list *lst)
 		temp = temp->next;
 	}
 }
-
-/*void exec_cd(t_shell *shell, t_prompt *prompt)
-{
-	char buffer[PATH_MAX];
-
-	if (chdir(prompt->strs[1]) == 0) {
-		getcwd(buffer, sizeof(buffer));
-		shell->pwd = ft_strdup(buffer);
-	} else {
-		perror("cd");
-	}
-}*/
