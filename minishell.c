@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/20 16:34:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/20 19:20:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,16 @@ int	main(int argc, char **argv, char **envp)
 /*int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
-	t_list		*temp;
+	int			i;
+	int			size;
 
-	setup_signal();
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);
-	temp = shell->vars;
-	while (temp)
-	{
-		ft_printf("temp->content = %s\n", temp->content);
-		temp = temp->next;
-	}
+	i = 0;
+	size = count_strings(shell->env);
+	while (i < size)
+		ft_printf("%s\n", shell->env[i++]);
 	free_terminal(shell);
 	return (0);
 }*/
