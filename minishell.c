@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/19 18:01:53 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:34:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 void	display_echo(t_prompt *prompt)
 {
-	if (prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0)
-	{
-		prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
-		ft_printf("%s", prompt->echo);
-		free(prompt->echo);
-	}
+	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
+	ft_printf("%s", prompt->echo);
+	free(prompt->echo);
 }
 
 void	exec_exit(void)
@@ -32,31 +29,27 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
 	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
 		ft_printf("");
-	else if (ft_strcmp(prompt->strs[0], "echo") == 0)
+	else if (ft_strcmp(prompt->strs[0], "echo") == 0
+		&& ft_strcmp(prompt->strs[1], "-n") == 0)
 		display_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0)
 		exec_export(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "env") == 0
-		&& count_words(prompt->cmd_line) == 1)
+	else if (ft_strcmp(prompt->strs[0], "env") == 0 && !prompt->strs[1])
 		write_env(shell->env_lines);
-	else if (ft_strcmp(prompt->strs[0], "cd") == 0
-		&& count_strings(prompt->strs) == 2)
+	else if (ft_strcmp(prompt->strs[0], "cd") == 0 && prompt->strs[1])
 		exec_cd(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "pwd") == 0
-		&& count_words(prompt->cmd_line) == 1)
+	else if (ft_strcmp(prompt->strs[0], "pwd") == 0 && !prompt->strs[1])
 		ft_printf("%s\n", shell->pwd);
-	else if (ft_strcmp(prompt->strs[0], "unset") == 0
-		&& count_words(prompt->cmd_line) > 1)
+	else if (ft_strcmp(prompt->strs[0], "unset") == 0 && prompt->strs[1])
 		exec_unset(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "exit") == 0
-		&& count_words(prompt->cmd_line) == 1)
+	else if (ft_strcmp(prompt->strs[0], "exit") == 0 && !prompt->strs[1])
 		exec_exit();
 	else if (!existing_command(shell->splitted_path, prompt->strs[0])
 		&& ft_strcmp(prompt->strs[0], "history") != 0)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 
-int	main(int argc, char **argv, char **env)
+/*int	main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_pipeline	*pipeline;
@@ -83,9 +76,9 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	return (0);
-}
+}*/
 
-/*int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -111,7 +104,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	free_terminal(shell);
 	return (0);
-}*/
+}
 
 /*int	main(int argc, char **argv, char **envp)
 {
