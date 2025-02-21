@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 17:10:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:42:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 	i = 1;
 	while (i < count_strings(prompt->strs))
 	{
-		new = ft_lstnew(ft_strdup(prompt->strs[i++]));
+		new = ft_lstnew(ft_strdup(prompt->strs[i]));
 		ft_lstadd_back(&shell->export_lines, new);
+		if (ft_strchr(prompt->strs[i], '='))
+			ft_lstadd_back(&shell->env_lines, new);
+		i++;
 	}
 }
