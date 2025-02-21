@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 12:25:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:34:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
 
-int	main(int argc, char **argv, char **env)
+/*int	main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_pipeline	*pipeline;
@@ -76,9 +76,9 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	return (0);
-}
+}*/
 
-/*int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -104,7 +104,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	free_terminal(shell);
 	return (0);
-}*/
+}
 
 /*int	main(int argc, char **argv, char **envp)
 {

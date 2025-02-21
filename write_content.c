@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/12 19:27:45 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:15:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	write_env(t_list *lst)
 	temp = lst;
 	while (temp)
 	{
-		ft_printf("%s\n", temp->content);
+		ft_printf("%s\n", (char *)temp->content);
 		temp = temp->next;
 	}
 }

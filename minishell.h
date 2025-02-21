@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/20 19:15:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:18:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char		**advanced_tokenize(const char *line);
 void		execute_command(char *cmd, int in_fd, int out_fd);
 void		execute_pipes(char *input);
 
+void		add_lines(t_shell *shell, t_prompt *prompt);
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
@@ -130,7 +131,6 @@ void		parse_command_line(char *line);
 t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 void		remove_line(t_list **lst, char *line);
-char		*save_text(int fd);
 void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
 void		update_paths(t_shell *shell, t_list *lst);

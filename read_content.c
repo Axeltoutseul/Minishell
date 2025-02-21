@@ -6,27 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/10 14:02:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:18:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*save_text(int fd)
-{
-	char	*temp;
-	char	*content;
-
-	temp = " ";
-	while (temp)
-	{
-		temp = get_next_line(fd);
-		if (temp)
-			content = join_and_free(content, temp);
-		free(temp);
-	}
-	return (content);
-}
 
 int	count_strings(char **strs)
 {
