@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 17:42:38 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:43:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,20 @@ void	exec_export(t_shell *shell, t_prompt *prompt)
 void	add_lines(t_shell *shell, t_prompt *prompt)
 {
 	t_list	*new;
+	t_list	*temp;
 	int		i;
+	int		j;
 
 	i = 1;
 	while (i < count_strings(prompt->strs))
 	{
+		j = 0;
+		while (prompt->strs[i][j] && prompt->strs[i][j] != '=')
+			j++;
 		new = ft_lstnew(ft_strdup(prompt->strs[i]));
+		temp = ft_lstnew(ft_strndup(prompt->strs[i], j));
 		ft_lstadd_back(&shell->export_lines, new);
+		ft_lstadd_back(&shell->vars, temp);
 		if (ft_strchr(prompt->strs[i], '='))
 			ft_lstadd_back(&shell->env_lines, new);
 		i++;
