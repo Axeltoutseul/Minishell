@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:43:22 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/19 17:53:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:06:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,7 @@ static char	**remove_hd_tokens(char **tokens, char **heredoc)
 			i = i + 2;
 		}
 		else
-		{
-			new_tokens[new_count] = ft_strdup(tokens[i]);
-			new_count++;
-			i++;
-		}
+			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
 	new_tokens[new_count] = NULL;
 	return (new_tokens);

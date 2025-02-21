@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 16:18:13 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:05:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,6 @@ void		update_paths(t_shell *shell, t_list *lst);
 void		update_paths_export(t_shell *shell, t_list *lst);
 void		verif_history(const char *input);
 void		write_env(t_list *lst);
+void		write_export(t_list *lst);
 
 #endif
