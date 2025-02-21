@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/20 19:53:45 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:25:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,8 @@ void	exec_exit(void)
 	exit(1);
 }
 
-void	exec_and_free_pipeline(t_pipeline *pipeline, char **env)
-{
-	if (pipeline)
-	{
-		execute_pipeline(pipeline, env);
-		free_pipeline(pipeline);
-	}
-}
-
 void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
-	t_pipeline	*pipeline;
-
-	pipeline = parse_input(prompt->cmd_line);
 	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0
@@ -59,11 +47,9 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 	else if (!existing_command(shell->splitted_path, prompt->strs[0])
 		&& ft_strcmp(prompt->strs[0], "history") != 0)
 		ft_printf("command not found: %s\n", prompt->strs[0]);
-	else
-		exec_and_free_pipeline(pipeline, shell->env);
 }
 
-/*int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_pipeline	*pipeline;
@@ -90,9 +76,9 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		free(line);
 	}
 	return (0);
-}*/
+}
 
-int	main(int argc, char **argv, char **envp)
+/*int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -110,8 +96,7 @@ int	main(int argc, char **argv, char **envp)
 			write(2, "exit\n", 5);
 			break ;
 		}
-		if (buffer[0] != '\0')
-			add_history(buffer);
+		add_history(buffer);
 		verif_history(buffer);
 		prompt = init_prompt(buffer);
 		execute_builtin(shell, prompt);
@@ -119,7 +104,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	free_terminal(shell);
 	return (0);
-}
+}*/
 
 /*int	main(int argc, char **argv, char **envp)
 {
