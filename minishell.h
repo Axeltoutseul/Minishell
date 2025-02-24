@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 17:38:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:45:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_shell
 	char	**env;
 	char	**export;
 	t_env	*env_lines;
+	t_env	*export_lines;
 }	t_shell;
 
 typedef struct s_prompt
@@ -94,7 +95,7 @@ int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
 void		copy_env(t_env **env, char **envp);
-char		*copy_line_with_quotes(char *src);
+void		copy_export(t_env **export, char **envp);
 int			count_occurrences(const char *cmd_line, int to_find);
 int			count_occurrences2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);

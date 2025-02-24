@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 16:41:38 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:49:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	write_env(t_env *env)
 	temp = env;
 	while (temp)
 	{
-		if (env->value)
+		if (temp->value)
 			ft_printf("%s=%s\n", temp->name, temp->value);
 		temp = temp->next;
 	}
@@ -83,27 +83,4 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 	}
 	new_string[total_size] = 0;
 	return (new_string);
-}
-
-char	*copy_line_with_quotes(char *src)
-{
-	int		i;
-	int		j;
-	char	*dest;
-
-	i = 0;
-	j = 0;
-	dest = (char *)malloc(sizeof(char) * (ft_strlen(src) + 3));
-	if (!dest)
-		return (NULL);
-	while (src[i] && src[i] != '=')
-		dest[j++] = src[i++];
-	if (src[i] == '=')
-		dest[j++] = src[i++];
-	dest[j++] = '"';
-	while (src[i])
-		dest[j++] = src[i++];
-	dest[j++] = '"';
-	dest[j] = 0;
-	return (dest);
 }

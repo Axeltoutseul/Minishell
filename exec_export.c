@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 15:56:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:27:54 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exec_export(t_shell *shell, t_prompt *prompt)
 {
 	if (count_words(prompt->cmd_line) == 1)
-		write_export(shell->env_lines);
+		write_export(shell->export_lines);
 	else
 		add_lines(shell, prompt);
 }
@@ -30,6 +30,7 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 	{
 		new = new_line(prompt->strs[i]);
 		add_env_line(&shell->env_lines, new);
+		add_env_line(&shell->export_lines, new);
 		i++;
 	}
 }
