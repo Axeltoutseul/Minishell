@@ -6,32 +6,36 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 17:17:53 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:41:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_env(t_list *lst)
+void	write_env(t_env *env)
 {
-	t_list	*temp;
+	t_env	*temp;
 
-	temp = lst;
+	temp = env;
 	while (temp)
 	{
-		ft_printf("%s\n", temp->content);
+		if (env->value)
+			ft_printf("%s=%s\n", temp->name, temp->value);
 		temp = temp->next;
 	}
 }
 
-void	write_export(t_list *lst)
+void	write_export(t_env *env)
 {
-	t_list	*temp;
+	t_env	*temp;
 
-	temp = lst;
+	temp = env;
 	while (temp)
 	{
-		ft_printf("declare -x %s\n", temp->content);
+		if (temp->value)
+			ft_printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
+		else
+			ft_printf("declare -x %s=\"\"\n", temp->name);
 		temp = temp->next;
 	}
 }

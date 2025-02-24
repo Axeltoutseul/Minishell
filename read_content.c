@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 16:18:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:06:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**get_lines(char **envp)
 	return (lines);
 }
 
-char	**get_var_names(char **envp)
+/*char	**get_var_names(char **envp)
 {
 	int		i;
 	int		j;
@@ -62,7 +62,7 @@ char	**get_var_names(char **envp)
 	}
 	var_names[i] = NULL;
 	return (var_names);
-}
+}*/
 
 char	**get_lines_export(char **envp)
 {

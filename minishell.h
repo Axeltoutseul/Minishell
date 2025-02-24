@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 11:57:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:38:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ typedef struct s_exec_context
 	int			cmd_count;
 }	t_exec_context;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_shell
 {
 	int		shlvl;
@@ -49,10 +56,7 @@ typedef struct s_shell
 	char	**splitted_path;
 	char	**env;
 	char	**export;
-	char	**var_names;
-	t_list	*env_lines;
-	t_list	*export_lines;
-	t_list	*vars;
+	t_env	*env_lines;
 }	t_shell;
 
 typedef struct s_prompt
@@ -89,8 +93,7 @@ void		add_lines(t_shell *shell, t_prompt *prompt);
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 int			check_path_validity(char *cmd);
-void		copy_env(t_list **lst, char **envp);
-void		copy_export(t_shell *shell);
+void		copy_env(t_env **env, char **envp);
 char		*copy_line_with_quotes(char *src);
 int			count_occurrences(const char *cmd_line, int to_find);
 int			count_occurrences2(const char *str, char *to_find);
@@ -105,7 +108,7 @@ void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
-void		find_env_line(t_shell *shell, char *var, t_list **lst);
+void		find_env_line(char *var, t_env **env);
 char		*find_path_line(char **envp);
 char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
@@ -121,23 +124,26 @@ char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
 char		*get_pwd(char **envp);
 int			get_shell_level(char **envp);
-char		**get_var_names(char **envp);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 t_shell		*init_shell(char **envp);
-int			is_in_list(t_list *vars, char *var_name);
+int			is_in_list(t_env *env, char *var_name);
 char		*join_strings(char **strs);
 char		**parse_echo(t_prompt *prompt);
 void		parse_command_line(char *line);
 t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
-void		remove_line(t_list **lst, char *line);
+void		remove_line(t_env **lst, char *arg);
 void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
-void		update_paths(t_shell *shell, t_list *lst);
-void		update_paths_export(t_shell *shell, t_list *lst);
+void		update_paths(t_shell *shell);
 void		verif_history(const char *input);
-void		write_env(t_list *lst);
-void		write_export(t_list *lst);
+void		write_env(t_env *env);
+void		write_export(t_env *env);
+
+void		add_env_line(t_env **env, t_env *new);
+int			env_size(t_env *env);
+void		free_env_lines(t_env *env);
+t_env		*new_line(char *env_line);
 
 #endif

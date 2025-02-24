@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/19 15:57:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:16:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,53 +29,25 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 		free(shell->pwd);
 		shell->pwd = ft_strdup(buffer);
 	}
-	update_paths(shell, shell->env_lines);
-	update_paths_export(shell, shell->export_lines);
+	update_paths(shell);
 }
 
-void	update_paths(t_shell *shell, t_list *lst)
+void	update_paths(t_shell *shell)
 {
-	t_list	*temp;
+	t_env	*temp;
 
-	temp = lst;
+	temp = shell->env_lines;
 	while (temp)
 	{
-		if (ft_strncmp(temp->content, "OLDPWD=", 7) == 0)
+		if (ft_strcmp(temp->name, "OLDPWD") == 0)
 		{
-			free(temp->content);
-			temp->content = ft_strjoin("OLDPWD=", shell->old_pwd);
+			free(temp->value);
+			temp->value = ft_strdup(shell->old_pwd);
 		}
-		else if (ft_strncmp(temp->content, "PWD=", 4) == 0)
+		else if (ft_strcmp(temp->name, "PWD") == 0)
 		{
-			free(temp->content);
-			temp->content = ft_strjoin("PWD=", shell->pwd);
-		}
-		temp = temp->next;
-	}
-}
-
-void	update_paths_export(t_shell *shell, t_list *lst)
-{
-	t_list	*temp;
-	char	*line;
-
-	temp = lst;
-	line = NULL;
-	while (temp)
-	{
-		if (ft_strncmp(temp->content, "OLDPWD=", 7) == 0)
-		{
-			free(temp->content);
-			line = ft_strjoin("OLDPWD=", shell->old_pwd);
-			temp->content = copy_line_with_quotes(line);
-			free(line);
-		}
-		else if (ft_strncmp(temp->content, "PWD=", 4) == 0)
-		{
-			free(temp->content);
-			line = ft_strjoin("PWD=", shell->pwd);
-			temp->content = copy_line_with_quotes(line);
-			free(line);
+			free(temp->value);
+			temp->value = ft_strdup(shell->pwd);
 		}
 		temp = temp->next;
 	}

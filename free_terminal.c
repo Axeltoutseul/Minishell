@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/20 19:17:29 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:03:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ void	free_2d_array(char **strs)
 
 void	free_prompt(t_prompt *prompt)
 {
-	free(prompt->cmd_line);
-	free_2d_array(prompt->strs);
+	if (prompt)
+	{
+		free(prompt->cmd_line);
+		free_2d_array(prompt->strs);
+		free(prompt);
+	}
+
 }
 
 void	free_terminal(t_shell *shell)
@@ -35,10 +40,11 @@ void	free_terminal(t_shell *shell)
 	free(shell->path);
 	free(shell->pwd);
 	free(shell->old_pwd);
-	free_2d_array(shell->env);
-	free_2d_array(shell->splitted_path);
-	free_2d_array(shell->export);
-	free_2d_array(shell->var_names);
-	ft_lstclear(&shell->env_lines, &free);
+	if (shell->env)
+		free_2d_array(shell->env);
+	if (shell->splitted_path)
+		free_2d_array(shell->splitted_path);
+	if (shell->env_lines)
+		free_env_lines(shell->env_lines);
 	free(shell);
 }
