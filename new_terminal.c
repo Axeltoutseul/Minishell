@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 18:23:26 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:14:50 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	copy_env(t_env **env, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		new = new_line(ft_strdup(envp[i]));
+		new = new_line(envp[i]);
 		add_env_line(env, new);
 		i++;
 	}
@@ -79,9 +79,9 @@ void	copy_export(t_env **export, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], "_", 1) != 0)
+		if (!(envp[i][0] == '_' && envp[i][1] == '='))
 		{
-			new = new_line(ft_strdup(envp[i]));
+			new = new_line(envp[i]);
 			add_env_line(export, new);
 		}
 

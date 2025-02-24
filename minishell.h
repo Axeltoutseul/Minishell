@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 18:45:53 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:12:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_shell
 	char	*old_pwd;
 	char	**splitted_path;
 	char	**env;
-	char	**export;
 	t_env	*env_lines;
 	t_env	*export_lines;
 }	t_shell;

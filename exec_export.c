@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 18:27:54 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:03:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ void	exec_export(t_shell *shell, t_prompt *prompt)
 void	add_lines(t_shell *shell, t_prompt *prompt)
 {
 	t_env	*new;
+	t_env	*temp;
 	int		i;
 
 	i = 1;
 	while (i < count_strings(prompt->strs))
 	{
 		new = new_line(prompt->strs[i]);
+		temp = new_line(prompt->strs[i]);
 		add_env_line(&shell->env_lines, new);
-		add_env_line(&shell->export_lines, new);
+		add_env_line(&shell->export_lines, temp);
 		i++;
 	}
 }
