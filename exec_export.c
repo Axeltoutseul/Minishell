@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 19:03:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 20:16:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,16 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 	{
 		new = new_line(prompt->strs[i]);
 		temp = new_line(prompt->strs[i]);
-		add_env_line(&shell->env_lines, new);
-		add_env_line(&shell->export_lines, temp);
+		if (!is_in_list(shell->export_lines, new->name))
+		{
+			add_env_line(&shell->env_lines, new);
+			add_env_line(&shell->export_lines, temp);
+		}
+		else if (ft_strchr(prompt->strs[i], '='))
+		{
+			update_line(prompt->strs[i], &shell->env_lines);
+			update_line(prompt->strs[i], &shell->export_lines);
+		}
 		i++;
 	}
 }
@@ -49,4 +57,26 @@ int	is_in_list(t_env *env, char *var_name)
 		temp = temp->next;
 	}
 	return (0);
+}
+
+void	update_line(char *arg, t_env **env)
+{
+	t_env	*temp;
+	int		i;
+	char	*var_name;
+
+	temp = *env;
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	var_name = ft_strndup(arg, i);
+	while (temp)
+	{
+		if (ft_strcmp(var_name, temp->name) == 0)
+		{
+			free(temp->value);
+			temp->value = ft_strdup(ft_strchr(arg, '=') + 1);
+		}
+		temp = temp->next;
+	}
 }
