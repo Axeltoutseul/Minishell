@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 18:43:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:57:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 			ft_lstadd_back(&shell->env_lines, new);
 		i++;
 	}
+}
+
+int	is_in_list(t_list *vars, char *var_name)
+{
+	t_list	*temp;
+
+	temp = vars;
+	while (temp)
+	{
+		if (ft_strcmp(var_name, temp->content) == 0)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
 }

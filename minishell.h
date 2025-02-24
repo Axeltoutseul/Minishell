@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/21 17:05:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:57:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char		**get_var_names(char **envp);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 t_shell		*init_shell(char **envp);
+int			is_in_list(t_list *vars, char *var_name);
 char		*join_strings(char **strs);
 char		**parse_echo(t_prompt *prompt);
 void		parse_command_line(char *line);
