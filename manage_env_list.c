@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:16:06 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 14:29:30 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:33:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_env	*new_line(char *env_line)
 {
 	t_env	*new_node;
 	int		i;
+	int		size;
 
 	new_node = (t_env *)malloc(sizeof(t_env));
 	i = 0;
@@ -25,7 +26,13 @@ t_env	*new_line(char *env_line)
 		i++;
 	new_node->name = ft_strndup(env_line, i);
 	if (ft_strchr(env_line, '='))
-		new_node->value = ft_strdup(ft_strchr(env_line, '=') + 1);
+	{
+		size = ft_strlen(ft_strchr(env_line, '=') + 1);
+		if (env_line[i + 1] == '\'')
+			new_node->value = ft_strtrim(ft_strchr(env_line, '=') + 1, "'");
+		else
+			new_node->value = ft_strtrim(ft_strchr(env_line, '=') + 1, "\"");
+	}
 	else
 		new_node->value = NULL;
 	new_node->next = NULL;

@@ -6,27 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 17:07:47 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:57:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	count_quotes(const char *cmd_line)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (cmd_line[i] != '\'' && cmd_line[i] != '"' && cmd_line[i])
-		i++;
-	if (cmd_line[i] == '\'')
-		count = count_occurrences(cmd_line, '\'');
-	else if (cmd_line[i] == '"')
-		count = count_occurrences(cmd_line, '"');
-	return (count);
-}
 
 int	check_path_validity(char *cmd)
 {
@@ -76,9 +60,24 @@ int	valid_name(char *arg)
 			return (0);
 		i++;
 	}
-	if (count_occurrences(arg, '\'') % 2 == 1
-		|| count_occurrences(arg, '"') % 2 == 1)
+	return (1);
+}
+
+int	valid_value(char *s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = ft_strlen(s) - 1;
+	if ((s[i] == '\'' && s[j] == '"') || (s[i] == '\'' && s[j] == '"')
+		|| count_occurrences(s, '\'') % 2 == 1
+		|| count_occurrences(s, '"') % 2 == 1)
+	{
+		printf("minishell: unexpected newline while looking for matching '%c'",
+			s[0]);
 		return (0);
+	}
 	return (1);
 }
 

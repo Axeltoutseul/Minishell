@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 17:07:07 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:58:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell);
 int			valid_name(char *arg);
+int			valid_value(char *s);
 void		verif_history(const char *input);
 void		write_env(t_env *env);
 void		write_export(t_env *env);
