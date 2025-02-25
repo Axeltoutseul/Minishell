@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 20:17:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:07:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void		execute_pipes(char *input);
 void		add_lines(t_shell *shell, t_prompt *prompt);
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
+void		check_error(char *name);
 int			check_path_validity(char *cmd);
 void		copy_env(t_env **env, char **envp);
 void		copy_export(t_env **export, char **envp);
@@ -108,7 +109,6 @@ void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
-void		find_env_line(char *var, t_env **env);
 char		*find_path_line(char **envp);
 char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
@@ -122,6 +122,7 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
+char		*get_name(char *dest, char *src);
 char		*get_pwd(char **envp);
 int			get_shell_level(char **envp);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
@@ -138,6 +139,7 @@ void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell);
+int			valid_name(char *arg);
 void		verif_history(const char *input);
 void		write_env(t_env *env);
 void		write_export(t_env *env);

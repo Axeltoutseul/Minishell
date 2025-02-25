@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/14 13:39:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:07:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,40 @@ int	existing_command(char **paths, char *cmd)
 		i++;
 	}
 	return (0);
+}
+
+int	valid_name(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (!(isalpha(arg[i]) || arg[i] == '_'
+		|| arg[i] == '$' || arg[i] == '<' || arg[i] == '>'))
+		return (0);
+	i++;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!(isalnum(arg[i]) || arg[i] == '_'
+			|| arg[i] == '$' || arg[i] == '<' || arg[i] == '>'))
+			return (0);
+		i++;
+	}
+	if (count_occurrences(arg, '\'') % 2 == 1
+		|| count_occurrences(arg, '"') % 2 == 1)
+		return (0);
+	return (1);
+}
+
+void	check_error(char *name)
+{
+	int	i;
+
+	i = 0;
+	while (name[i] && name[i] != '&' && name[i] != '(' && name[i] != ')')
+		i++;
+	if (name[i] == '&' || name[i] == '(' || name[i] == ')')
+		ft_printf("minishell: syntax error near unexpected token '%c'\n",
+			name[i]);
+	else
+		ft_printf("export: not valid in this context: '%s'\n", name);
 }

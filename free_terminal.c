@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 18:24:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:08:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	free_prompt(t_prompt *prompt)
 		free_2d_array(prompt->strs);
 		free(prompt);
 	}
-
 }
 
 void	free_terminal(t_shell *shell)

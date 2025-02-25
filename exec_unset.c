@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 14:52:07 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:35:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,13 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 	i = 1;
 	while (prompt->strs[i])
 	{
-		find_env_line(prompt->strs[i], &shell->env_lines);
+		if (ft_strcmp(prompt->strs[i], "_") != 0)
+		{
+			remove_line(&shell->env_lines, prompt->strs[i]);
+			remove_line(&shell->export_lines, prompt->strs[i]);
+		}
 		i++;
 	}
-}
-
-void	find_env_line(char *var, t_env **env)
-{
-	t_env	*temp;
-
-	temp = *env;
-	while (temp && ft_strcmp(temp->name, var) != 0)
-		temp = temp->next;
-	if (temp && ft_strcmp(temp->name, "_") != 0)
-		remove_line(env, temp->name);
 }
 
 void	remove_line(t_env **lst, char *arg)

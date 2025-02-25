@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 20:16:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:07:26 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 	{
 		new = new_line(prompt->strs[i]);
 		temp = new_line(prompt->strs[i]);
-		if (!is_in_list(shell->export_lines, new->name))
+		if (!is_in_list(shell->export_lines, new->name)
+			&& valid_name(new->name))
 		{
 			add_env_line(&shell->env_lines, new);
 			add_env_line(&shell->export_lines, temp);
@@ -41,6 +42,8 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 			update_line(prompt->strs[i], &shell->env_lines);
 			update_line(prompt->strs[i], &shell->export_lines);
 		}
+		else if (!valid_name(new->name))
+			check_error(new->name);
 		i++;
 	}
 }

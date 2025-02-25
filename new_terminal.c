@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 19:14:50 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:09:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	copy_export(t_env **export, char **envp)
 			new = new_line(envp[i]);
 			add_env_line(export, new);
 		}
-
 		i++;
 	}
 }
