@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 15:30:42 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:08:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void		check_error(char *name, char *arg);
 int			check_path_validity(char *cmd);
 void		copy_env(t_env **env, char **envp);
 void		copy_export(t_env **export, char **envp);
-int			count_occurrences(const char *cmd_line, int to_find);
-int			count_occurrences2(const char *str, char *to_find);
+int			count_occurs(const char *cmd_line, int to_find);
+int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
@@ -140,6 +140,7 @@ char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
 int			valid_arg(char *name, char *arg);
+int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
 void		write_env(t_env *env);

@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/24 14:54:03 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/26 17:56:04 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ RM = rm -f
 SRCS = adv_tokeniser.c \
 	advanced_redirection.c \
 	append_char.c \
-	check_command_line.c \
+	check_words.c \
 	exec_echo.c \
 	exec_export.c \
 	exec_unset.c \

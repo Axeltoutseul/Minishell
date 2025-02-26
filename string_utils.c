@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 16:05:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:08:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	count_occurrences(const char *cmd_line, int to_find)
+int	count_occurs(const char *cmd_line, int to_find)
 {
 	int	i;
 	int	count;

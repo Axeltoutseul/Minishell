@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	count_occurrences2(const char *str, char *to_find)
+int	count_occurs2(const char *str, char *to_find)
 {
 	int	i;
 	int	count;
@@ -33,7 +33,7 @@ int	calculate_size_for_replace(const char *str, char *a, char *b)
 	int		difference;
 	int		length;
 
-	difference = (ft_strlen(b) - ft_strlen(a)) * count_occurrences2(str, a);
+	difference = (ft_strlen(b) - ft_strlen(a)) * count_occurs2(str, a);
 	length = ft_strlen(str) + difference;
 	return (length);
 }
