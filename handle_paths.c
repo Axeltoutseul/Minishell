@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 15:16:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:27:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 		free(shell->pwd);
 		shell->pwd = ft_strdup(buffer);
 	}
-	update_paths(shell);
+	update_paths(shell, &shell->env_lines);
+	update_paths(shell, &shell->export_lines);
 }
 
-void	update_paths(t_shell *shell)
+void	update_paths(t_shell *shell, t_env **env)
 {
 	t_env	*temp;
 
-	temp = shell->env_lines;
+	temp = *env;
 	while (temp)
 	{
 		if (ft_strcmp(temp->name, "OLDPWD") == 0)
