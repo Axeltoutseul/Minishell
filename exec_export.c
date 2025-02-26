@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 18:59:25 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:07:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	update_line(char *arg, t_env **env)
 		if (ft_strcmp(var_name, temp->name) == 0)
 		{
 			free(temp->value);
-			temp->value = ft_strdup(ft_strchr(arg, '=') + 1);
+			if (arg[i + 1] == '\'')
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "'");
+			else
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "\"");
 		}
 		temp = temp->next;
 	}
