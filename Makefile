@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/26 17:56:04 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/26 20:27:46 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS = adv_tokeniser.c \
 	handle_strings.c \
 	heredoc.c \
 	history.c \
+	main.c \
 	manage_env_list.c \
 	minishell.c \
 	new_terminal.c \

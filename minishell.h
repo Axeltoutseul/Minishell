@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 20:10:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:23:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include "env.h"
+# include "prompt.h"
 # include "libft/libft.h"
 
 typedef struct s_command
@@ -52,13 +53,6 @@ typedef struct s_shell
 	t_env	*env_lines;
 	t_env	*export_lines;
 }	t_shell;
-
-typedef struct s_prompt
-{
-	char	*cmd_line;
-	char	*echo;
-	char	**strs;
-}	t_prompt;
 
 typedef enum e_state
 {
@@ -93,7 +87,6 @@ int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
-void		display_echo(t_prompt *prompt);
 void		display_history(void);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
@@ -105,7 +98,6 @@ char		*find_path_line(char **envp);
 char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
 void		free_2d_array(char **strs);
-void		free_prompt(t_prompt *prompt);
 void		free_terminal(t_shell *shell);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strcmp(const char *s1, const char *s2);
@@ -116,14 +108,8 @@ void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 t_shell		*init_shell(char **envp);
 char		*join_strings(char **strs);
-char		**parse_echo(t_prompt *prompt);
-void		parse_command_line(char *line);
-t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
 void		update_paths(t_shell *shell, t_env **env);
-int			valid_arg(char *name, char *arg);
-int			valid_prompt(char *cmd_line);
-int			valid_value(char *s);
 void		verif_history(const char *input);
 
 #endif
