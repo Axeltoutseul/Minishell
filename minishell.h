@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 18:08:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:10:05 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <linux/limits.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include "env.h"
 # include "libft/libft.h"
 
 typedef struct s_command
@@ -39,13 +40,6 @@ typedef struct s_exec_context
 	char		**env;
 	int			cmd_count;
 }	t_exec_context;
-
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 typedef struct s_shell
 {
@@ -94,8 +88,6 @@ int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 void		check_error(char *name, char *arg);
 int			check_path_validity(char *cmd);
-void		copy_env(t_env **env, char **envp);
-void		copy_export(t_env **export, char **envp);
 int			count_occurs(const char *cmd_line, int to_find);
 int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
@@ -120,35 +112,18 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
-char		**get_lines_export(char **envp);
-char		**get_lines(char **envp);
-char		*get_name(char *dest, char *src);
-char		*get_pwd(char **envp);
-int			get_shell_level(char **envp);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 t_shell		*init_shell(char **envp);
-int			is_in_list(t_env *env, char *var_name);
 char		*join_strings(char **strs);
 char		**parse_echo(t_prompt *prompt);
 void		parse_command_line(char *line);
 t_prompt	*init_prompt(const char *buffer);
 char		*replace(const char *str, char *a, char *b);
-void		remove_line(t_env **lst, char *arg);
-void		sort_strings(char **envp, int size);
-char		**split_path(char **envp);
-void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
 int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
-void		write_env(t_env *env);
-void		write_export(t_env *env);
-
-void		add_env_line(t_env **env, t_env *new);
-int			env_size(t_env *env);
-void		free_env_lines(t_env *env);
-t_env		*new_line(char *env_line);
 
 #endif
