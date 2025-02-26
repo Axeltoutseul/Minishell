@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 13:29:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:30:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		execute_pipes(char *input);
 void		add_lines(t_shell *shell, t_prompt *prompt);
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
-void		check_error(char *name);
+void		check_error(char *name, char *arg);
 int			check_path_validity(char *cmd);
 void		copy_env(t_env **env, char **envp);
 void		copy_export(t_env **export, char **envp);
@@ -139,7 +139,7 @@ void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
-int			valid_name(char *arg);
+int			valid_arg(char *name, char *arg);
 int			valid_value(char *s);
 void		verif_history(const char *input);
 void		write_env(t_env *env);
