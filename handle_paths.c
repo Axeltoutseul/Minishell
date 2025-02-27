@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 19:56:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:45:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 {
 	char	buffer[PATH_MAX];
 
-	if (prompt->strs[1] && chdir(prompt->strs[1]) != 0)
+	if (prompt->nb_args == 2 && chdir(prompt->strs[1]) != 0)
 		ft_printf("cd: no such file or directory: %s\n", prompt->strs[1]);
+	else if (prompt->nb_args > 2)
+		ft_printf("cd: string not in pwd: %s\n", prompt->strs[1]);
 	else
 	{
+		if (prompt->nb_args == 1)
+			chdir(shell->home_path);
 		if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)
 		{
 			free(shell->old_pwd);
