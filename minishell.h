@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 14:38:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:16:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_pipeline	*parse_input(const char *line);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
+void		handle_pipe(char *cmd1[], char *cmd2[]);
+int			handle_redirection(const char *file, int io_flag);
 int			handle_redirection_char(const char *file, const char *op);
 int			redirect_file(const char *target, int std_fd, int flags, int mode);
 int			handle_heredoc(const char *delimiter);
@@ -37,20 +39,16 @@ char		**advanced_tokenize(const char *line);
 void		execute_command(char *cmd, int in_fd, int out_fd);
 void		execute_pipes(char *input);
 
-void		add_lines(t_shell *shell, t_prompt *prompt);
+// Outils de strings
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 void		check_error(char *name, char *arg);
-int			check_path_validity(char *cmd);
 int			count_occurs(const char *cmd_line, int to_find);
 int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
 void		display_history(void);
-void		exec_cd(t_shell *shell, t_prompt *prompt);
-char		*exec_echo(char *cmd_line, char **strs);
-void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
 char		*find_path_line(char **envp);
@@ -63,20 +61,19 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
-void		handle_pipe(char *cmd1[], char *cmd2[]);
-int			handle_redirection(const char *file, int io_flag);
 t_shell		*init_shell(char **envp);
 char		*join_strings(char **strs);
 char		*replace(const char *str, char *a, char *b);
-void		update_paths(t_shell *shell, t_env **env);
-void		verif_history(const char *input);
 
 // Gestion de l'environnement
 void		add_env_line(t_env **env, t_env *new);
+void		add_lines(t_shell *shell, t_prompt *prompt);
 void		copy_env(t_env **env, char **envp);
 void		copy_export(t_env **export, char **envp);
 int			env_size(t_env *env);
+void		exec_cd(t_shell *shell, t_prompt *prompt);
 void		exec_export(t_shell *shell, t_prompt *prompt);
+void		exec_unset(t_shell *shell, t_prompt *prompt);
 char		*find_path_line(char **envp);
 void		free_env_lines(t_env *env);
 char		**get_lines_export(char **envp);
@@ -90,12 +87,15 @@ void		remove_line(t_env **lst, char *arg);
 void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
+void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_env *env);
 void		write_export(t_env *env);
 
-// parsing du prompt
+// Parsing du prompt
+int			check_path_validity(char *cmd);
 char		*cpy_word(char *str, int *i);
 void		display_echo(t_prompt *prompt);
+char		*exec_echo(char *cmd_line, char **strs);
 void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
@@ -105,5 +105,6 @@ void		tokenizer(char *prompt, t_token **lst);
 int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
+void		verif_history(const char *input);
 
 #endif

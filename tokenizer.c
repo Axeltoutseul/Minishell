@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:49:34 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 20:58:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:04:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	tokenizer(char *prompt, t_token **lst)
 			word_manager(prompt, &i, lst);
 		if (is_separator(prompt[i]))
 			i++;
-    }
+	}
 }
 
 /*char *cpy_word(char *str, int *i)
@@ -57,11 +57,11 @@ void	tokenizer(char *prompt, t_token **lst)
 	return (0);
 }*/
 
-char *cpy_word(char *str, int *i)
+char	*cpy_word(char *str, int *i)
 {
-	int len;
-	int j;
-	char *dup;
+	int		len;
+	int		j;
+	char	*dup;
 
 	j = 0;
 	len = cpy_word_len(str + *i);

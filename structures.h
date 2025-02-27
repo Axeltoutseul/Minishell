@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 14:42:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:03:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-#include "libft/libft.h"
+# include "libft/libft.h"
 
 typedef struct s_token
 {
@@ -58,7 +58,6 @@ typedef struct s_shell
 	t_env	*env_lines;
 	t_env	*export_lines;
 }	t_shell;
-
 
 typedef struct s_prompt
 {
