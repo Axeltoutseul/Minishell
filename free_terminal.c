@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 15:08:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:12:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_prompt(t_prompt *prompt)
 void	free_terminal(t_shell *shell)
 {
 	free(shell->path);
+	free(shell->home_path);
 	free(shell->pwd);
 	free(shell->old_pwd);
 	free_2d_array(shell->env);

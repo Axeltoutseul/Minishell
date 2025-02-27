@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:54:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:12:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shell
 {
 	int		shlvl;
 	char	*path;
+	char	*home_path;
 	char	*pwd;
 	char	*old_pwd;
 	char	**splitted_path;
