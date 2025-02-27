@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/21 17:07:54 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:40:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	display_history(void)
 
 void	verif_history(const char *input)
 {
+	if (input[0] != '\0')
+		add_history(input);
 	if (strcmp(input, "history") == 0)
 		display_history();
 	/*else

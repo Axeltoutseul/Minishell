@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 18:01:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:45:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	main(int argc, char **argv, char **envp)
 			write(2, "exit\n", 5);
 			break ;
 		}
-		add_history(buffer);
 		verif_history(buffer);
 		prompt = init_prompt(buffer);
 		execute_builtin(shell, prompt);
@@ -89,7 +88,6 @@ int	main(int argc, char **argv, char **envp)
 			write(2, "exit\n", 5);
 			break ;
 		}
-		add_history(buffer);
 		verif_history(buffer);
 		prompt = init_prompt(buffer);
 		while (prompt->strs[i])
