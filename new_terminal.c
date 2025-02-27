@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:21:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:59:27 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_prompt	*init_prompt(const char *buffer)
 		return (NULL);
 	prompt->cmd_line = ft_strdup(buffer);
 	prompt->strs = advanced_tokenize(buffer);
+	prompt->nb_args = count_strings(prompt->strs);
 	return (prompt);
 }
 

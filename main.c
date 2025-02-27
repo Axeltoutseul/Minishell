@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:19:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:01:00 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 	return (0);
 }*/
 
-/*int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -67,9 +67,9 @@
 	}
 	free_terminal(shell);
 	return (0);
-}*/
+}
 
-int	main(int argc, char **argv, char **envp)
+/*int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -101,4 +101,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	free_terminal(shell);
 	return (0);
-}
+}*/

@@ -6,18 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 20:49:51 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:56:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	display_echo(t_prompt *prompt)
-{
-	prompt->echo = exec_echo(prompt->cmd_line, prompt->strs);
-	ft_printf("%s", prompt->echo);
-	free(prompt->echo);
-}
 
 void	exec_exit(void)
 {

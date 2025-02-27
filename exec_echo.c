@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:39:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:03:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,11 @@
 	return (strs);
 }*/
 
-char	*exec_echo(char *cmd_line, char **strs)
+void	display_echo(t_prompt *prompt)
 {
-	char	*echo;
-
-	if (!count_quotes(cmd_line))
-		echo = ft_strjoin2(count_words(cmd_line) - 2, strs + 2, " ");
-	else if (count_quotes(cmd_line) % 2 == 1)
-		echo = ft_strdup("Error\n");
-	else
-		echo = find_third_word(cmd_line);
-	return (echo);
-}
-
-char	*join_strings(char **strs)
-{
-	char	*joined_str;
-
-	joined_str = ft_strjoin2(count_strings(strs), strs, "");
-	return (joined_str);
+	prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
+	ft_printf("%s", prompt->echo);
+	free(prompt->echo);
 }
 
 int	count_quotes(const char *cmd_line)

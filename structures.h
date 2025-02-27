@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 15:03:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:54:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_prompt
 	char	*cmd_line;
 	char	*echo;
 	char	**strs;
+	int		nb_args;
 }	t_prompt;
 
 typedef enum e_state

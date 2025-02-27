@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:39:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:03:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 t_shell		*init_shell(char **envp);
-char		*join_strings(char **strs);
 char		*replace(const char *str, char *a, char *b);
 
 // Gestion de l'environnement
