@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 15:55:36 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:05:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	exec_export(t_shell *shell, t_prompt *prompt)
 		write_export(shell->export_lines);
 	else
 		add_lines(shell, prompt);
+}
+
+void	add_to_env_and_export(t_env *new, t_env *temp, t_shell *shell)
+{
+	add_env_line(&shell->env_lines, new);
+	add_env_line(&shell->export_lines, temp);
 }
 
 void	add_lines(t_shell *shell, t_prompt *prompt)
@@ -32,12 +38,12 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 		new = new_line(prompt->strs[i]);
 		temp = new_line(prompt->strs[i]);
 		if (!valid_arg(new->name, prompt->strs[i]))
-			check_error(new->name, prompt->strs[i]);
-		else if (!is_in_list(shell->export_lines, new->name))
 		{
-			add_env_line(&shell->env_lines, new);
-			add_env_line(&shell->export_lines, temp);
+			check_error(new->name, prompt->strs[i]);
+			break ;
 		}
+		else if (!is_in_list(shell->export_lines, new->name))
+			add_to_env_and_export(new, temp, shell);
 		else if (ft_strchr(prompt->strs[i], '='))
 		{
 			update_line(prompt->strs[i], &shell->env_lines);

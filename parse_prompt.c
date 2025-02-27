@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 15:25:44 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:10:02 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	valid_arg(char *name, char *arg)
 
 	i = 0;
 	if (!(isalpha(name[i]) || name[i] == '_'
-		|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 		return (0);
 	i++;
 	while (name[i] && name[i] != '=')
 	{
 		if (!(isalnum(name[i]) || name[i] == '_'
-			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 			return (0);
 		i++;
 	}
