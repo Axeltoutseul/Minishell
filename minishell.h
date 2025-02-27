@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 20:23:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:38:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,8 @@
 # include <linux/limits.h>
 # include <signal.h>
 # include <sys/wait.h>
-# include "env.h"
-# include "prompt.h"
+# include "structures.h"
 # include "libft/libft.h"
-
-typedef struct s_command
-{
-	char	**args;
-	char	*heredoc_delim;
-}	t_command;
-
-typedef struct s_pipeline
-{
-	t_command	*commands;
-	int			count;
-}	t_pipeline;
-
-typedef struct s_exec_context
-{
-	t_pipeline	*pipeline;
-	char		**env;
-	int			cmd_count;
-}	t_exec_context;
-
-typedef struct s_shell
-{
-	int		shlvl;
-	char	*path;
-	char	*pwd;
-	char	*old_pwd;
-	char	**splitted_path;
-	char	**env;
-	t_env	*env_lines;
-	t_env	*export_lines;
-}	t_shell;
-
-typedef enum e_state
-{
-	STATE_DEFAULT,
-	STATE_IN_SINGLE,
-	STATE_IN_DOUBLE,
-	STATE_ESCAPING
-}				t_state;
 
 int			handle_heredoc(const char *delimiter);
 t_pipeline	*parse_input(const char *line);
@@ -90,7 +50,6 @@ int			count_words(const char *str);
 void		display_history(void);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 char		*exec_echo(char *cmd_line, char **strs);
-void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
@@ -111,5 +70,40 @@ char		*join_strings(char **strs);
 char		*replace(const char *str, char *a, char *b);
 void		update_paths(t_shell *shell, t_env **env);
 void		verif_history(const char *input);
+
+// Gestion de l'environnement
+void		add_env_line(t_env **env, t_env *new);
+void		copy_env(t_env **env, char **envp);
+void		copy_export(t_env **export, char **envp);
+int			env_size(t_env *env);
+void		exec_export(t_shell *shell, t_prompt *prompt);
+char		*find_path_line(char **envp);
+void		free_env_lines(t_env *env);
+char		**get_lines_export(char **envp);
+char		**get_lines(char **envp);
+char		*get_name(char *dest, char *src);
+char		*get_pwd(char **envp);
+int			get_shell_level(char **envp);
+int			is_in_list(t_env *env, char *var_name);
+t_env		*new_line(char *env_line);
+void		remove_line(t_env **lst, char *arg);
+void		sort_strings(char **envp, int size);
+char		**split_path(char **envp);
+void		update_line(char *arg, t_env **env);
+void		write_env(t_env *env);
+void		write_export(t_env *env);
+
+// parsing du prompt
+char		*cpy_word(char *str, int *i);
+void		display_echo(t_prompt *prompt);
+void		free_prompt(t_prompt *prompt);
+t_prompt	*init_prompt(const char *buffer);
+int			is_redirect(char c);
+void		parse_command_line(char *line);
+char		**parse_echo(t_prompt *prompt);
+void		tokenizer(char *prompt, t_token **lst);
+int			valid_arg(char *name, char *arg);
+int			valid_prompt(char *cmd_line);
+int			valid_value(char *s);
 
 #endif
