@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 18:03:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:06:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int			count_words(const char *str);
 void		display_history(void);
 int			existing_command(char **paths, char *cmd);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
-char		*find_path_line(char **envp);
 char		*find_third_word(const char *cmd_line);
 char		*first_word(char *str);
 void		free_2d_array(char **strs);
@@ -73,12 +72,11 @@ int			env_size(t_env *env);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
-char		*find_path_line(char **envp);
 void		free_env_lines(t_env *env);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
 char		*get_name(char *dest, char *src);
-char		*get_pwd(char **envp);
+char	    *get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);

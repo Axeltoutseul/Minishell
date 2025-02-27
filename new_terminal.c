@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:59:27 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:04:54 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_shell	*init_shell(char **envp)
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	shell->path = find_path_line(envp);
-	shell->old_pwd = get_pwd(envp);
-	shell->pwd = get_pwd(envp);
+	shell->path = get_path_value(envp, "PATH=");
+	shell->old_pwd = get_path_value(envp, "PWD=");
+	shell->pwd = get_path_value(envp, "PWD=");
 	shell->splitted_path = split_path(envp);
 	shell->shlvl = get_shell_level(envp);
 	shell->env = get_lines(envp);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 17:56:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:09:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		exec_export(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "env") == 0 && !prompt->strs[1])
 		write_env(shell->env_lines);
-	else if (ft_strcmp(prompt->strs[0], "cd") == 0 && prompt->strs[1])
+	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0 && !prompt->strs[1])
 		ft_printf("%s\n", shell->pwd);
