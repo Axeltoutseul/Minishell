@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 18:08:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:39:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,6 @@
 		strs = ft_split(prompt->echo, '"');
 	return (strs);
 }*/
-
-void	check_each_string(char *echo, char **strs, int quote)
-{
-	char	**splitted_str;
-	int		i;
-	int		j;
-	int		count;
-
-	i = 0;
-	j = 0;
-	count = 0;
-	while (echo[i])
-	{
-		if (echo[i] == quote)
-			count++;
-		if (ft_strcmp(echo + i, strs[j]) == 0)
-		{
-			if (count % 2 == 0)
-			{
-				i += ft_strlen(strs[j]);
-				splitted_str = ft_split(strs[j], ' ');
-				strs[j] = ft_strjoin2(count_words(strs[j]), splitted_str, " - ");
-				free_2d_array(splitted_str);
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-char	**parse_echo(t_prompt *prompt)
-{
-	char	**strs;
-	int		i;
-	int		quote;
-
-	i = 0;
-	while (prompt->echo[i] && prompt->echo[i] != '\'' && prompt->echo[i] != '"')
-		i++;
-	if (prompt->echo[i] == '\'')
-		quote = prompt->echo[i];
-	else
-		quote = '"';
-	strs = ft_split(prompt->echo, quote);
-	check_each_string(prompt->echo, strs, quote);
-	return (strs);
-}
 
 char	*exec_echo(char *cmd_line, char **strs)
 {

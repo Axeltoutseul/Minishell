@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 15:16:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:39:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
 void		parse_command_line(char *line);
-char		**parse_echo(t_prompt *prompt);
 void		tokenizer(char *prompt, t_token **lst);
 int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
