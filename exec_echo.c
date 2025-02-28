@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 18:29:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:54:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 	return (strs);
 }*/
 
-void	display_echo(t_prompt *prompt)
+void	exec_echo(t_prompt *prompt)
 {
 	prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
 	ft_printf("%s", prompt->echo);

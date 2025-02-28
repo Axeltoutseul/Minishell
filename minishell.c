@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 20:13:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:54:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		ft_printf("");
 	else if (ft_strcmp(prompt->strs[0], "echo") == 0
 		&& ft_strcmp(prompt->strs[1], "-n") == 0)
-		display_echo(prompt);
+		exec_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0)
 		exec_export(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "env") == 0 && !prompt->strs[1])

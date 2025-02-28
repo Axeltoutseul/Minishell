@@ -6,13 +6,12 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 20:12:13 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:53:56 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-# include "libft/libft.h"
 
 typedef struct s_token
 {

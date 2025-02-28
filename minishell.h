@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 20:06:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:54:35 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "structures.h"
 # include "libft/libft.h"
 
+// Redirection
 int			handle_heredoc(const char *delimiter);
-t_pipeline	*parse_input(const char *line);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
@@ -35,7 +35,6 @@ int			handle_heredoc(const char *delimiter);
 void		setup_signal(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
-char		**advanced_tokenize(const char *line);
 void		execute_command(char *cmd, int in_fd, int out_fd);
 void		execute_pipes(char *input);
 
@@ -89,14 +88,15 @@ void		write_env(t_env *env);
 void		write_export(t_env *env);
 
 // Parsing du prompt
+char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
 char		*cpy_word(char *str, int *i);
-void		display_echo(t_prompt *prompt);
-char		*exec_echo(char *cmd_line, char **strs);
+void		exec_echo(t_prompt *prompt);
 void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
 void		parse_command_line(char *line);
+t_pipeline	*parse_input(const char *line);
 void		tokenizer(char *prompt, t_token **lst);
 int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
