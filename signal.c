@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:16:58 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/19 14:42:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:12:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	write(1, "\b\b \b\b", 8);
+	write(1, "\b\b \b\b", 6);
 }
 
 void	setup_signal(void)

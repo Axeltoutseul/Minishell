@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 15:48:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:41:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,12 @@ void		process_default(char c, t_state *state, char **curr);
 void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
+
+int			count_raw_cmds(char **raw_cmds);
+char		*expand_variables(const char *input);
+void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
+int			is_valid(char *cmd_line);
+t_command	*parse_command(char *raw);
+char		**remove_hd_tokens(char **tokens, char **heredoc);
 
 #endif
