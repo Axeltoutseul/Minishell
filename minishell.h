@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 12:54:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 13:15:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,19 @@ int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
-void		display_history(void);
-int			existing_command(char **paths, char *cmd);
-void		execute_builtin(t_shell *shell, t_prompt *prompt);
 char		*find_third_word(const char *cmd_line);
-char		*first_word(char *str);
-void		free_2d_array(char **strs);
-void		free_terminal(t_shell *shell);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
-t_shell		*init_shell(char **envp);
 char		*replace(const char *str, char *a, char *b);
+void		sort_strings(char **envp, int size);
+
+// Gestion de la structure principale
+void		free_2d_array(char **strs);
+void		free_terminal(t_shell *shell);
+t_shell		*init_shell(char **envp);
 
 // Gestion de l'environnement
 void		add_env_line(t_env **env, t_env *new);
@@ -80,7 +79,6 @@ int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);
 void		remove_line(t_env **lst, char *arg);
-void		sort_strings(char **envp, int size);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
@@ -91,7 +89,10 @@ void		write_export(t_env *env);
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
 char		*cpy_word(char *str, int *i);
+void		display_history(void);
 void		exec_echo(t_prompt *prompt);
+void		execute_builtin(t_shell *shell, t_prompt *prompt);
+int			existing_command(char **paths, char *cmd);
 void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
