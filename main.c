@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 18:45:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:39:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,15 @@
 	setup_signal();
 	while (1)
 	{
-		line = readline("\033[0;32mminishell> \033[0m");
-		if (!line)
+		line = readline("minishell> ");
+		if (line == NULL)
 		{
 			write(1, "exit\n", 5);
 			break ;
 		}
-		if (line[0] != '\0')
-			add_history(line);
+		verif_history(line);
 		pipeline = parse_input(line);
-		if (pipeline)
+		if (pipeline != NULL)
 		{
 			execute_pipeline(pipeline, env);
 			free_pipeline(pipeline);

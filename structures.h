@@ -6,19 +6,12 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 12:53:56 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:45:05 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-
-typedef struct s_token
-{
-	char			*arg;
-	struct s_token	*prev;
-	struct s_token	*next;
-}	t_token;
 
 typedef struct s_command
 {
@@ -74,5 +67,13 @@ typedef enum e_state
 	STATE_IN_DOUBLE,
 	STATE_ESCAPING
 }				t_state;
+
+typedef struct s_tokenize_context {
+	int			i;
+	int			ti;
+	char		**tokens;
+	char		*curr;
+	t_state		state;
+}	t_tokenize_context;
 
 #endif

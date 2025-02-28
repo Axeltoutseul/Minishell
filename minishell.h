@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 13:15:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:48:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		free_env_lines(t_env *env);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
 char		*get_name(char *dest, char *src);
-char	    *get_path_value(char **envp, char *name);
+char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);
@@ -98,10 +98,14 @@ t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
 void		parse_command_line(char *line);
 t_pipeline	*parse_input(const char *line);
-void		tokenizer(char *prompt, t_token **lst);
 int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
+
+void		process_default(char c, t_state *state, char **curr);
+void		process_in_single(char c, t_state *state, char **curr);
+void		process_in_double(char c, t_state *state, char **curr);
+void		process_escaping(char c, t_state *state, char **curr);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/02/27 15:23:56 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/02/28 15:40:43 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,33 +18,34 @@ NAME = minishell
 
 RM = rm -f
 
-SRCS = adv_tokeniser.c \
-	advanced_redirection.c \
-	append_char.c \
-	check_words.c \
-	exec_echo.c \
-	exec_export.c \
-	exec_unset.c \
-	free_terminal.c \
-	get_env_paths.c \
-	handle_paths.c \
-	handle_strings.c \
-	heredoc.c \
-	history.c \
-	main.c \
-	manage_env_list.c \
-	minishell.c \
-	new_terminal.c \
-	parse_prompt.c \
-	parser.c \
-	pipe_handling.c \
-	pipeline.c \
-	read_content.c \
-	redirect_file.c \
-	replace.c \
-	signal.c \
-	string_utils.c \
-	write_content.c
+SRCS =	adv_tokeniser1.c \
+		adv_tokeniser2.c \
+		advanced_redirection.c \
+		append_char.c \
+		check_words.c \
+		exec_echo.c \
+		exec_export.c \
+		exec_unset.c \
+		free_terminal.c \
+		get_env_paths.c \
+		handle_paths.c \
+		handle_strings.c \
+		heredoc.c \
+		history.c \
+		main.c \
+		manage_env_list.c \
+		minishell.c \
+		new_terminal.c \
+		parse_prompt.c \
+		parser.c \
+		pipe_handling.c \
+		pipeline.c \
+		read_content.c \
+		redirect_file.c \
+		replace.c \
+		signal.c \
+		string_utils.c \
+		write_content.c
 
 OBJS = $(SRCS:.c=.o)
 
