@@ -59,8 +59,8 @@ void	check_error(char *name, char *arg)
 	if (name[i] == '&' || name[i] == '(' || name[i] == ')')
 		ft_printf("minishell: syntax error near unexpected token '%c'\n",
 			name[i]);
-	/*else if (val && !valid_value(val))
-		ft_printf("syntax error: unclosed quote\n");*/
+	else if (val && !valid_value(val))
+		ft_printf("syntax error: unclosed quote\n");
 	else
 		ft_printf("export: not valid in this context: '%s'\n", name);
 }

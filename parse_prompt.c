@@ -72,8 +72,8 @@ int	valid_value(char *s)
 	else if ((s[i] == '"' || s[j] == '\'')
 		&& count_occurs(s, '"') % 2 == 1)
 		return (0);
-	else if ((count_occurs(s, '"') % 2 == 1 && !count_occurs(s, '\''))
+	/*else if ((count_occurs(s, '"') % 2 == 1 && !count_occurs(s, '\''))
 		|| (count_occurs(s, '\'') % 2 == 1 && !count_occurs(s, '"')))
-		return (0);
+		return (0);*/
 	return (1);
 }

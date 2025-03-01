@@ -16,7 +16,6 @@ t_env	*new_line(char *env_line)
 {
 	t_env	*new_node;
 	int		i;
-	int		size;
 
 	new_node = (t_env *)malloc(sizeof(t_env));
 	i = 0;
@@ -27,7 +26,6 @@ t_env	*new_line(char *env_line)
 	new_node->name = ft_strndup(env_line, i);
 	if (ft_strchr(env_line, '='))
 	{
-		size = ft_strlen(ft_strchr(env_line, '=') + 1);
 		if (env_line[i + 1] == '\'')
 			new_node->value = ft_strtrim(ft_strchr(env_line, '=') + 1, "'");
 		else
