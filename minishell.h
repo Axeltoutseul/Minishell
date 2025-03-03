@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 17:09:14 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:23:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int			handle_heredoc(const char *delimiter);
 void		setup_signal(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
-void		execute_command(char *cmd, int in_fd, int out_fd);
-void		execute_pipes(char *input);
 
 // Outils de strings
 int			calculate_size_for_replace(const char *str, char *a, char *b);

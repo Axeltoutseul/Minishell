@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 16:32:59 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/27 16:33:08 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/03 18:22:17 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ t_pipeline	*parse_input(const char *line)
 	pipeline->count = count;
 	pipeline->commands = malloc(sizeof(t_command) * count);
 	if (pipeline->commands == NULL)
-	{
-		free(pipeline);
-		return (NULL);
-	}
+		return (free(pipeline), NULL);
 	fill_pipeline(pipeline, raw_cmds, count);
 	i = 0;
 	while (raw_cmds[i] != NULL)
