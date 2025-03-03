@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 17:35:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:11:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,25 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 	int	i;
 
 	i = 1;
-	while (prompt->strs[i])
+	if (prompt->nb_args == 1)
+		ft_printf("unset: not enough arguments\n");
+	else
 	{
-		if (ft_strcmp(prompt->strs[i], "_") != 0)
+		while (prompt->strs[i])
 		{
-			remove_line(&shell->env_lines, prompt->strs[i]);
-			remove_line(&shell->export_lines, prompt->strs[i]);
+			if (!valid_name(prompt->strs[i]))
+			{
+				ft_printf("unset: %s: invalid parameter name\n",
+					prompt->strs[i]);
+				break ;
+			}
+			if (ft_strcmp(prompt->strs[i], "_") != 0)
+			{
+				remove_line(&shell->env_lines, prompt->strs[i]);
+				remove_line(&shell->export_lines, prompt->strs[i]);
+			}
+			i++;
 		}
-		i++;
 	}
 }
 

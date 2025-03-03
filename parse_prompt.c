@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 19:25:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:08:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,25 @@ int	valid_prompt(char *cmd_line)
 	{
 		if (count_occurs2(cmd_line, "||"))
 			ft_printf("syntax error");
+	}
+	return (1);
+}
+
+int	valid_name(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (!(isalpha(name[i]) || name[i] == '_'
+			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+		return (0);
+	i++;
+	while (name[i] && name[i] != '=')
+	{
+		if (!(isalnum(name[i]) || name[i] == '_'
+				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+			return (0);
+		i++;
 	}
 	return (1);
 }

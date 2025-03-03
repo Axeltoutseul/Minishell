@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 17:47:04 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:03:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+/*int	main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_pipeline	*pipeline;
@@ -38,9 +38,9 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	return (0);
-}
+}*/
 
-/*int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell		*shell;
 	t_prompt	*prompt;
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	free_terminal(shell);
 	return (0);
-}*/
+}
 
 /*int	main(int argc, char **argv, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 14:43:53 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:04:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		exec_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0)
 		exec_export(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "env") == 0 && !prompt->strs[1])
+	else if (ft_strcmp(prompt->strs[0], "env") == 0)
 		write_env(shell->env_lines);
 	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "pwd") == 0 && !prompt->strs[1])
+	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
 		ft_printf("%s\n", shell->pwd);
-	else if (ft_strcmp(prompt->strs[0], "unset") == 0 && prompt->strs[1])
+	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
 		exec_unset(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "exit") == 0 && !prompt->strs[1])
+	else if (ft_strcmp(prompt->strs[0], "exit") == 0)
 		exec_exit(shell, prompt);
 	else if (!existing_command(shell->splitted_path, prompt->strs[0])
 		&& ft_strcmp(prompt->strs[0], "history") != 0)
