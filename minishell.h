@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 14:15:03 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:09:14 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
-char		*find_third_word(const char *cmd_line);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
+int	        is_space(int c);
 char		*replace(const char *str, char *a, char *b);
 void		sort_strings(char **envp, int size);
 
@@ -102,6 +102,7 @@ int			valid_arg(char *name, char *arg);
 int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
+
 
 void		process_default(char c, t_state *state, char **curr);
 void		process_in_single(char c, t_state *state, char **curr);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/26 18:08:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:10:50 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ int	count_words(const char *str)
 
 	i = 0;
 	count = 0;
-	if (str[0] != 0 && str[0] != ' ')
+	if (str[0] != 0 && !is_space(str[0]))
 	{
 		i++;
 		count++;
 	}
 	while (str[i])
 	{
-		if (str[i] == ' ' && (str[i + 1] != 0 && str[i + 1] != ' '))
+		if (is_space(str[i]) && (str[i + 1] != 0 && !is_space(str[i + 1])))
 			count++;
 		i++;
 	}

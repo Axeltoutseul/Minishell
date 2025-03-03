@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 19:30:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:08:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,11 @@ void	check_error(char *name, char *arg)
 		ft_printf("syntax error: unclosed quote\n");
 	else
 		ft_printf("export: not valid in this context: '%s'\n", name);
+}
+
+int	is_space(int c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }

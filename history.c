@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/27 18:40:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:08:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	verif_history(const char *input)
 		add_history(input);
 	if (strcmp(input, "history") == 0)
 		display_history();
-	/*else
-		ft_printf("Exécution de la commande : %s\n", input);*/
 }
 
 void	execute_command(char *cmd, int in_fd, int out_fd)
