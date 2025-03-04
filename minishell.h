@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 14:19:34 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:39:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		remove_line(t_env **lst, char *arg);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
-void		write_env(t_env *env);
+void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 
 // Parsing du prompt
@@ -98,7 +98,7 @@ void		parse_command_line(char *line);
 t_pipeline	*parse_input(const char *line);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
-int			valid_prompt(char *cmd_line);
+int			valid_prompt(const char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
 

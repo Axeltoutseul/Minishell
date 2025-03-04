@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 14:14:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:34:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ void	free_terminal(t_shell *shell)
 	free_env_lines(shell->env_lines);
 	free_env_lines(shell->export_lines);
 	free(shell);
+	rl_clear_history();
 }

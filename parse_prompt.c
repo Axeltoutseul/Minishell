@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 15:09:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:58:52 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_string(int *i, int *count, char c, char *str)
+static void	check_string(int *i, int *count, char c, const char *str)
 {
 	(*i)++;
 	(*count)++;
@@ -22,7 +22,7 @@ static void	check_string(int *i, int *count, char c, char *str)
 		(*count)++;
 }
 
-int	valid_prompt(char *cmd_line)
+int	valid_prompt(const char *cmd_line)
 {
     int	i;
 	int	quote_count;
@@ -37,7 +37,6 @@ int	valid_prompt(char *cmd_line)
 			check_string(&i, &quote_count, '"', cmd_line);
         i++;
     }
-	ft_printf("quote count = %d\n", quote_count);
 	if (quote_count % 2 == 1)
 		return (0);
     return (1);
@@ -103,8 +102,5 @@ int	valid_value(char *s)
 	else if ((s[i] == '"' || s[j] == '\'')
 		&& count_occurs(s, '"') % 2 == 1)
 		return (0);
-	/*else if ((count_occurs(s, '"') % 2 == 1 && !count_occurs(s, '\''))
-		|| (count_occurs(s, '\'') % 2 == 1 && !count_occurs(s, '"')))
-		return (0);*/
 	return (1);
 }

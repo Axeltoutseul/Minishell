@@ -6,22 +6,27 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/24 18:49:04 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:38:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_env(t_env *env)
+void	write_env(t_prompt *prompt, t_env *env)
 {
 	t_env	*temp;
 
 	temp = env;
-	while (temp)
+	if (prompt->nb_args != 1)
+		ft_printf("env: '%s': No such file or directory\n", prompt->strs[1]);
+	else
 	{
-		if (temp->value)
-			ft_printf("%s=%s\n", temp->name, temp->value);
-		temp = temp->next;
+		while (temp)
+		{
+			if (temp->value)
+				ft_printf("%s=%s\n", temp->name, temp->value);
+			temp = temp->next;
+		}
 	}
 }
 
