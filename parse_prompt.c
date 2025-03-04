@@ -6,29 +6,41 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 20:08:38 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:09:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	check_string(int *i, int *count, char c, char *str)
+{
+	(*i)++;
+	(*count)++;
+	while (str[*i] && str[*i] != c)
+		(*i)++;
+	if (str[*i] == c)
+		(*count)++;
+}
+
 int	valid_prompt(char *cmd_line)
 {
-	int	i;
-	int	s_quote_count;
-	int	d_quote_count;
+    int	i;
+	int	quote_count;
 
-	i = 0;
-	s_quote_count = count_occurs(cmd_line, '\'');
-	d_quote_count = count_occurs(cmd_line, '"');
-	if (s_quote_count % 2 == 1 || d_quote_count % 2 == 1)
+    i = 0;
+	quote_count = 0;
+    while (cmd_line[i])
+    {
+        if (cmd_line[i] == '\'')
+			check_string(&i, &quote_count, '\'', cmd_line);
+        else if (cmd_line[i] == '"')
+			check_string(&i, &quote_count, '"', cmd_line);
+        i++;
+    }
+	ft_printf("quote count = %d\n", quote_count);
+	if (quote_count % 2 == 1)
 		return (0);
-	while (cmd_line[i])
-	{
-		if (count_occurs2(cmd_line, "||"))
-			ft_printf("syntax error");
-	}
-	return (1);
+    return (1);
 }
 
 int	valid_name(char *name)
