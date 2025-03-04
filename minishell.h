@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/03 20:07:50 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:19:34 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 
 int			count_raw_cmds(char **raw_cmds);
-void		exec_setenv(t_shell *shell, t_prompt *prompt);
-void		exec_unsetenv(t_shell *shell, t_prompt *prompt);
 char		*expand_variables(const char *input);
 void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
 int			is_valid(char *cmd_line);
