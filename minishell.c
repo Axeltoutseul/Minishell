@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 18:32:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:29:36 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	check_prompt_validity(t_shell *shell, t_prompt *prompt)
 		execute_builtin(shell, prompt);
 	else
 		ft_printf("syntax error: unclosed quote\n");
+}
+
+void	exec_pwd(t_shell *shell, t_prompt *prompt)
+{
+	if (prompt->nb_args > 1 && prompt->strs[1][0] == '-')
+		ft_printf("pwd: bad option: %s\n", prompt->strs[1]);
+	else
+		ft_printf("%s\n", shell->pwd);
 }
 
 void	exec_exit(t_shell *shell, t_prompt *prompt)
@@ -42,7 +50,7 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
-		ft_printf("%s\n", shell->pwd);
+		exec_pwd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0)
