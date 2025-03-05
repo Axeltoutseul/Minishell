@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 16:58:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:32:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_string(int *i, int *count, char c, const char *str)
+static void	check_string(int *i, int *count, char c, char *str)
 {
 	(*i)++;
 	(*count)++;
@@ -22,7 +22,7 @@ static void	check_string(int *i, int *count, char c, const char *str)
 		(*count)++;
 }
 
-int	valid_prompt(const char *cmd_line)
+int	valid_prompt(char *cmd_line)
 {
     int	i;
 	int	quote_count;
@@ -35,7 +35,8 @@ int	valid_prompt(const char *cmd_line)
 			check_string(&i, &quote_count, '\'', cmd_line);
         else if (cmd_line[i] == '"')
 			check_string(&i, &quote_count, '"', cmd_line);
-        i++;
+		if (cmd_line[i])
+			i++;
     }
 	if (quote_count % 2 == 1)
 		return (0);

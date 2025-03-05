@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 16:39:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:33:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void		write_export(t_env *env);
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
+void	    check_prompt_validity(t_shell *shell, t_prompt *prompt);
 char		*cpy_word(char *str, int *i);
 void		display_history(void);
 void		exec_echo(t_prompt *prompt);
@@ -98,7 +99,7 @@ void		parse_command_line(char *line);
 t_pipeline	*parse_input(const char *line);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
-int			valid_prompt(const char *cmd_line);
+int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
 void		verif_history(const char *input);
 

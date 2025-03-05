@@ -6,11 +6,19 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 16:41:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:32:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_prompt_validity(t_shell *shell, t_prompt *prompt)
+{
+	if (valid_prompt(prompt->cmd_line))
+		execute_builtin(shell, prompt);
+	else
+		ft_printf("syntax error: unclosed quote\n");
+}
 
 void	exec_exit(t_shell *shell, t_prompt *prompt)
 {
