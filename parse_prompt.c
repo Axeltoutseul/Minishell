@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:40:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:47:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ int	closed_quotes(char *cmd_line)
 
 	i = 0;
 	quote_count = 0;
-    while (cmd_line[i])
-    {
-        if (cmd_line[i] == '\'')
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '\'')
 			check_string(&i, &quote_count, '\'', cmd_line);
-        else if (cmd_line[i] == '"')
+		else if (cmd_line[i] == '"')
 			check_string(&i, &quote_count, '"', cmd_line);
 		if (cmd_line[i])
 			i++;
-    }
+	}
 	if (quote_count % 2 == 1)
 		return (0);
-    return (1);
+	return (1);
 }
 
 int	valid_arg(char *name, char *arg)
