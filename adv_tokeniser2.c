@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   adv_tokeniser2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 16:15:49 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/28 14:23:46 by quenalla         ###   ########.fr       */
+/*   Created: 2025/03/06 13:15:42 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/06 13:16:00 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_char(char c, t_state *state, char **curr)
+void	process_char(char c, t_state *state, char **curr)
 {
 	if (*state == STATE_DEFAULT)
 	{
@@ -36,7 +36,7 @@ static void	process_char(char c, t_state *state, char **curr)
 	}
 }
 
-static void	tokenize_loop(const char *line, t_tokenize_context *ctx)
+void	tokenize_loop(const char *line, t_tokenize_context *ctx)
 {
 	while (line[ctx->i] != '\0')
 	{
@@ -44,7 +44,7 @@ static void	tokenize_loop(const char *line, t_tokenize_context *ctx)
 		if (ctx->state == STATE_DEFAULT
 			&& (line[ctx->i] == ' ' || line[ctx->i] == '\t'))
 		{
-			if (ctx->curr != NULL)
+			if (ctx->curr)
 			{
 				ctx->tokens[ctx->ti] = ctx->curr;
 				ctx->ti = ctx->ti + 1;
@@ -64,10 +64,10 @@ char	**advanced_tokenize(const char *line)
 	ctx.curr = NULL;
 	ctx.state = STATE_DEFAULT;
 	ctx.tokens = malloc(sizeof(char *) * (ft_strlen(line) + 1));
-	if (ctx.tokens == NULL)
+	if (!ctx.tokens)
 		return (NULL);
 	tokenize_loop(line, &ctx);
-	if (ctx.curr != NULL)
+	if (ctx.curr)
 	{
 		ctx.tokens[ctx.ti] = ctx.curr;
 		ctx.ti = ctx.ti + 1;

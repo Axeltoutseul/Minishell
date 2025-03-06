@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 20:11:51 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:13:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_shell	*init_shell(char **envp)
 	copy_env(&shell->env_lines, envp);
 	shell->export_lines = NULL;
 	copy_export(&shell->export_lines, envp);
+	shell->history = NULL;
 	return (shell);
 }
 

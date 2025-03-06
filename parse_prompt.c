@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 18:32:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:40:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	check_string(int *i, int *count, char c, char *str)
 		(*count)++;
 }
 
-int	valid_prompt(char *cmd_line)
+int	closed_quotes(char *cmd_line)
 {
-    int	i;
+	int	i;
 	int	quote_count;
 
-    i = 0;
+	i = 0;
 	quote_count = 0;
     while (cmd_line[i])
     {
@@ -41,25 +41,6 @@ int	valid_prompt(char *cmd_line)
 	if (quote_count % 2 == 1)
 		return (0);
     return (1);
-}
-
-int	valid_name(char *name)
-{
-	int	i;
-
-	i = 0;
-	if (!(isalpha(name[i]) || name[i] == '_'
-			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
-		return (0);
-	i++;
-	while (name[i] && name[i] != '=')
-	{
-		if (!(isalnum(name[i]) || name[i] == '_'
-				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	valid_arg(char *name, char *arg)
@@ -84,6 +65,25 @@ int	valid_arg(char *name, char *arg)
 		value = ft_strchr(arg, '=') + 1;
 		if (!valid_value(value))
 			return (0);
+	}
+	return (1);
+}
+
+int	valid_name(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (!(isalpha(name[i]) || name[i] == '_'
+			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+		return (0);
+	i++;
+	while (name[i] && name[i] != '=')
+	{
+		if (!(isalnum(name[i]) || name[i] == '_'
+				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+			return (0);
+		i++;
 	}
 	return (1);
 }

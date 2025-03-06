@@ -6,33 +6,42 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/03 18:23:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:36:14 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	display_history(void)
+void	update_history(t_shell *shell, const char *line)
 {
-	HIST_ENTRY	**history_list;
-	int			i;
+	t_list	*new_node;
 
-	history_list = history_get_history_state()->entries;
+	new_node = ft_lstnew(ft_strdup(line));
+	if (new_node == NULL)
+		return ;
+	ft_lstadd_back(&shell->history, new_node);
+	add_history(line);
+}
+
+void	display_history(t_shell *shell)
+{
+	t_list	*temp;
+	int		i;
+
 	i = 0;
-	if (history_list)
+	temp = shell->history;
+	while (temp)
 	{
-		while (history_list[i])
-		{
-			ft_printf("%d  %s\n", i + 1, history_list[i]->line);
-			i++;
-		}
+		ft_printf("%d  %s\n", i + 1, (char *)temp->content);
+		i = i + 1;
+		temp = temp->next;
 	}
 }
 
-void	verif_history(const char *input)
+void	verif_history(t_shell *shell, const char *input)
 {
 	if (input[0] != '\0')
-		add_history(input);
-	if (strcmp(input, "history") == 0)
-		display_history();
+		update_history(shell, input);
+	if (ft_strcmp(input, "history") == 0)
+		display_history(shell);
 }

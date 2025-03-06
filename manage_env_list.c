@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_env_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:16:06 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 18:33:13 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 13:57:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	env_size(t_env *env)
 	while (env)
 	{
 		env = env->next;
-		i++;
+		i = i + 1;
 	}
 	return (i);
 }

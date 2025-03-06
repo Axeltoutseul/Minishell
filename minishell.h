@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/04 18:33:23 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:40:03 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # include <sys/wait.h>
 # include "structures.h"
 # include "libft/libft.h"
+
+// Token
+char		**advanced_tokenize(const char *line);
+void		process_default(char c, t_state *state, char **curr);
+void		process_in_single(char c, t_state *state, char **curr);
+void		process_in_double(char c, t_state *state, char **curr);
+void		process_escaping(char c, t_state *state, char **curr);
 
 // Redirection
 int			handle_heredoc(const char *delimiter);
@@ -86,33 +93,19 @@ void		write_export(t_env *env);
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
-void	    check_prompt_validity(t_shell *shell, t_prompt *prompt);
+int			closed_quotes(char *cmd_line);
 char		*cpy_word(char *str, int *i);
-void		display_history(void);
+void		display_history(t_shell *shell);
 void		exec_echo(t_prompt *prompt);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
-void		parse_command_line(char *line);
 t_pipeline	*parse_input(const char *line);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
-int			valid_prompt(char *cmd_line);
 int			valid_value(char *s);
-void		verif_history(const char *input);
-
-void		process_default(char c, t_state *state, char **curr);
-void		process_in_single(char c, t_state *state, char **curr);
-void		process_in_double(char c, t_state *state, char **curr);
-void		process_escaping(char c, t_state *state, char **curr);
-
-int			count_raw_cmds(char **raw_cmds);
-char		*expand_variables(const char *input);
-void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
-int			is_valid(char *cmd_line);
-t_command	*parse_command(char *raw);
-char		**remove_hd_tokens(char **tokens, char **heredoc);
+void		verif_history(t_shell *shell, const char *input);
 
 #endif

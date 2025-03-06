@@ -6,12 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 15:45:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:42:56 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+# include "libft/libft.h"
 
 typedef struct s_command
 {
@@ -50,6 +51,7 @@ typedef struct s_shell
 	char	**env;
 	t_env	*env_lines;
 	t_env	*export_lines;
+	t_list	*history;
 }	t_shell;
 
 typedef struct s_prompt
@@ -68,12 +70,13 @@ typedef enum e_state
 	STATE_ESCAPING
 }				t_state;
 
-typedef struct s_tokenize_context {
-	int			i;
-	int			ti;
-	char		**tokens;
-	char		*curr;
-	t_state		state;
+typedef struct s_tokenize_context
+{
+	int		i;
+	int		ti;
+	char	**tokens;
+	char	*curr;
+	t_state	state;
 }	t_tokenize_context;
 
 #endif
