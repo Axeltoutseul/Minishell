@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 19:41:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:46:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int			existing_command(char **paths, char *cmd);
 void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
+t_command	*parse_command(char *raw);
 t_pipeline	*parse_input(const char *line);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
