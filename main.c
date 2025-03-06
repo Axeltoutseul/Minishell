@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 16:36:34 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 20:55:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,28 @@ int	is_builtin(const char *cmd, const char *option)
 	return (0);
 }
 
+void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
+{
+	t_pipeline	*pipeline;
+
+	if (is_builtin(prompt->strs[0], prompt->strs[1]))
+		execute_builtin(shell, prompt);
+	else
+	{
+		pipeline = parse_input(line);
+		if (pipeline != NULL)
+		{
+			execute_pipeline(pipeline, env);
+			free_pipeline(pipeline);
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_shell		*shell;
 	char		*line;
 	t_prompt	*prompt;
-	t_pipeline	*pipeline;
 
 	(void)argc;
 	(void)argv;
@@ -52,21 +68,9 @@ int	main(int argc, char **argv, char **env)
 			write(1, "exit\n", 5);
 			break ;
 		}
-		if (line[0] != '\0')
-			add_history(line);
 		verif_history(shell, line);
 		prompt = init_prompt(line);
-		if (is_builtin(prompt->strs[0], prompt->strs[1]))
-			execute_builtin(shell, prompt);
-		else
-		{
-			pipeline = parse_input(line);
-			if (pipeline != NULL)
-			{
-				execute_pipeline(pipeline, env);
-				free_pipeline(pipeline);
-			}
-		}
+		exec_command(shell, prompt, env, line);
 		free_prompt(prompt);
 		free(line);
 	}
