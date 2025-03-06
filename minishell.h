@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:40:03 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:41:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,19 @@
 
 // Token
 char		**advanced_tokenize(const char *line);
+int			count_raw_cmds(char **raw_cmds);
 void		process_default(char c, t_state *state, char **curr);
 void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
+char		**remove_hd_tokens(char **tokens, char **heredoc);
 
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
+void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 int			handle_redirection_char(const char *file, const char *op);
