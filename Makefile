@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/06 19:42:51 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/03/07 14:26:15 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS =	adv_redirection.c \
 		exec_unset.c \
 		free_terminal.c \
 		get_env_paths.c \
+		handle_dollar.c \
 		handle_paths.c \
 		handle_strings.c \
 		heredoc.c \

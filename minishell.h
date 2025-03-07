@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 19:46:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 14:12:04 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 // Token
 char		**advanced_tokenize(const char *line);
 int			count_raw_cmds(char **raw_cmds);
+char		*expand_variables(const char *input);
 void		process_default(char c, t_state *state, char **curr);
 void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
