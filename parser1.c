@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 19:44:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 18:08:27 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,14 @@ t_command	*parse_command(char *raw)
 	t_command	*cmd;
 	char		**tokens;
 	char		*heredoc;
+	char		*expanded_raw;
 
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
 		return (NULL);
-	tokens = advanced_tokenize(raw);
+	expanded_raw = expand_variables(raw);
+	tokens = advanced_tokenize(expanded_raw);
+	free(expanded_raw);
 	heredoc = NULL;
 	tokens = remove_hd_tokens(tokens, &heredoc);
 	cmd->args = tokens;
