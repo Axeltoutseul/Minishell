@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 14:03:50 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:41:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **env)
 	shell = init_shell(env);
 	while (1)
 	{
-		line = readline("\033[0;32mminishell> \033[0m");
+		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
 		if (line == NULL)
 		{
 			write(1, "exit\n", 5);
