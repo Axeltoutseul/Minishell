@@ -6,17 +6,17 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 20:55:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:39:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(const char *cmd, const char *option)
+int	is_builtin(const char *cmd)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (1);
-	if (ft_strcmp(cmd, "echo") == 0 && ft_strcmp(option, "-n") == 0)
+	if (ft_strcmp(cmd, "echo") == 0)
 		return (1);
 	if (ft_strcmp(cmd, "export") == 0)
 		return (1);
@@ -37,7 +37,9 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
 
-	if (is_builtin(prompt->strs[0], prompt->strs[1]))
+	if (!ft_strlen(line) || !count_strings(prompt->strs))
+		ft_printf("");
+	else if (is_builtin(prompt->strs[0]))
 		execute_builtin(shell, prompt);
 	else
 	{

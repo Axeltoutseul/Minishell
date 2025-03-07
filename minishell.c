@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:13:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:33:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ void	exec_exit(t_shell *shell, t_prompt *prompt)
 
 void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
-	if (!ft_strlen(prompt->cmd_line) || !count_strings(prompt->strs))
-		ft_printf("");
-	else if (ft_strcmp(prompt->strs[0], "echo") == 0
-		&& ft_strcmp(prompt->strs[1], "-n") == 0)
+	if (ft_strcmp(prompt->strs[0], "echo") == 0)
 		exec_echo(prompt);
 	else if (ft_strcmp(prompt->strs[0], "export") == 0)
 		exec_export(shell, prompt);

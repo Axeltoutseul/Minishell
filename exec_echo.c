@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/28 12:54:35 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:36:22 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,16 @@
 
 void	exec_echo(t_prompt *prompt)
 {
-	prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
-	ft_printf("%s", prompt->echo);
+	if (prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0)
+	{
+		prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
+		ft_printf("%s", prompt->echo);
+	}
+	else
+	{
+		prompt->echo = ft_strjoin2(prompt->nb_args - 1, prompt->strs + 1, " ");
+		ft_printf("%s\n", prompt->echo);
+	}
 	free(prompt->echo);
 }
 
