@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 12:33:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:19:27 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,4 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0)
 		exec_exit(shell, prompt);
-	else if (!existing_command(shell->splitted_path, prompt->strs[0])
-		&& ft_strcmp(prompt->strs[0], "history") != 0)
-		ft_printf("command not found: %s\n", prompt->strs[0]);
 }
