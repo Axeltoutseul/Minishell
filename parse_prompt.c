@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:47:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:02:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	valid_arg(char *name, char *arg)
 	char	*value;
 
 	i = 0;
-	if (!(isalpha(name[i]) || name[i] == '_'
+	if (!(ft_isalpha(name[i]) || name[i] == '_'
 			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 		return (0);
 	i++;
 	while (name[i] && name[i] != '=')
 	{
-		if (!(isalnum(name[i]) || name[i] == '_'
+		if (!(ft_isalnum(name[i]) || name[i] == '_'
 				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 			return (0);
 		i++;
@@ -74,13 +74,13 @@ int	valid_name(char *name)
 	int	i;
 
 	i = 0;
-	if (!(isalpha(name[i]) || name[i] == '_'
+	if (!(ft_isalpha(name[i]) || name[i] == '_'
 			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 		return (0);
 	i++;
 	while (name[i] && name[i] != '=')
 	{
-		if (!(isalnum(name[i]) || name[i] == '_'
+		if (!(ft_isalnum(name[i]) || name[i] == '_'
 				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
 			return (0);
 		i++;
