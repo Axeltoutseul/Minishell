@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 16:05:24 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 15:03:30 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ void	update_line(char *arg, t_env **env)
 		}
 		temp = temp->next;
 	}
+	free(var_name);
 }

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/25 16:05:39 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 15:02:39 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,4 @@ char	**get_lines(char **envp)
 	}
 	lines[i] = NULL;
 	return (lines);
-}
-
-char	*get_name(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] && src[i] != '=')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
 }
