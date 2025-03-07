@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 16:13:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:07:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,19 @@ t_prompt	*init_prompt(const char *buffer)
 	if (!prompt)
 		return (NULL);
 	prompt->cmd_line = ft_strdup(buffer);
-	prompt->strs = advanced_tokenize(buffer);
+	if (buffer[0] == '\0')
+	{
+		prompt->strs = malloc(sizeof(char *));
+		if (!prompt->strs)
+		{
+			free(prompt->cmd_line);
+			free(prompt);
+			return (NULL);
+		}
+		prompt->strs[0] = NULL;
+	}
+	else
+		prompt->strs = advanced_tokenize(buffer);
 	prompt->nb_args = count_strings(prompt->strs);
 	return (prompt);
 }

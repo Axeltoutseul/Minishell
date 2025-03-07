@@ -1,0 +1,17 @@
+taille des fonctions 
+
+
+fpie 
+
+
+
+ls | export
+marche pas
+
+export | ls
+marche 
+
+$$ tester 
+
+
+
