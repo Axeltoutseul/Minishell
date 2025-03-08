@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/08 12:36:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/08 15:21:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ int	g_exit_status;
 
 static char	*append_str(char *dest, const char *src)
 {
-	int		len_dest;
-	int		len_src;
 	int		i;
 	int		j;
 	char	*new_str;
 
-	len_dest = ft_strlen(dest);
-	len_src = ft_strlen(src);
-	new_str = malloc(len_dest + len_src + 1);
+	new_str = malloc(ft_strlen(dest) + ft_strlen(src) + 1);
 	if (!new_str)
 		return (NULL);
 	i = 0;
