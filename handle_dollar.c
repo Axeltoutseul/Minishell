@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/07 18:05:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:36:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,9 @@ char	*expand_variables(const char *input)
 		}
 		else
 		{
-			ch[0] = input[i];
+			ch[0] = input[i++];
 			ch[1] = '\0';
 			result = append_str(result, ch);
-			i = i + 1;
 		}
 	}
 	return (result);
