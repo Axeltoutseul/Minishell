@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 18:08:27 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:57:07 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,56 +21,6 @@ int	count_raw_cmds(char **raw_cmds)
 		count++;
 	return (count);
 }
-
-/*static char	**build_new_tokens(char **tokens, char **heredoc, int new_count)
-{
-	int		i;
-	int		j;
-	char	**new_tokens;
-
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (new_tokens == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			*heredoc = ft_strdup(tokens[i + 1]);
-			i = i + 2;
-		}
-		else
-		{
-			new_tokens[j] = ft_strdup(tokens[i]);
-			j++;
-			i++;
-		}
-	}
-	new_tokens[j] = NULL;
-	return (new_tokens);
-}
-
-static char	**remove_heredoc_tokens(char **tokens, char **heredoc)
-{
-	int		new_count;
-	char	**new_tokens;
-
-	new_count = 0;
-	while (*tokens)
-	{
-		if (ft_strcmp(*tokens, "<<") == 0)
-			tokens = tokens + 2;
-		else
-		{
-			new_count++;
-			tokens++;
-		}
-	}
-	tokens = advanced_tokenize("");
-	new_tokens = build_new_tokens(tokens, heredoc, new_count);
-	return (new_tokens);
-}*/
 
 char	**remove_hd_tokens(char **tokens, char **heredoc)
 {
