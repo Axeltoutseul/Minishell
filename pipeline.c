@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/11 14:14:04 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:17:14 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,6 @@ static void	create_pipe_block(int i, int cmd_count, int pipe_fd[2])
 	{
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
-	}
-}
-
-static void	setup_heredoc(int i, t_pipeline *pipeline)
-{
-	int	hd_fd;
-
-	if (pipeline->commands[i].heredoc_delim != NULL)
-	{
-		hd_fd = handle_heredoc(pipeline->commands[i].heredoc_delim);
-		if (hd_fd == -1)
-		{
-			perror("heredoc");
-			exit(EXIT_FAILURE);
-		}
-		if (dup2(hd_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 heredoc");
-			exit(EXIT_FAILURE);
-		}
-		close(hd_fd);
 	}
 }
 
