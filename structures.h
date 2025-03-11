@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:42:56 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:29:39 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ typedef struct s_pipeline
 	t_command	*commands;
 	int			count;
 }	t_pipeline;
-
-typedef struct s_exec_context
-{
-	t_pipeline	*pipeline;
-	char		**env;
-	int			cmd_count;
-}	t_exec_context;
 
 typedef struct s_env
 {
@@ -53,6 +46,14 @@ typedef struct s_shell
 	t_env	*export_lines;
 	t_list	*history;
 }	t_shell;
+
+typedef struct s_exec_context
+{
+	t_pipeline	*pipeline;
+	char		**env;
+	int			cmd_count;
+	t_shell		*shell;
+}	t_exec_context;
 
 typedef struct s_prompt
 {

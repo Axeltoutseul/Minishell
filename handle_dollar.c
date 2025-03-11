@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/08 15:21:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:43:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ int	g_exit_status;
 
 static char	*append_str(char *dest, const char *src)
 {
-	int		i;
-	int		j;
+	size_t	total_size;
+	size_t	i;
+	size_t	j;
 	char	*new_str;
 
-	new_str = malloc(ft_strlen(dest) + ft_strlen(src) + 1);
-	if (!new_str)
+	total_size = ft_strlen(dest) + ft_strlen(src);
+	new_str = malloc(total_size + 1);
+	if (new_str == NULL)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (dest && dest[i])
 	{
 		new_str[i] = dest[i];
 		i = i + 1;
 	}
-	j = 0;
 	while (src[j])
 	{
 		new_str[i + j] = src[j];
@@ -41,60 +43,68 @@ static char	*append_str(char *dest, const char *src)
 	return (new_str);
 }
 
-static char	*expand_var(const char *input, int *i)
+static char	*expand_var(const char *in, int *i)
 {
 	int		j;
-	char	*var_name;
-	char	*value;
+	char	*name;
+	char	*val;
 
-	if (input[*i + 1] == '?')
+	if (in[*i + 1] == '?')
 	{
 		*i = *i + 2;
 		return (ft_itoa(g_exit_status));
 	}
-	j = *i + 1;
-	while (input[j]
-		&& ((input[j] >= 'A' && input[j] <= 'Z')
-			|| (input[j] >= 'a' && input[j] <= 'z')
-			|| (input[j] >= '0' && input[j] <= '9')
-			|| input[j] == '_'))
+	if (in[*i + 1] == '$')
 	{
-		j = j + 1;
+		*i = *i + 2;
+		return (ft_itoa(getpid()));
 	}
-	var_name = ft_strndup(input + *i + 1, j - *i - 1);
-	value = getenv(var_name);
-	if (!value)
-		value = "";
-	free(var_name);
+	j = *i + 1;
+	while (in[j] && (ft_isalnum(in[j]) || in[j] == '_'))
+		j = j + 1;
+	name = ft_strndup(in + *i + 1, j - *i - 1);
+	val = getenv(name);
+	if (val == NULL)
+		val = "";
+	free(name);
 	*i = j;
-	return (ft_strdup(value));
+	return (ft_strdup(val));
 }
 
 char	*expand_variables(const char *input)
 {
 	int		i;
+	int		state;
 	char	*result;
 	char	*temp;
 	char	ch[2];
 
 	i = 0;
+	state = 0;
 	result = ft_strdup("");
-	if (!result)
+	if (result == NULL)
 		return (NULL);
 	while (input[i])
 	{
-		if (input[i] == '$')
+		if (input[i] == '$' && state != 1)
 		{
 			temp = expand_var(input, &i);
 			result = append_str(result, temp);
 			free(temp);
+			continue ;
 		}
-		else
-		{
-			ch[0] = input[i++];
-			ch[1] = '\0';
-			result = append_str(result, ch);
-		}
+		if (input[i] == '\'' && state == 0)
+			state = 1;
+		else if (input[i] == '\'' && state == 1)
+			state = 0;
+		else if (input[i] == '"' && state == 0)
+			state = 2;
+		else if (input[i] == '"' && state == 2)
+			state = 0;
+		ch[0] = input[i];
+		ch[1] = '\0';
+		result = append_str(result, ch);
+		i = i + 1;
 	}
 	return (result);
 }

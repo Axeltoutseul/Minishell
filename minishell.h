@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/08 15:19:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:49:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,23 @@ void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 char		**remove_hd_tokens(char **tokens, char **heredoc);
+char		*get_command_path(char *cmd, char **env);
 
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
-void		execute_pipeline(t_pipeline *pipeline, char **env);
+void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
-char		*expand_variables(const char *input);
 void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
-int			handle_heredoc(const char *delimiter);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
 int			handle_redirection(const char *file, int io_flag);
 int			handle_redirection_char(const char *file, const char *op);
+int			redirect_file(const char *target, int std_fd, int flags, int mode);
+int			handle_heredoc(const char *delimiter);
+void		setup_signal(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
-int			redirect_file(const char *target, int std_fd, int flags, int mode);
-void		setup_signal(void);
+char		*expand_variables(const char *input);
 
 // Outils de strings
 int			calculate_size_for_replace(const char *str, char *a, char *b);
@@ -112,5 +113,6 @@ int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
 int			valid_value(char *s);
 void		verif_history(t_shell *shell, const char *input);
+int			is_builtin(const char *cmd);
 
 #endif

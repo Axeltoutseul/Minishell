@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 16:57:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:11:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		pipeline = parse_input(line);
 		if (pipeline != NULL)
 		{
-			execute_pipeline(pipeline, env);
+			execute_pipeline(shell, pipeline, env);
 			free_pipeline(pipeline);
 		}
 	}
@@ -80,6 +80,9 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	free_terminal(shell);
+	/*char	*test;
+	test = expand_variables("$");
+	printf ("%s", test);*/
 	return (0);
 }
 

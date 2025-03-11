@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/19 17:34:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:14:04 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,45 @@ static void	setup_child(int i, int prev_fd, int pipe_fd[2],
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	execvp(ctx->pipeline->commands[i].args[0],
-		ctx->pipeline->commands[i].args);
-	perror("execve");
-	exit(EXIT_FAILURE);
+}
+
+static void	child_execute(int i, int prev_fd, int pipe_fd[2],
+			t_exec_context *ctx)
+{
+	t_prompt	*builtin_prompt;
+	char		*cmd_path;
+
+	setup_child(i, prev_fd, pipe_fd, ctx);
+	if (is_builtin(ctx->pipeline->commands[i].args[0]))
+	{
+		builtin_prompt = (t_prompt *)malloc(sizeof(t_prompt));
+		if (builtin_prompt == NULL)
+			exit(EXIT_FAILURE);
+		builtin_prompt->cmd_line = ft_strdup(
+				ctx->pipeline->commands[i].args[0]);
+		builtin_prompt->strs = ctx->pipeline->commands[i].args;
+		builtin_prompt->nb_args = count_strings(
+				ctx->pipeline->commands[i].args);
+		execute_builtin(ctx->shell, builtin_prompt);
+		free_prompt(builtin_prompt);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		cmd_path = get_command_path(ctx->pipeline->commands[i].args[0],
+				ctx->env);
+		execve(cmd_path, ctx->pipeline->commands[i].args, ctx->env);
+		perror("execve");
+		free(cmd_path);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)
 {
 	pid_t	pid;
+	int		new_prev_fd;
 
 	pid = fork();
 	if (pid < 0)
@@ -91,37 +120,38 @@ static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
-	{
-		setup_child(i, prev_fd, pipe_fd, ctx);
-	}
+		child_execute(i, prev_fd, pipe_fd, ctx);
 	if (prev_fd != -1)
 		close(prev_fd);
 	if (i < ctx->cmd_count - 1)
 	{
-		prev_fd = pipe_fd[0];
+		new_prev_fd = pipe_fd[0];
 		close(pipe_fd[1]);
 	}
+	else
+		new_prev_fd = -1;
 	waitpid(pid, NULL, 0);
-	return (prev_fd);
+	return (new_prev_fd);
 }
 
-void	execute_pipeline(t_pipeline *pipeline, char **env)
+void	execute_pipeline(t_shell *shell ,t_pipeline *pipeline, char **env)
 {
 	int				i;
 	int				prev_fd;
 	int				pipe_fd[2];
 	t_exec_context	ctx;
 
+	i = 0;
+	prev_fd = -1;
 	ctx.pipeline = pipeline;
 	ctx.env = env;
 	ctx.cmd_count = pipeline->count;
-	prev_fd = -1;
-	i = 0;
+	ctx.shell = shell;
 	while (i < ctx.cmd_count)
 	{
 		create_pipe_block(i, ctx.cmd_count, pipe_fd);
 		prev_fd = handle_fork_and_update(i, prev_fd, pipe_fd, &ctx);
-		i++;
+		i = i + 1;
 	}
 	if (prev_fd != -1)
 		close(prev_fd);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:29:30 by qacjl             #+#    #+#             */
-/*   Updated: 2025/02/18 18:03:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:32:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,41 +75,6 @@ void	handle_pipe(char *cmd1[], char *cmd2[])
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }
-
-/*void	handle_pipe(char *cmd1[], char *cmd2[])
-{
-	int		pipe_fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
-
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("Erreur lors de la création du pipe");
-		exit(EXIT_FAILURE);
-	}
-	if ((pid1 = fork()) == 0)
-	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-		execve(cmd1[0], cmd1, NULL);
-		perror("Erreur lors de l'exécution de la commande");
-		exit(EXIT_FAILURE);
-	}
-	if ((pid2 = fork()) == 0)
-	{
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		execve(cmd2[0], cmd2, NULL);
-		perror("Erreur lors de l'exécution de la commande");
-		exit(EXIT_FAILURE);
-	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
-}*/
 
 int	handle_redirection(const char *file, int io_flag)
 {
