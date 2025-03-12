@@ -1,0 +1,2590 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    tous.txt                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/17 02:39:20 by qacjl             #+#    #+#              #
+#    Updated: 2025/03/08 11:59:50 by quenalla         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#include "minishell.h"
+
+static int	get_redirection_flags_mode(const char *op, int *flags, int *mode)
+{
+	if (ft_strcmp(op, ">") == 0)
+	{
+		*flags = O_WRONLY | O_CREAT | O_TRUNC;
+		*mode = 0644;
+		return (1);
+	}
+	if (ft_strcmp(op, ">>") == 0)
+	{
+		*flags = O_WRONLY | O_CREAT | O_APPEND;
+		*mode = 0644;
+		return (1);
+	}
+	if (ft_strcmp(op, "<") == 0)
+	{
+		*flags = O_RDONLY;
+		*mode = 0;
+		return (1);
+	}
+	return (0);
+}
+
+int	adv_handle_redirect(const char *target, const char *op, int std_fd)
+{
+	int	flags;
+	int	mode;
+	int	ret;
+	int	fd;
+
+	if (get_redirection_flags_mode(op, &flags, &mode))
+	{
+		ret = redirect_file(target, std_fd, flags, mode);
+		return (ret);
+	}
+	if (ft_strcmp(op, ">&") == 0)
+	{
+		fd = ft_atoi(target);
+		if (dup2(fd, std_fd) == -1)
+		{
+			perror("dup2");
+			return (-1);
+		}
+		return (0);
+	}
+	return (-1);
+}
+
+int	handle_redirection_char(const char *file, const char *op)
+{
+	int	std_fd;
+
+	if (ft_strcmp(op, "<") == 0)
+		std_fd = STDIN_FILENO;
+	else
+		std_fd = STDOUT_FILENO;
+	return (adv_handle_redirect(file, op, std_fd));
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   adv_tokeniser1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/17 03:00:00 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/06 16:45:47 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*append_char(char *str, char c)
+{
+	int		i;
+	int		len;
+	char	*new_str;
+
+	if (str)
+		len = ft_strlen(str);
+	else
+		len = 0;
+	new_str = malloc(len + 2);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (str && str[i])
+	{
+		new_str[i] = str[i];
+		i = i + 1;
+	}
+	new_str[i] = c;
+	new_str[i + 1] = '\0';
+	if (str)
+		free(str);
+	return (new_str);
+}
+
+void	process_default(char c, t_state *state, char **curr)
+{
+	if (c == ' ' || c == '\t')
+		return ;
+	if (c == '\'')
+	{
+		*state = STATE_IN_SINGLE;
+		return ;
+	}
+	if (c == '"')
+	{
+		*state = STATE_IN_DOUBLE;
+		return ;
+	}
+	if (c == '\\')
+	{
+		*state = STATE_ESCAPING;
+		return ;
+	}
+	*curr = append_char(*curr, c);
+}
+
+void	process_in_single(char c, t_state *state, char **curr)
+{
+	if (c == '\'')
+		*state = STATE_DEFAULT;
+	else
+		*curr = append_char(*curr, c);
+}
+
+void	process_in_double(char c, t_state *state, char **curr)
+{
+	if (c == '"')
+		*state = STATE_DEFAULT;
+	else if (c == '\\')
+		*state = STATE_ESCAPING;
+	else
+		*curr = append_char(*curr, c);
+}
+
+void	process_escaping(char c, t_state *state, char **curr)
+{
+	*curr = append_char(*curr, c);
+	*state = STATE_DEFAULT;
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   adv_tokeniser2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/06 13:15:42 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/06 13:16:00 by qacjl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	process_char(char c, t_state *state, char **curr)
+{
+	if (*state == STATE_DEFAULT)
+	{
+		process_default(c, state, curr);
+		return ;
+	}
+	if (*state == STATE_IN_SINGLE)
+	{
+		process_in_single(c, state, curr);
+		return ;
+	}
+	if (*state == STATE_IN_DOUBLE)
+	{
+		process_in_double(c, state, curr);
+		return ;
+	}
+	if (*state == STATE_ESCAPING)
+	{
+		process_escaping(c, state, curr);
+		return ;
+	}
+}
+
+void	tokenize_loop(const char *line, t_tokenize_context *ctx)
+{
+	while (line[ctx->i] != '\0')
+	{
+		process_char(line[ctx->i], &ctx->state, &ctx->curr);
+		if (ctx->state == STATE_DEFAULT
+			&& (line[ctx->i] == ' ' || line[ctx->i] == '\t'))
+		{
+			if (ctx->curr)
+			{
+				ctx->tokens[ctx->ti] = ctx->curr;
+				ctx->ti = ctx->ti + 1;
+				ctx->curr = NULL;
+			}
+		}
+		ctx->i = ctx->i + 1;
+	}
+}
+
+char	**advanced_tokenize(const char *line)
+{
+	t_tokenize_context	ctx;
+
+	ctx.i = 0;
+	ctx.ti = 0;
+	ctx.curr = NULL;
+	ctx.state = STATE_DEFAULT;
+	ctx.tokens = malloc(sizeof(char *) * (ft_strlen(line) + 1));
+	if (!ctx.tokens)
+		return (NULL);
+	tokenize_loop(line, &ctx);
+	if (ctx.curr)
+	{
+		ctx.tokens[ctx.ti] = ctx.curr;
+		ctx.ti = ctx.ti + 1;
+	}
+	ctx.tokens[ctx.ti] = NULL;
+	return (ctx.tokens);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_words.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 17:02:40 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	check_path_validity(char *cmd)
+{
+	if (access(cmd, F_OK | X_OK) == -1 || !ft_strlen(ft_strrchr(cmd, '/') + 1))
+		return (0);
+	return (1);
+}
+
+int	existing_command(char **paths, char *cmd)
+{
+	int		i;
+	int		result;
+	char	*cmd_path;
+
+	i = 0;
+	if (!cmd)
+		return (0);
+	if (ft_strchr(cmd, '/'))
+		return (check_path_validity(cmd));
+	while (paths[i])
+	{
+		cmd_path = ft_strjoin(paths[i], cmd);
+		if (!cmd_path)
+			return (0);
+		result = access(cmd_path, F_OK | X_OK);
+		free(cmd_path);
+		if (result == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	check_error(char *name, char *arg)
+{
+	int		i;
+	char	*val;
+
+	i = 0;
+	if (count_occurs(arg, '='))
+		val = ft_strchr(arg, '=') + 1;
+	else
+		val = NULL;
+	while (name[i] && name[i] != '&' && name[i] != '(' && name[i] != ')')
+		i++;
+	if (val && !valid_value(val))
+		ft_printf("syntax error: unclosed quote\n");
+	else if (name[i] == '&' || name[i] == '(' || name[i] == ')')
+		ft_printf("minishell: syntax error near unexpected token '%c'\n",
+			name[i]);
+	else
+		ft_printf("export: not valid in this context: '%s'\n", name);
+}
+
+int	is_space(int c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 12:36:22 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*char	**parse_echo(t_prompt *prompt)
+{
+	char	**strs;
+	int		i;
+
+	i = 0;
+	while (prompt->echo[i] && prompt->echo[i] != '\'' && prompt->echo[i] != '"')
+		i++;
+	if (prompt->echo[i] == '\'')
+		strs = ft_split(prompt->echo, '\'');
+	else
+		strs = ft_split(prompt->echo, '"');
+	return (strs);
+}*/
+
+void	exec_echo(t_prompt *prompt)
+{
+	if (prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0)
+	{
+		prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
+		ft_printf("%s", prompt->echo);
+	}
+	else
+	{
+		prompt->echo = ft_strjoin2(prompt->nb_args - 1, prompt->strs + 1, " ");
+		ft_printf("%s\n", prompt->echo);
+	}
+	free(prompt->echo);
+}
+
+int	count_quotes(const char *cmd_line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (cmd_line[i] != '\'' && cmd_line[i] != '"' && cmd_line[i])
+		i++;
+	if (cmd_line[i] == '\'')
+		count = count_occurs(cmd_line, '\'');
+	else if (cmd_line[i] == '"')
+		count = count_occurs(cmd_line, '"');
+	return (count);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_export.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/27 16:05:24 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	exec_export(t_shell *shell, t_prompt *prompt)
+{
+	if (count_words(prompt->cmd_line) == 1)
+		write_export(shell->export_lines);
+	else
+		add_lines(shell, prompt);
+}
+
+void	add_to_env_and_export(t_env *new, t_env *temp, t_shell *shell)
+{
+	add_env_line(&shell->env_lines, new);
+	add_env_line(&shell->export_lines, temp);
+}
+
+void	add_lines(t_shell *shell, t_prompt *prompt)
+{
+	t_env	*new;
+	t_env	*temp;
+	int		i;
+
+	i = 1;
+	while (i < count_strings(prompt->strs))
+	{
+		new = new_line(prompt->strs[i]);
+		temp = new_line(prompt->strs[i]);
+		if (!valid_arg(new->name, prompt->strs[i]))
+		{
+			check_error(new->name, prompt->strs[i]);
+			break ;
+		}
+		else if (!is_in_list(shell->export_lines, new->name))
+			add_to_env_and_export(new, temp, shell);
+		else if (ft_strchr(prompt->strs[i], '='))
+		{
+			update_line(prompt->strs[i], &shell->env_lines);
+			update_line(prompt->strs[i], &shell->export_lines);
+		}
+		i++;
+	}
+}
+
+int	is_in_list(t_env *env, char *var_name)
+{
+	t_env	*temp;
+
+	temp = env;
+	while (temp)
+	{
+		if (ft_strcmp(var_name, temp->name) == 0)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+
+void	update_line(char *arg, t_env **env)
+{
+	t_env	*temp;
+	int		i;
+	char	*var_name;
+
+	temp = *env;
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	var_name = ft_strndup(arg, i);
+	while (temp)
+	{
+		if (ft_strcmp(var_name, temp->name) == 0)
+		{
+			free(temp->value);
+			if (arg[i + 1] == '\'')
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "'");
+			else
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "\"");
+		}
+		temp = temp->next;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_unset.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 15:46:14 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	exec_unset(t_shell *shell, t_prompt *prompt)
+{
+	int	i;
+
+	i = 1;
+	if (prompt->nb_args == 1)
+		ft_printf("unset: not enough arguments\n");
+	else
+	{
+		while (prompt->strs[i])
+		{
+			if (!valid_name(prompt->strs[i]))
+			{
+				ft_printf("unset: %s: invalid parameter name\n",
+					prompt->strs[i]);
+				break ;
+			}
+			if (ft_strcmp(prompt->strs[i], "_") != 0)
+			{
+				remove_line(&shell->env_lines, prompt->strs[i]);
+				remove_line(&shell->export_lines, prompt->strs[i]);
+			}
+			i++;
+		}
+	}
+}
+
+void	remove_line(t_env **lst, char *arg)
+{
+	t_env	*next_one;
+	t_env	*temp;
+
+	temp = *lst;
+	if (ft_strcmp(temp->name, arg) == 0)
+	{
+		*lst = temp->next;
+		free(temp->name);
+		free(temp->value);
+		free(temp);
+		return ;
+	}
+	while (temp)
+	{
+		if (temp->next && ft_strcmp(temp->next->name, arg) == 0)
+		{
+			next_one = temp->next;
+			temp->next = temp->next->next;
+			free(next_one->name);
+			free(next_one->value);
+			free(next_one);
+			return ;
+		}
+		temp = temp->next;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_terminal.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 16:34:10 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	free_2d_array(char **strs)
+{
+	int	i;
+
+	i = 0;
+	if (!strs)
+		return ;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
+}
+
+void	free_prompt(t_prompt *prompt)
+{
+	if (prompt)
+	{
+		free(prompt->cmd_line);
+		free_2d_array(prompt->strs);
+		free(prompt);
+	}
+}
+
+void	free_terminal(t_shell *shell)
+{
+	free(shell->path);
+	free(shell->home_path);
+	free(shell->pwd);
+	free(shell->old_pwd);
+	free_2d_array(shell->env);
+	free_2d_array(shell->splitted_path);
+	free_env_lines(shell->env_lines);
+	free_env_lines(shell->export_lines);
+	ft_lstclear(&shell->history, &free);
+	free(shell);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_env_paths.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/27 20:00:38 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*get_path_value(char **envp, char *name)
+{
+	int		i;
+	int		size;
+	char	*path;
+
+	i = 0;
+	size = ft_strlen(name);
+	while (ft_strncmp(envp[i], name, size) != 0)
+		i++;
+	path = ft_strdup(envp[i] + size);
+	return (path);
+}
+
+int	get_shell_level(char **envp)
+{
+	int	i;
+	int	shlvl;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
+		i++;
+	shlvl = ft_atoi(envp[i] + 6);
+	return (shlvl);
+}
+
+char	**split_path(char **envp)
+{
+	int		i;
+	char	**splitted_path;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
+		i++;
+	splitted_path = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (splitted_path[i])
+	{
+		splitted_path[i] = join_and_free(splitted_path[i], "/");
+		i++;
+	}
+	return (splitted_path);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_dollar.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
+/*   Updated: 2025/03/07 15:21:35 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	g_exit_status;
+
+static char	*append_str(char *dest, const char *src)
+{
+	int		len_dest;
+	int		len_src;
+	int		i;
+	int		j;
+	char	*new_str;
+
+	len_dest = ft_strlen(dest);
+	len_src = ft_strlen(src);
+	new_str = malloc(len_dest + len_src + 1);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (dest && dest[i])
+	{
+		new_str[i] = dest[i];
+		i = i + 1;
+	}
+	j = 0;
+	while (src[j])
+	{
+		new_str[i + j] = src[j];
+		j = j + 1;
+	}
+	new_str[i + j] = '\0';
+	if (dest)
+		free(dest);
+	return (new_str);
+}
+
+static char	*expand_var(const char *input, int *i)
+{
+	int		j;
+	char	*var_name;
+	char	*value;
+
+	if (input[*i + 1] == '?')
+	{
+		*i = *i + 2;
+		return (ft_itoa(g_exit_status));
+	}
+	j = *i + 1;
+	while (input[j]
+		&& ((input[j] >= 'A' && input[j] <= 'Z')
+			|| (input[j] >= 'a' && input[j] <= 'z')
+			|| (input[j] >= '0' && input[j] <= '9')
+			|| input[j] == '_'))
+	{
+		j = j + 1;
+	}
+	var_name = ft_strndup(input + *i + 1, j - *i - 1);
+	value = getenv(var_name);
+	if (!value)
+		value = "";
+	free(var_name);
+	*i = j;
+	return (ft_strdup(value));
+}
+
+char	*expand_variables(const char *input)
+{
+	int		i;
+	char	*result;
+	char	*temp;
+	char	ch[2];
+
+	i = 0;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (input[i])
+	{
+		if (input[i] == '$')
+		{
+			temp = expand_var(input, &i);
+			result = append_str(result, temp);
+			free(temp);
+		}
+		else
+		{
+			ch[0] = input[i];
+			ch[1] = '\0';
+			result = append_str(result, ch);
+			i = i + 1;
+		}
+	}
+	return (result);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_paths.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/27 20:45:10 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	exec_cd(t_shell *shell, t_prompt *prompt)
+{
+	char	buffer[PATH_MAX];
+
+	if (prompt->nb_args == 2 && chdir(prompt->strs[1]) != 0)
+		ft_printf("cd: no such file or directory: %s\n", prompt->strs[1]);
+	else if (prompt->nb_args > 2)
+		ft_printf("cd: string not in pwd: %s\n", prompt->strs[1]);
+	else
+	{
+		if (prompt->nb_args == 1)
+			chdir(shell->home_path);
+		if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)
+		{
+			free(shell->old_pwd);
+			shell->old_pwd = ft_strdup(shell->pwd);
+		}
+		getcwd(buffer, PATH_MAX);
+		free(shell->pwd);
+		shell->pwd = ft_strdup(buffer);
+	}
+	update_paths(shell, &shell->env_lines);
+	update_paths(shell, &shell->export_lines);
+}
+
+void	update_paths(t_shell *shell, t_env **env)
+{
+	t_env	*temp;
+
+	temp = *env;
+	while (temp)
+	{
+		if (ft_strcmp(temp->name, "OLDPWD") == 0)
+		{
+			free(temp->value);
+			temp->value = ft_strdup(shell->old_pwd);
+		}
+		else if (ft_strcmp(temp->name, "PWD") == 0)
+		{
+			free(temp->value);
+			temp->value = ft_strdup(shell->pwd);
+		}
+		temp = temp->next;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_strings.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 17:12:26 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	ft_swap(char **s1, char **s2)
+{
+	char	*tmp;
+
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
+}
+
+void	sort_strings(char **envp, int size)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		if (ft_strcmp(envp[i], envp[i + 1]) > 0)
+		{
+			tmp = envp[i];
+			envp[i] = envp[i + 1];
+			envp[i + 1] = tmp;
+			i = 0;
+		}
+		else
+			i++;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/17 03:04:07 by qacjl             #+#    #+#             */
+/*   Updated: 2025/02/17 03:06:27 by qacjl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	handle_heredoc(const char *delimiter)
+{
+	int		pipe_fd[2];
+	char	*line;
+
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe");
+		return (-1);
+	}
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line)
+			break ;
+		if (strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(pipe_fd[1], line, strlen(line));
+		write(pipe_fd[1], "\n", 1);
+		free(line);
+	}
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/06 16:36:14 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	update_history(t_shell *shell, const char *line)
+{
+	t_list	*new_node;
+
+	new_node = ft_lstnew(ft_strdup(line));
+	if (new_node == NULL)
+		return ;
+	ft_lstadd_back(&shell->history, new_node);
+	add_history(line);
+}
+
+void	display_history(t_shell *shell)
+{
+	t_list	*temp;
+	int		i;
+
+	i = 0;
+	temp = shell->history;
+	while (temp)
+	{
+		ft_printf("%d  %s\n", i + 1, (char *)temp->content);
+		i = i + 1;
+		temp = temp->next;
+	}
+}
+
+void	verif_history(t_shell *shell, const char *input)
+{
+	if (input[0] != '\0')
+		update_history(shell, input);
+	if (ft_strcmp(input, "history") == 0)
+		display_history(shell);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 14:07:28 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	is_builtin(const char *cmd)
+{
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "history") == 0)
+		return (1);
+	return (0);
+}
+
+void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
+{
+	t_pipeline	*pipeline;
+
+	if (!ft_strlen(line) || !count_strings(prompt->strs))
+		ft_printf("");
+	else if (is_builtin(prompt->strs[0]))
+		execute_builtin(shell, prompt);
+	else if (!existing_command(shell->splitted_path, prompt->strs[0])
+		&& ft_strcmp(prompt->strs[0], "history") != 0)
+		ft_printf("command not found: %s\n", prompt->strs[0]);
+	else
+	{
+		pipeline = parse_input(line);
+		if (pipeline != NULL)
+		{
+			execute_pipeline(pipeline, env);
+			free_pipeline(pipeline);
+		}
+	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_shell		*shell;
+	char		*line;
+	t_prompt	*prompt;
+
+	(void)argc;
+	(void)argv;
+	setup_signal();
+	shell = init_shell(env);
+	while (1)
+	{
+		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
+		if (line == NULL)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
+		verif_history(shell, line);
+		prompt = init_prompt(line);
+		exec_command(shell, prompt, env, line);
+		free_prompt(prompt);
+		free(line);
+	}
+	free_terminal(shell);
+	return (0);
+}
+
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
+#    Updated: 2025/03/07 14:41:11 by quenalla         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror
+
+NAME = minishell
+
+RM = rm -f
+
+SRCS =	adv_redirection.c \
+		adv_tokeniser1.c \
+		adv_tokeniser2.c \
+		check_words.c \
+		exec_echo.c \
+		exec_export.c \
+		exec_unset.c \
+		free_terminal.c \
+		get_env_paths.c \
+		handle_dollar.c \
+		handle_paths.c \
+		handle_strings.c \
+		heredoc.c \
+		history.c \
+		main.c \
+		manage_env_list.c \
+		minishell.c \
+		new_terminal.c \
+		parse_prompt.c \
+		parser1.c \
+		parser2.c \
+		pipe_handling.c \
+		pipeline.c \
+		read_content.c \
+		redirect_file.c \
+		replace.c \
+		signal.c \
+		string_utils.c \
+		write_content.c
+
+OBJS = $(SRCS:.c=.o)
+
+LIBFT = libft/libft.a
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIBFT):
+	make -C libft/
+
+all: $(NAME)
+
+clean:
+	$(RM) $(OBJS)
+	make clean -C libft/
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_env_list.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 14:16:06 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 13:57:47 by qacjl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+t_env	*new_line(char *env_line)
+{
+	t_env	*new_node;
+	int		i;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	i = 0;
+	if (!new_node)
+		return (NULL);
+	while (env_line[i] && env_line[i] != '=')
+		i++;
+	new_node->name = ft_strndup(env_line, i);
+	if (ft_strchr(env_line, '='))
+	{
+		if (env_line[i + 1] == '\'')
+			new_node->value = ft_strtrim(ft_strchr(env_line, '=') + 1, "'");
+		else
+			new_node->value = ft_strtrim(ft_strchr(env_line, '=') + 1, "\"");
+	}
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+int	env_size(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		env = env->next;
+		i = i + 1;
+	}
+	return (i);
+}
+
+void	add_env_line(t_env **env, t_env *new)
+{
+	t_env	*temp;
+
+	temp = *env;
+	if (*env == NULL)
+	{
+		*env = new;
+		return ;
+	}
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new;
+}
+
+void	free_env_lines(t_env *env)
+{
+	t_env	*temp;
+	t_env	*next;
+
+	if (!env)
+		return ;
+	temp = env;
+	while (temp)
+	{
+		next = temp->next;
+		free(temp->name);
+		free(temp->value);
+		free(temp);
+		temp = next;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 13:19:27 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	exec_pwd(t_shell *shell, t_prompt *prompt)
+{
+	if (prompt->nb_args > 1 && prompt->strs[1][0] == '-')
+		ft_printf("pwd: bad option: %s\n", prompt->strs[1]);
+	else
+		ft_printf("%s\n", shell->pwd);
+}
+
+void	exec_exit(t_shell *shell, t_prompt *prompt)
+{
+	free_prompt(prompt);
+	free_terminal(shell);
+	write(2, "exit\n", 5);
+	exit(1);
+}
+
+void	execute_builtin(t_shell *shell, t_prompt *prompt)
+{
+	if (ft_strcmp(prompt->strs[0], "echo") == 0)
+		exec_echo(prompt);
+	else if (ft_strcmp(prompt->strs[0], "export") == 0)
+		exec_export(shell, prompt);
+	else if (ft_strcmp(prompt->strs[0], "env") == 0)
+		write_env(prompt, shell->env_lines);
+	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
+		exec_cd(shell, prompt);
+	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
+		exec_pwd(shell, prompt);
+	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
+		exec_unset(shell, prompt);
+	else if (ft_strcmp(prompt->strs[0], "exit") == 0)
+		exec_exit(shell, prompt);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/08 10:49:40 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# define MAX_ARGS 64
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <linux/limits.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include "structures.h"
+# include "libft/libft.h"
+
+// Token
+char		**advanced_tokenize(const char *line);
+int			count_raw_cmds(char **raw_cmds);
+void		process_default(char c, t_state *state, char **curr);
+void		process_in_single(char c, t_state *state, char **curr);
+void		process_in_double(char c, t_state *state, char **curr);
+void		process_escaping(char c, t_state *state, char **curr);
+char		**remove_hd_tokens(char **tokens, char **heredoc);
+
+// Redirection
+int			handle_heredoc(const char *delimiter);
+void		free_pipeline(t_pipeline *pipeline);
+void		execute_pipeline(t_pipeline *pipeline, char **env);
+int			adv_handle_redirect(const char *target, const char *op, int std_fd);
+void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
+void		handle_pipe(char *cmd1[], char *cmd2[]);
+int			handle_redirection(const char *file, int io_flag);
+int			handle_redirection_char(const char *file, const char *op);
+int			redirect_file(const char *target, int std_fd, int flags, int mode);
+int			handle_heredoc(const char *delimiter);
+void		setup_signal(void);
+void		handle_sigint(int sig);
+void		handle_sigquit(int sig);
+char		*expand_variables(const char *input);
+// Outils de strings
+int			calculate_size_for_replace(const char *str, char *a, char *b);
+int			calculate_total_size(int size, char **strs, char *sep);
+void		check_error(char *name, char *arg);
+int			count_occurs(const char *cmd_line, int to_find);
+int			count_occurs2(const char *str, char *to_find);
+int			count_quotes(const char *cmd_line);
+int			count_strings(char **strs);
+int			count_words(const char *str);
+char		*ft_strcpy(char *dest, const char *src);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_strjoin2(int size, char **strs, char *sep);
+char		*ft_strndup(const char *src, size_t n);
+void		ft_swap(char **s1, char **s2);
+int			is_space(int c);
+char		*replace(const char *str, char *a, char *b);
+void		sort_strings(char **envp, int size);
+
+// Gestion de la structure principale
+void		free_2d_array(char **strs);
+void		free_terminal(t_shell *shell);
+t_shell		*init_shell(char **envp);
+
+// Gestion de l'environnement
+void		add_env_line(t_env **env, t_env *new);
+void		add_lines(t_shell *shell, t_prompt *prompt);
+void		copy_env(t_env **env, char **envp);
+void		copy_export(t_env **export, char **envp);
+int			env_size(t_env *env);
+void		exec_cd(t_shell *shell, t_prompt *prompt);
+void		exec_export(t_shell *shell, t_prompt *prompt);
+void		exec_unset(t_shell *shell, t_prompt *prompt);
+void		free_env_lines(t_env *env);
+char		**get_lines_export(char **envp);
+char		**get_lines(char **envp);
+char		*get_name(char *dest, char *src);
+char		*get_path_value(char **envp, char *name);
+int			get_shell_level(char **envp);
+int			is_in_list(t_env *env, char *var_name);
+t_env		*new_line(char *env_line);
+void		remove_line(t_env **lst, char *arg);
+char		**split_path(char **envp);
+void		update_line(char *arg, t_env **env);
+void		update_paths(t_shell *shell, t_env **env);
+void		write_env(t_prompt *prompt, t_env *env);
+void		write_export(t_env *env);
+
+// Parsing du prompt
+char		**advanced_tokenize(const char *line);
+int			check_path_validity(char *cmd);
+int			closed_quotes(char *cmd_line);
+char		*cpy_word(char *str, int *i);
+void		display_history(t_shell *shell);
+void		exec_echo(t_prompt *prompt);
+void		execute_builtin(t_shell *shell, t_prompt *prompt);
+int			existing_command(char **paths, char *cmd);
+void		free_prompt(t_prompt *prompt);
+t_prompt	*init_prompt(const char *buffer);
+int			is_redirect(char c);
+t_command	*parse_command(char *raw);
+t_pipeline	*parse_input(const char *line);
+int			valid_arg(char *name, char *arg);
+int			valid_name(char *name);
+int			valid_value(char *s);
+void		verif_history(t_shell *shell, const char *input);
+int			is_builtin(const char *cmd);
+
+#endif
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   new_terminal.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 16:13:18 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+t_shell	*init_shell(char **envp)
+{
+	t_shell	*shell;
+
+	shell = (t_shell *)malloc(sizeof(t_shell));
+	if (!shell)
+		return (NULL);
+	shell->path = get_path_value(envp, "PATH=");
+	shell->home_path = get_path_value(envp, "HOME=");
+	shell->old_pwd = get_path_value(envp, "PWD=");
+	shell->pwd = get_path_value(envp, "PWD=");
+	shell->splitted_path = split_path(envp);
+	shell->shlvl = get_shell_level(envp);
+	shell->env = get_lines(envp);
+	shell->env_lines = NULL;
+	copy_env(&shell->env_lines, envp);
+	shell->export_lines = NULL;
+	copy_export(&shell->export_lines, envp);
+	shell->history = NULL;
+	return (shell);
+}
+
+// echo "salut commment ca" va mon "amis"
+
+/*
+	char **cmd;
+
+	cmd[0] = echo;
+	cmd[0] = salut comment ca;
+	cmd[0] = va;
+	cmd[0] = mon;
+	cmd[0] = amis;
+*/
+
+t_prompt	*init_prompt(const char *buffer)
+{
+	t_prompt	*prompt;
+
+	prompt = (t_prompt *)malloc(sizeof(t_prompt));
+	if (!prompt)
+		return (NULL);
+	prompt->cmd_line = ft_strdup(buffer);
+	prompt->strs = advanced_tokenize(buffer);
+	prompt->nb_args = count_strings(prompt->strs);
+	return (prompt);
+}
+
+void	copy_env(t_env **env, char **envp)
+{
+	t_env	*new;
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		new = new_line(envp[i]);
+		add_env_line(env, new);
+		i++;
+	}
+}
+
+void	copy_export(t_env **export, char **envp)
+{
+	t_env	*new;
+	int		i;
+
+	sort_strings(envp, count_strings(envp));
+	i = 0;
+	while (envp[i])
+	{
+		if (!(envp[i][0] == '_' && envp[i][1] == '='))
+		{
+			new = new_line(envp[i]);
+			add_env_line(export, new);
+		}
+		i++;
+	}
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_prompt.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 17:03:28 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static void	check_string(int *i, int *count, char c, char *str)
+{
+	(*i)++;
+	(*count)++;
+	while (str[*i] && str[*i] != c)
+		(*i)++;
+	if (str[*i] == c)
+		(*count)++;
+}
+
+int	closed_quotes(char *cmd_line)
+{
+	int	i;
+	int	quote_count;
+
+	i = 0;
+	quote_count = 0;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '\'')
+			check_string(&i, &quote_count, '\'', cmd_line);
+		else if (cmd_line[i] == '"')
+			check_string(&i, &quote_count, '"', cmd_line);
+		if (cmd_line[i])
+			i++;
+	}
+	if (quote_count % 2 == 1)
+		return (0);
+	return (1);
+}
+
+int	valid_arg(char *name, char *arg)
+{
+	int		i;
+	char	*value;
+
+	i = 0;
+	if (!(ft_isalpha(name[i]) || name[i] == '_'
+			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+		return (0);
+	i++;
+	while (name[i] && name[i] != '=')
+	{
+		if (!(ft_isalnum(name[i]) || name[i] == '_'
+				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+			return (0);
+		i++;
+	}
+	if (count_occurs(arg, '='))
+	{
+		value = ft_strchr(arg, '=') + 1;
+		if (!valid_value(value))
+			return (0);
+	}
+	return (1);
+}
+
+int	valid_name(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (!(ft_isalpha(name[i]) || name[i] == '_'
+			|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+		return (0);
+	i++;
+	while (name[i] && name[i] != '=')
+	{
+		if (!(ft_isalnum(name[i]) || name[i] == '_'
+				|| name[i] == '$' || name[i] == '<' || name[i] == '>'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	valid_value(char *s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = ft_strlen(s) - 1;
+	if ((s[i] == '\'' && s[j] == '"') || (s[i] == '"' && s[j] == '\''))
+		return (0);
+	else if ((s[i] == '\'' || s[j] == '\'')
+		&& count_occurs(s, '\'') % 2 == 1)
+		return (0);
+	else if ((s[i] == '"' || s[j] == '\'')
+		&& count_occurs(s, '"') % 2 == 1)
+		return (0);	
+	return (1);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 15:26:17 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	count_raw_cmds(char **raw_cmds)
+{
+	int	count;
+
+	count = 0;
+	while (raw_cmds[count])
+		count++;
+	return (count);
+}
+
+/*static char	**build_new_tokens(char **tokens, char **heredoc, int new_count)
+{
+	int		i;
+	int		j;
+	char	**new_tokens;
+
+	new_tokens = malloc(sizeof(char *) * (new_count + 1));
+	if (new_tokens == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "<<") == 0)
+		{
+			*heredoc = ft_strdup(tokens[i + 1]);
+			i = i + 2;
+		}
+		else
+		{
+			new_tokens[j] = ft_strdup(tokens[i]);
+			j++;
+			i++;
+		}
+	}
+	new_tokens[j] = NULL;
+	return (new_tokens);
+}
+
+static char	**remove_heredoc_tokens(char **tokens, char **heredoc)
+{
+	int		new_count;
+	char	**new_tokens;
+
+	new_count = 0;
+	while (*tokens)
+	{
+		if (ft_strcmp(*tokens, "<<") == 0)
+			tokens = tokens + 2;
+		else
+		{
+			new_count++;
+			tokens++;
+		}
+	}
+	tokens = advanced_tokenize("");
+	new_tokens = build_new_tokens(tokens, heredoc, new_count);
+	return (new_tokens);
+}*/
+
+char	**remove_hd_tokens(char **tokens, char **heredoc)
+{
+	int		i;
+	int		new_count;
+	char	**new_tokens;
+
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "<<") == 0)
+			i = i + 2;
+		else
+		{
+			new_count++;
+			i++;
+		}
+	}
+	new_tokens = malloc(sizeof(char *) * (new_count + 1));
+	if (new_tokens == NULL)
+		return (NULL);
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "<<") == 0)
+		{
+			*heredoc = ft_strdup(tokens[i + 1]);
+			i = i + 2;
+		}
+		else
+			new_tokens[new_count++] = ft_strdup(tokens[i++]);
+	}
+	new_tokens[new_count] = NULL;
+	return (new_tokens);
+}
+
+t_command	*parse_command(char *raw)
+{
+	t_command	*cmd;
+	char		**tokens;
+	char		*heredoc;
+	char		*expanded_raw;
+
+	cmd = malloc(sizeof(t_command));
+	if (cmd == NULL)
+		return (NULL);
+	expanded_raw = expand_variables(raw);
+	tokens = advanced_tokenize(expanded_raw);
+	free(expanded_raw);
+	heredoc = NULL;
+	tokens = remove_hd_tokens(tokens, &heredoc);
+	cmd->args = tokens;
+	cmd->heredoc_delim = heredoc;
+	return (cmd);
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/06 19:39:01 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 19:39:12 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
+{
+	int			i;
+	t_command	*cmd;
+
+	i = 0;
+	while (i < count)
+	{
+		cmd = parse_command(raw_cmds[i]);
+		pipeline->commands[i] = *cmd;
+		free(cmd);
+		i++;
+	}
+}
+
+t_pipeline	*parse_input(const char *line)
+{
+	t_pipeline	*pipeline;
+	char		**raw_cmds;
+	int			count;
+	int			i;
+
+	raw_cmds = ft_split(line, '|');
+	count = count_raw_cmds(raw_cmds);
+	pipeline = malloc(sizeof(t_pipeline));
+	if (pipeline == NULL)
+		return (NULL);
+	pipeline->count = count;
+	pipeline->commands = malloc(sizeof(t_command) * count);
+	if (pipeline->commands == NULL)
+	{
+		free(pipeline);
+		return (NULL);
+	}
+	fill_pipeline(pipeline, raw_cmds, count);
+	i = 0;
+	while (raw_cmds[i])
+		free(raw_cmds[i++]);
+	free(raw_cmds);
+	return (pipeline);
+}
+
+void	free_pipeline(t_pipeline *pipeline)
+{
+	int	i;
+	int	j;
+
+	if (pipeline == NULL)
+		return ;
+	i = 0;
+	while (i < pipeline->count)
+	{
+		if (pipeline->commands[i].args)
+		{
+			j = 0;
+			while (pipeline->commands[i].args[j])
+			{
+				free(pipeline->commands[i].args[j]);
+				j++;
+			}
+			free(pipeline->commands[i].args);
+		}
+		if (pipeline->commands[i].heredoc_delim)
+			free(pipeline->commands[i].heredoc_delim);
+		i++;
+	}
+	free(pipeline->commands);
+	free(pipeline);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_handling.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/17 03:29:30 by qacjl             #+#    #+#             */
+/*   Updated: 2025/02/18 18:03:05 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static pid_t	safe_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	return (pid);
+}
+
+static void	create_first_child(char *cmd[], int pipe_fd[2])
+{
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	execve(cmd[0], cmd, NULL);
+	perror("execve");
+	exit(EXIT_FAILURE);
+}
+
+static void	create_second_child(char *cmd[], int pipe_fd[2])
+{
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+	execve(cmd[0], cmd, NULL);
+	perror("execve");
+	exit(EXIT_FAILURE);
+}
+
+void	handle_pipe(char *cmd1[], char *cmd2[])
+{
+	int		pipe_fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
+
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid1 = safe_fork();
+	if (pid1 == 0)
+		create_first_child(cmd1, pipe_fd);
+	pid2 = safe_fork();
+	if (pid2 == 0)
+		create_second_child(cmd2, pipe_fd);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}
+
+/*void	handle_pipe(char *cmd1[], char *cmd2[])
+{
+	int		pipe_fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
+
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("Erreur lors de la création du pipe");
+		exit(EXIT_FAILURE);
+	}
+	if ((pid1 = fork()) == 0)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		execve(cmd1[0], cmd1, NULL);
+		perror("Erreur lors de l'exécution de la commande");
+		exit(EXIT_FAILURE);
+	}
+	if ((pid2 = fork()) == 0)
+	{
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+		execve(cmd2[0], cmd2, NULL);
+		perror("Erreur lors de l'exécution de la commande");
+		exit(EXIT_FAILURE);
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}*/
+
+int	handle_redirection(const char *file, int io_flag)
+{
+	int	fd;
+
+	if (io_flag == O_RDONLY)
+	{
+		fd = open(file, O_RDONLY);
+		if (fd < 0)
+		{
+			perror("Erreur lors de l'ouverture du fichier");
+			return (-1);
+		}
+		dup2(fd, STDIN_FILENO);
+	}
+	else
+	{
+		fd = open(file, io_flag, 0644);
+		if (fd < 0)
+		{
+			perror("Erreur lors de l'ouverture du fichier");
+			return (-1);
+		}
+		dup2(fd, STDOUT_FILENO);
+	}
+	close(fd);
+	return (0);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/08 10:54:31 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static void	create_pipe_block(int i, int cmd_count, int pipe_fd[2])
+{
+	if (i < cmd_count - 1)
+	{
+		if (pipe(pipe_fd) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		pipe_fd[0] = -1;
+		pipe_fd[1] = -1;
+	}
+}
+
+static void	setup_heredoc(int i, t_pipeline *pipeline)
+{
+	int	hd_fd;
+
+	if (pipeline->commands[i].heredoc_delim != NULL)
+	{
+		hd_fd = handle_heredoc(pipeline->commands[i].heredoc_delim);
+		if (hd_fd == -1)
+		{
+			perror("heredoc");
+			exit(EXIT_FAILURE);
+		}
+		if (dup2(hd_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 heredoc");
+			exit(EXIT_FAILURE);
+		}
+		close(hd_fd);
+	}
+}
+
+static void	setup_child(int i, int prev_fd, int pipe_fd[2],
+			t_exec_context *ctx)
+{
+	if (i != 0)
+	{
+		if (dup2(prev_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(prev_fd);
+	}
+	setup_heredoc(i, ctx->pipeline);
+	if (i < ctx->cmd_count - 1)
+	{
+		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+	execvp(ctx->pipeline->commands[i].args[0],
+		ctx->pipeline->commands[i].args);
+	perror("execve");
+	exit(EXIT_FAILURE);
+}
+
+//nouvelle version pour detecter les builtin qui modifie l'env
+static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2], t_exec_context *ctx)
+{
+	pid_t	pid;
+	char	*cmd_path;
+
+	pid = fork();
+	cmd_path = NULL;
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		setup_child(i, prev_fd, pipe_fd, ctx);
+		if (is_builtin(ctx->pipeline->commands[i].args[0]))
+		{
+			execute_builtin(ctx->pipeline->commands[i].args, ctx->env);
+			exit(EXIT_SUCCESS);
+		}
+		*cmd_path = get_command_path(ctx->pipeline->commands[i].args[0], ctx->env);
+		execve(cmd_path, ctx->pipeline->commands[i].args, ctx->env);
+		perror("execve");
+		free(cmd_path);
+		exit(EXIT_FAILURE);
+	}
+	if (prev_fd != -1)
+		close(prev_fd);
+	if (i < ctx->cmd_count - 1)
+	{
+		prev_fd = pipe_fd[0];
+		close(pipe_fd[1]);
+	}
+	waitpid(pid, NULL, 0);
+	return (prev_fd);
+}
+
+
+void	execute_pipeline(t_pipeline *pipeline, char **env)
+{
+	int				i;
+	int				prev_fd;
+	int				pipe_fd[2];
+	t_exec_context	ctx;
+
+	ctx.pipeline = pipeline;
+	ctx.env = env;
+	ctx.cmd_count = pipeline->count;
+	prev_fd = -1;
+	i = 0;
+	while (i < ctx.cmd_count)
+	{
+		create_pipe_block(i, ctx.cmd_count, pipe_fd);
+		prev_fd = handle_fork_and_update(i, prev_fd, pipe_fd, &ctx);
+		i++;
+	}
+	if (prev_fd != -1)
+		close(prev_fd);
+}
+
+/*
+	setup_child : configure l'environnement du processus enfant.
+	index de la commande dans le pipeline.
+	prev_fd descripteur de lecture du pipe précédent (-1 si aucun).
+	pipe_fd : tableau de 2 entiers pour le pipe courant.
+	tx regroupe les information contextuelles pipeline, env et cmd_count.
+*/
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_content.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 16:43:09 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/25 16:05:39 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	count_strings(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs[i])
+		i++;
+	return (i);
+}
+
+char	**get_lines(char **envp)
+{
+	int		i;
+	int		size;
+	char	**lines;
+
+	i = 0;
+	size = count_strings(envp);
+	lines = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!lines)
+		return (NULL);
+	while (i < size)
+	{
+		lines[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	lines[i] = NULL;
+	return (lines);
+}
+
+char	*get_name(char *dest, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] && src[i] != '=')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_file.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
+/*   Updated: 2025/02/17 02:43:47 by qacjl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	redirect_file(const char *target, int std_fd, int flags, int mode)
+{
+	int	fd;
+
+	fd = open(target, flags, mode);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	if (dup2(fd, std_fd) == -1)
+	{
+		perror("dup2");
+		close(fd);
+		return (-1);
+	}
+	close(fd);
+	return (0);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   replace.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/04 12:19:21 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/04 12:19:21 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	count_occurs2(const char *str, char *to_find)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (ft_strncmp(str + i, to_find, ft_strlen(to_find)) == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	calculate_size_for_replace(const char *str, char *a, char *b)
+{
+	int		difference;
+	int		length;
+
+	difference = (ft_strlen(b) - ft_strlen(a)) * count_occurs2(str, a);
+	length = ft_strlen(str) + difference;
+	return (length);
+}
+
+char	*replace(const char *str, char *a, char *b)
+{
+	int		i;
+	int		size;
+	int		total_size;
+	char	*new_string;
+
+	i = 0;
+	total_size = calculate_size_for_replace(str, a, b);
+	new_string = (char *)malloc(sizeof(char) * total_size + 1);
+	if (!new_string)
+		return (NULL);
+	while (*str)
+	{
+		if (ft_strncmp(str, a, ft_strlen(a)) == 0)
+		{
+			size = 0;
+			while (b[size])
+				new_string[i++] = b[size++];
+			str += ft_strlen(a);
+		}
+		else
+			new_string[i++] = *str++;
+	}
+	new_string[i] = 0;
+	return (new_string);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/09 16:16:58 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/06 16:43:25 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n\033[0;32mminishell> \033[0m", 23);
+}
+
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+}
+
+void	setup_signal(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 18:42:03 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	count_occurs(const char *cmd_line, int to_find)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == to_find)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	count_words(const char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (str[0] != 0 && !is_space(str[0]))
+	{
+		i++;
+		count++;
+	}
+	while (str[i])
+	{
+		if (is_space(str[i]) && (str[i + 1] != 0 && !is_space(str[i + 1])))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	*ft_strndup(const char *src, size_t n)
+{
+	size_t	i;
+	char	*dest;
+
+	i = 0;
+	dest = (char *)malloc(sizeof(char) * (n + 1));
+	if (!dest)
+		return (NULL);
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/06 18:42:56 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef STRUCTURES_H
+# define STRUCTURES_H
+# include "libft/libft.h"
+
+typedef struct s_command
+{
+	char	**args;
+	char	*heredoc_delim;
+}	t_command;
+
+typedef struct s_pipeline
+{
+	t_command	*commands;
+	int			count;
+}	t_pipeline;
+
+typedef struct s_exec_context
+{
+	t_pipeline	*pipeline;
+	char		**env;
+	int			cmd_count;
+}	t_exec_context;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_shell
+{
+	int		shlvl;
+	char	*path;
+	char	*home_path;
+	char	*pwd;
+	char	*old_pwd;
+	char	**splitted_path;
+	char	**env;
+	t_env	*env_lines;
+	t_env	*export_lines;
+	t_list	*history;
+}	t_shell;
+
+typedef struct s_prompt
+{
+	char	*cmd_line;
+	char	*echo;
+	char	**strs;
+	int		nb_args;
+}	t_prompt;
+
+typedef enum e_state
+{
+	STATE_DEFAULT,
+	STATE_IN_SINGLE,
+	STATE_IN_DOUBLE,
+	STATE_ESCAPING
+}				t_state;
+
+typedef struct s_tokenize_context
+{
+	int		i;
+	int		ti;
+	char	**tokens;
+	char	*curr;
+	t_state	state;
+}	t_tokenize_context;
+
+#endif
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 20:49:34 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/02/27 15:25:34 by axbaudri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*void	tokenizer(char *prompt, t_token **lst)
+{
+	int	i;
+
+	i = 0;
+	while (prompt[i])
+	{
+		if (is_redirect(prompt[i]))
+			redirect_manager(prompt, &i, lst);
+		if (is_pipe(prompt[i]))
+			pipe_manager(prompt, &i, lst);
+		if (is_word(prompt[i]))
+			word_manager(prompt, &i, lst);
+		if (is_separator(prompt[i]))
+			i++;
+	}
+}*/
+
+char	*cpy_word(char *str, int *i)
+{
+	int		len;
+	int		j;
+	char	*dup;
+
+	j = 0;
+	len = cpy_word_len(str + *i);
+	dup = malloc(sizeof(char) * (len + 1));
+	while (str[*i] && str[*i] != '\"')
+	{
+		if (str[*i] == '\"')
+			if (cpy_double_quote(dup, str, i, &j))
+				return (free(dup), 1);
+		if (str[*i] == '\'')
+			if (cpy_single_quote(dup, str, i, &j))
+				return (free(dup), 2);
+		else
+			dup[j++] = str[(*i)++];
+	}
+	if (str[*i] == '\"')
+		dup[j++] = str[(*i)++];
+	else
+		return (1);
+	return (0);
+}
+
+int	is_redirect(char c)
+{
+	if (c == '>' || c == '<')
+		return (1);
+	return (0);
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_content.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
+/*   Updated: 2025/03/07 14:11:45 by quenalla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	write_env(t_prompt *prompt, t_env *env)
+{
+	t_env	*temp;
+
+	temp = env;
+	if (prompt->nb_args != 1)
+		ft_printf("env: '%s': No such file or directory\n", prompt->strs[1]);
+	else
+	{
+		while (temp)
+		{
+			if (temp->value)
+				ft_printf("%s=%s\n", temp->name, temp->value);
+			temp = temp->next;
+		}
+	}
+}
+
+void	write_export(t_env *env)
+{
+	t_env	*temp;
+
+	temp = env;
+	while (temp)
+	{
+		if (temp->value)
+			ft_printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
+		else
+			ft_printf("declare -x %s=\"\"\n", temp->name);
+		temp = temp->next;
+	}
+}
+
+int	calculate_total_size(int size, char **strs, char *sep)
+{
+	int	i;
+	int	total_size;
+
+	i = 0;
+	total_size = 0;
+	while (i < size)
+	{
+		total_size += ft_strlen(strs[i]);
+		if (i < size - 1)
+			total_size += ft_strlen(sep);
+		i++;
+	}
+	return (total_size);
+}
+
+char	*ft_strjoin2(int size, char **strs, char *sep)
+{
+	int		i;
+	int		j;
+	int		total_size;
+	char	*new_string;
+
+	i = 0;
+	j = 0;
+	total_size = calculate_total_size(size, strs, sep);
+	new_string = (char *)malloc(sizeof(char) * total_size + 1);
+	if (!new_string)
+		return (NULL);
+	while (i < size)
+	{
+		ft_strcpy(new_string + j, strs[i]);
+		j += ft_strlen(strs[i]);
+		if (i < size - 1)
+		{
+			ft_strcpy(new_string + j, sep);
+			j += ft_strlen(sep);
+		}
+		i++;
+	}
+	new_string[total_size] = 0;
+	return (new_string);
+}

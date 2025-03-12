@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/11 14:43:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:50:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	g_exit_status;
 
 static char	*append_str(char *dest, const char *src)
 {
-	size_t	total_size;
+	size_t	size;
 	size_t	i;
 	size_t	j;
 	char	*new_str;
 
-	total_size = ft_strlen(dest) + ft_strlen(src);
-	new_str = malloc(total_size + 1);
+	size = ft_strlen(dest) + ft_strlen(src);
+	new_str = malloc(size + 1);
 	if (new_str == NULL)
 		return (NULL);
 	i = 0;
@@ -60,7 +60,9 @@ static char	*expand_var(const char *in, int *i)
 		return (ft_itoa(getpid()));
 	}
 	j = *i + 1;
-	while (in[j] && (ft_isalnum(in[j]) || in[j] == '_'))
+	while (in[j] && ((in[j] >= 'A' && in[j] <= 'Z')
+			|| (in[j] >= 'a' && in[j] <= 'z')
+			|| (in[j] >= '0' && in[j] <= '9') || in[j] == '_'))
 		j = j + 1;
 	name = ft_strndup(in + *i + 1, j - *i - 1);
 	val = getenv(name);

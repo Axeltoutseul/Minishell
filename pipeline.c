@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/11 16:17:14 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:25:31 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,27 @@ static void	create_pipe_block(int i, int cmd_count, int pipe_fd[2])
 	{
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
+	}
+}
+
+static void	setup_heredoc(int i, t_pipeline *pipeline)
+{
+	int	hd_fd;
+
+	if (pipeline->commands[i].heredoc_delim != NULL)
+	{
+		hd_fd = handle_heredoc(pipeline->commands[i].heredoc_delim);
+		if (hd_fd == -1)
+		{
+			perror("heredoc");
+			exit(EXIT_FAILURE);
+		}
+		if (dup2(hd_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 heredoc");
+			exit(EXIT_FAILURE);
+		}
+		close(hd_fd);
 	}
 }
 
@@ -58,9 +79,12 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)
 {
 	t_prompt	*builtin_prompt;
+	t_command	*cmd;
 	char		*cmd_path;
 
 	setup_child(i, prev_fd, pipe_fd, ctx);
+	cmd = &ctx->pipeline->commands[i];
+	apply_redirections(cmd);
 	if (is_builtin(ctx->pipeline->commands[i].args[0]))
 	{
 		builtin_prompt = (t_prompt *)malloc(sizeof(t_prompt));
@@ -113,7 +137,7 @@ static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 	return (new_prev_fd);
 }
 
-void	execute_pipeline(t_shell *shell ,t_pipeline *pipeline, char **env)
+void	execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env)
 {
 	int				i;
 	int				prev_fd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/11 15:11:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:29:16 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,6 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	free_terminal(shell);
-	/*char	*test;
-	test = expand_variables("$");
-	printf ("%s", test);*/
 	return (0);
 }
 

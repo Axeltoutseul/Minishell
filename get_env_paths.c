@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/11 14:28:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:41:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**split_path(char **envp)
 	return (splitted_path);
 }
 
-char	*get_command_path(char *cmd, char **env)
+/*char	*get_command_path(char *cmd, char **env)
 {
 	char	*path_line;
 	char	**paths;
@@ -86,4 +86,45 @@ char	*get_command_path(char *cmd, char **env)
 	free_2d_array(paths);
 	full_path = ft_strdup(cmd);
 	return (full_path);
+}
+*/
+
+char	*get_command_path(char *cmd, char **env)
+{
+	char	**paths;
+	char	*path_var;
+	int		i;
+	char	*temp;
+	char	*full_path;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			break ;
+		i++;
+	}
+	if (env[i] == 0)
+		return (NULL);
+	path_var = env[i] + 5;
+	paths = ft_split(path_var, ':');
+	if (paths == NULL)
+		return (NULL);
+	i = 0;
+	full_path = NULL;
+	while (paths[i])
+	{
+		temp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(temp, cmd);
+		free(temp);
+		if (access(full_path, F_OK | X_OK) == 0)
+		{
+			free_2d_array(paths);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	free_2d_array(paths);
+	return (NULL);
 }
