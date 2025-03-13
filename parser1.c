@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 13:23:25 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/13 16:45:26 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	count_raw_cmds(char **raw_cmds)
 		count++;
 	return (count);
 }
-
-#include "minishell.h"
 
 char	**remove_redirection_tokens(char **tokens)
 {
@@ -56,11 +54,7 @@ char	**remove_redirection_tokens(char **tokens)
 			|| ft_strcmp(tokens[i], "<") == 0)
 			i = i + 2;
 		else
-		{
-			new_tokens[new_count] = ft_strdup(tokens[i]);
-			new_count = new_count + 1;
-			i++;
-		}
+			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
 	new_tokens[new_count] = NULL;
 	free_2d_array(tokens);
@@ -99,11 +93,7 @@ char	**remove_hd_tokens(char **tokens, char **heredoc)
 			i = i + 2;
 		}
 		else
-		{
-			new_tokens[new_count] = ft_strdup(tokens[i]);
-			new_count = new_count + 1;
-			i = i + 1;
-		}
+			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
 	new_tokens[new_count] = NULL;
 	free_2d_array(tokens);

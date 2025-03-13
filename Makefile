@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
+#    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/11 14:53:01 by quenalla         ###   ########.fr        #
+#    Updated: 2025/03/13 16:22:00 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 NAME = minishell
 

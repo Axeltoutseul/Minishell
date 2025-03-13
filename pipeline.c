@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/13 15:42:34 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/13 16:46:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2],
 		exit(EXIT_FAILURE);
 	}
 }
-
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)

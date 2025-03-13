@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 17:30:53 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:27:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void		exec_cd(t_shell *shell, t_prompt *prompt);
 void		exec_export(t_shell *shell, t_prompt *prompt);
 void		exec_unset(t_shell *shell, t_prompt *prompt);
 void		free_env_lines(t_env *env);
+void		free_new_and_temp(t_env *new, t_env *temp);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
-void		free_new_and_temp(t_env *new, t_env *temp);
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);

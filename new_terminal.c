@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_terminal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 13:27:54 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/13 16:39:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_prompt	*init_prompt(const char *buffer)
 	free(expanded);
 	return (prompt);
 }
-
 
 void	copy_env(t_env **env, char **envp)
 {

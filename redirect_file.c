@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/13 13:30:24 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/13 16:30:50 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	apply_redirections(t_command *cmd)
 		exit(EXIT_FAILURE);
 	while (cmd->args[i])
 	{
-		if (ft_strcmp(cmd->args[i], ">") == 0 ||
-		    ft_strcmp(cmd->args[i], ">>") == 0 ||
-		    ft_strcmp(cmd->args[i], "<") == 0)
+		if (ft_strcmp(cmd->args[i], ">") == 0
+			|| ft_strcmp(cmd->args[i], ">>") == 0
+			|| ft_strcmp(cmd->args[i], "<") == 0)
 		{
 			if (cmd->args[i + 1] == NULL)
 				break ;
@@ -56,11 +56,7 @@ void	apply_redirections(t_command *cmd)
 			i = i + 2;
 		}
 		else
-		{
-			new_args[j] = ft_strdup(cmd->args[i]);
-			j = j + 1;
-			i = i + 1;
-		}
+			new_args[j++] = ft_strdup(cmd->args[i++]);
 	}
 	new_args[j] = NULL;
 	free_2d_array(cmd->args);
