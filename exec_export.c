@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/12 15:40:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:05:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 		{
 			update_line(prompt->strs[i], &shell->env_lines);
 			update_line(prompt->strs[i], &shell->export_lines);
-			free_new_and_temp(new, temp);
 		}
 		i++;
 	}
@@ -84,9 +83,11 @@ void	update_line(char *arg, t_env **env)
 		if (ft_strcmp(var_name, temp->name) == 0)
 		{
 			free(temp->value);
-			temp->value = ft_strdup(ft_strchr(arg, '=') + 1);
+			if (arg[i + 1] == '\'')
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "'");
+			else
+				temp->value = ft_strtrim(ft_strchr(arg, '=') + 1, "\"");
 		}
 		temp = temp->next;
 	}
-	free(var_name);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/12 15:41:49 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:40:01 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	**split_path(char **envp)
 	}
 	return (splitted_path);
 }
-
-/*char	*get_command_path(char *cmd, char **env)
+/*
+char	*get_command_path(char *cmd, char **env)
 {
 	char	*path_line;
 	char	**paths;
@@ -97,12 +97,14 @@ char	*get_command_path(char *cmd, char **env)
 	char	*temp;
 	char	*full_path;
 
+	if (ft_strchr(cmd, '/') != NULL)
+		return (ft_strdup(cmd));
 	i = 0;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
-		i++;
+			break;
+		i = i + 1;
 	}
 	if (env[i] == 0)
 		return (NULL);
@@ -123,8 +125,9 @@ char	*get_command_path(char *cmd, char **env)
 			return (full_path);
 		}
 		free(full_path);
-		i++;
+		i = i + 1;
 	}
 	free_2d_array(paths);
 	return (NULL);
 }
+

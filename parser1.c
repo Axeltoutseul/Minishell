@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/11 14:25:15 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:23:25 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,52 @@ int	count_raw_cmds(char **raw_cmds)
 	return (count);
 }
 
+#include "minishell.h"
+
+char	**remove_redirection_tokens(char **tokens)
+{
+	int		i;
+	int		new_count;
+	char	**new_tokens;
+
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], ">") == 0
+			|| ft_strcmp(tokens[i], ">>") == 0
+			|| ft_strcmp(tokens[i], "<") == 0)
+			i = i + 2;
+		else
+		{
+			new_count = new_count + 1;
+			i++;
+		}
+	}
+	new_tokens = malloc(sizeof(char *) * (new_count + 1));
+	if (new_tokens == NULL)
+		return (NULL);
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], ">") == 0
+			|| ft_strcmp(tokens[i], ">>") == 0
+			|| ft_strcmp(tokens[i], "<") == 0)
+			i = i + 2;
+		else
+		{
+			new_tokens[new_count] = ft_strdup(tokens[i]);
+			new_count = new_count + 1;
+			i++;
+		}
+	}
+	new_tokens[new_count] = NULL;
+	free_2d_array(tokens);
+	return (new_tokens);
+}
+
+
 char	**remove_hd_tokens(char **tokens, char **heredoc)
 {
 	int		i;
@@ -36,8 +82,8 @@ char	**remove_hd_tokens(char **tokens, char **heredoc)
 			i = i + 2;
 		else
 		{
-			new_count++;
-			i++;
+			new_count = new_count + 1;
+			i = i + 1;
 		}
 	}
 	new_tokens = malloc(sizeof(char *) * (new_count + 1));
@@ -53,9 +99,14 @@ char	**remove_hd_tokens(char **tokens, char **heredoc)
 			i = i + 2;
 		}
 		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
+		{
+			new_tokens[new_count] = ft_strdup(tokens[i]);
+			new_count = new_count + 1;
+			i = i + 1;
+		}
 	}
 	new_tokens[new_count] = NULL;
+	free_2d_array(tokens);
 	return (new_tokens);
 }
 
@@ -74,6 +125,7 @@ t_command	*parse_command(char *raw)
 	free(expanded_raw);
 	heredoc = NULL;
 	tokens = remove_hd_tokens(tokens, &heredoc);
+	tokens = remove_redirection_tokens(tokens);
 	cmd->args = tokens;
 	cmd->heredoc_delim = heredoc;
 	return (cmd);

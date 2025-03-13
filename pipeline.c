@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/12 15:25:31 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:42:34 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,36 +79,39 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)
 {
 	t_prompt	*builtin_prompt;
-	t_command	*cmd;
 	char		*cmd_path;
+	t_command	*cmd;
 
 	setup_child(i, prev_fd, pipe_fd, ctx);
 	cmd = &ctx->pipeline->commands[i];
 	apply_redirections(cmd);
-	if (is_builtin(ctx->pipeline->commands[i].args[0]))
+	if (is_builtin(cmd->args[0]))
 	{
-		builtin_prompt = (t_prompt *)malloc(sizeof(t_prompt));
+		builtin_prompt = malloc(sizeof(t_prompt));
 		if (builtin_prompt == NULL)
 			exit(EXIT_FAILURE);
-		builtin_prompt->cmd_line = ft_strdup(
-				ctx->pipeline->commands[i].args[0]);
-		builtin_prompt->strs = ctx->pipeline->commands[i].args;
-		builtin_prompt->nb_args = count_strings(
-				ctx->pipeline->commands[i].args);
+		builtin_prompt->cmd_line = ft_strdup(cmd->args[0]);
+		builtin_prompt->strs = cmd->args;
+		builtin_prompt->nb_args = count_strings(cmd->args);
 		execute_builtin(ctx->shell, builtin_prompt);
 		free_prompt(builtin_prompt);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		cmd_path = get_command_path(ctx->pipeline->commands[i].args[0],
-				ctx->env);
-		execve(cmd_path, ctx->pipeline->commands[i].args, ctx->env);
+		cmd_path = get_command_path(cmd->args[0], ctx->env);
+		if (cmd_path == NULL)
+		{
+			ft_printf("Commande externe non trouvée: %s\n", cmd->args[0]);
+			exit(EXIT_FAILURE);
+		}
+		execve(cmd_path, cmd->args, ctx->env);
 		perror("execve");
 		free(cmd_path);
 		exit(EXIT_FAILURE);
 	}
 }
+
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)

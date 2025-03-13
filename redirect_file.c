@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/12 15:56:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:30:24 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	apply_redirections(t_command *cmd)
 	int		i;
 	int		j;
 	char	**new_args;
-	char	*op;
-	char	*target;
 
 	i = 0;
 	j = 0;
@@ -47,16 +45,14 @@ void	apply_redirections(t_command *cmd)
 		exit(EXIT_FAILURE);
 	while (cmd->args[i])
 	{
-		if (ft_strcmp(cmd->args[i], ">") == 0
-			|| ft_strcmp(cmd->args[i], ">>") == 0
-			|| ft_strcmp(cmd->args[i], "<") == 0)
+		if (ft_strcmp(cmd->args[i], ">") == 0 ||
+		    ft_strcmp(cmd->args[i], ">>") == 0 ||
+		    ft_strcmp(cmd->args[i], "<") == 0)
 		{
-			op = cmd->args[i];
 			if (cmd->args[i + 1] == NULL)
 				break ;
-			target = cmd->args[i + 1];
-			adv_handle_redirect(target, op,
-				(ft_strcmp(op, "<") == 0) ? STDIN_FILENO : STDOUT_FILENO);
+			adv_handle_redirect(cmd->args[i + 1], cmd->args[i],
+				(ft_strcmp(cmd->args[i], "<") == 0) ? STDIN_FILENO : STDOUT_FILENO);
 			i = i + 2;
 		}
 		else

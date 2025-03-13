@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_terminal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/12 15:42:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:27:54 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,19 @@ t_shell	*init_shell(char **envp)
 t_prompt	*init_prompt(const char *buffer)
 {
 	t_prompt	*prompt;
+	char		*expanded;
 
-	prompt = (t_prompt *)malloc(sizeof(t_prompt));
-	if (!prompt)
+	prompt = malloc(sizeof(t_prompt));
+	if (prompt == NULL)
 		return (NULL);
-	prompt->cmd_line = ft_strdup(buffer);
-	if (buffer[0] == '\0')
-	{
-		prompt->strs = malloc(sizeof(char *));
-		if (!prompt->strs)
-		{
-			free(prompt->cmd_line);
-			free(prompt);
-			return (NULL);
-		}
-		prompt->strs[0] = NULL;
-	}
-	else
-		prompt->strs = advanced_tokenize(buffer);
+	expanded = expand_variables(buffer);
+	prompt->cmd_line = ft_strdup(expanded);
+	prompt->strs = advanced_tokenize(expanded);
 	prompt->nb_args = count_strings(prompt->strs);
+	free(expanded);
 	return (prompt);
 }
+
 
 void	copy_env(t_env **env, char **envp)
 {
