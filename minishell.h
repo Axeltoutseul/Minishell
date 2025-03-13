@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/12 15:24:06 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:30:53 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 char		*expand_variables(const char *input);
 void		apply_redirections(t_command *cmd);
+
 // Outils de strings
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
@@ -83,7 +84,7 @@ void		exec_unset(t_shell *shell, t_prompt *prompt);
 void		free_env_lines(t_env *env);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
-char		*get_name(char *dest, char *src);
+void		free_new_and_temp(t_env *new, t_env *temp);
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);

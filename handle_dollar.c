@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/11 15:38:22 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:22:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int	g_exit_status;
 
 static char	*append_str(char *dest, const char *src)
 {
-	size_t	ld;
-	size_t	ls;
+	size_t	size;
 	size_t	i;
 	size_t	j;
 	char	*new_str;
 
-	ld = ft_strlen(dest);
-	ls = ft_strlen(src);
-	new_str = malloc(ld + ls + 1);
+	size = ft_strlen(dest) + ft_strlen(src);
+	new_str = malloc(size + 1);
 	if (new_str == NULL)
 		return (NULL);
 	i = 0;
