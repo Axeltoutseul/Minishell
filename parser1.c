@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 16:45:26 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/13 20:15:38 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	**remove_redirection_tokens(char **tokens)
 	free_2d_array(tokens);
 	return (new_tokens);
 }
-
 
 char	**remove_hd_tokens(char **tokens, char **heredoc)
 {
