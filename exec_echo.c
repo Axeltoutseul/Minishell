@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 12:36:22 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:37:51 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,26 @@
 		strs = ft_split(prompt->echo, '"');
 	return (strs);
 }*/
-
 void	exec_echo(t_prompt *prompt)
 {
-	if (prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0)
+	int	i;
+
+	i = 1;
+	while (prompt->strs[i])
 	{
-		prompt->echo = ft_strjoin2(prompt->nb_args - 2, prompt->strs + 2, " ");
-		ft_printf("%s", prompt->echo);
+		if (ft_strcmp(prompt->strs[i], ">") == 0
+			|| ft_strcmp(prompt->strs[i], ">>") == 0)
+			break ;
+		if (ft_strcmp(prompt->strs[i], "|") == 0)
+			break ;
+		ft_printf("%s", prompt->strs[i]);
+		if (prompt->strs[i + 1] && ft_strcmp(prompt->strs[i + 1], ">") != 0
+			&& ft_strcmp(prompt->strs[i + 1], ">>") != 0)
+			ft_printf(" ");
+		i++;
 	}
-	else
-	{
-		prompt->echo = ft_strjoin2(prompt->nb_args - 1, prompt->strs + 1, " ");
-		ft_printf("%s\n", prompt->echo);
-	}
-	free(prompt->echo);
+	if (!(prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0))
+		ft_printf("\n");
 }
 
 int	count_quotes(const char *cmd_line)
