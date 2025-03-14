@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 16:27:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:21:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
 void		fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
-int			handle_redirection(const char *file, int io_flag);
 int			handle_redirection_char(const char *file, const char *op);
 int			redirect_file(const char *target, int std_fd, int flags, int mode);
 int			handle_heredoc(const char *delimiter);
@@ -50,11 +49,9 @@ char		*expand_variables(const char *input);
 void		apply_redirections(t_command *cmd);
 
 // Outils de strings
-int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
 void		check_error(char *name, char *arg);
 int			count_occurs(const char *cmd_line, int to_find);
-int			count_occurs2(const char *str, char *to_find);
 int			count_quotes(const char *cmd_line);
 int			count_strings(char **strs);
 int			count_words(const char *str);
@@ -64,7 +61,6 @@ char		*ft_strjoin2(int size, char **strs, char *sep);
 char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
-char		*replace(const char *str, char *a, char *b);
 void		sort_strings(char **envp, int size);
 
 // Gestion de la structure principale

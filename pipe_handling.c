@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:29:30 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/11 14:32:05 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:20:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,32 +74,4 @@ void	handle_pipe(char *cmd1[], char *cmd2[])
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
-}
-
-int	handle_redirection(const char *file, int io_flag)
-{
-	int	fd;
-
-	if (io_flag == O_RDONLY)
-	{
-		fd = open(file, O_RDONLY);
-		if (fd < 0)
-		{
-			perror("Erreur lors de l'ouverture du fichier");
-			return (-1);
-		}
-		dup2(fd, STDIN_FILENO);
-	}
-	else
-	{
-		fd = open(file, io_flag, 0644);
-		if (fd < 0)
-		{
-			perror("Erreur lors de l'ouverture du fichier");
-			return (-1);
-		}
-		dup2(fd, STDOUT_FILENO);
-	}
-	close(fd);
-	return (0);
 }

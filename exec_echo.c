@@ -3,34 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/14 14:37:51 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:18:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*char	**parse_echo(t_prompt *prompt)
-{
-	char	**strs;
-	int		i;
-
-	i = 0;
-	while (prompt->echo[i] && prompt->echo[i] != '\'' && prompt->echo[i] != '"')
-		i++;
-	if (prompt->echo[i] == '\'')
-		strs = ft_split(prompt->echo, '\'');
-	else
-		strs = ft_split(prompt->echo, '"');
-	return (strs);
-}*/
 void	exec_echo(t_prompt *prompt)
 {
 	int	i;
 
 	i = 1;
+	if (ft_strcmp(prompt->strs[1], "-n") == 0)
+		i++;
 	while (prompt->strs[i])
 	{
 		if (ft_strcmp(prompt->strs[i], ">") == 0

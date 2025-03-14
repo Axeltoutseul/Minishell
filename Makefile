@@ -6,7 +6,7 @@
 #    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/13 16:22:00 by axbaudri         ###   ########.fr        #
+#    Updated: 2025/03/14 19:22:07 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,6 @@ SRCS =	adv_redirection.c \
 		pipeline.c \
 		read_content.c \
 		redirect_file.c \
-		replace.c \
 		signal.c \
 		string_utils.c \
 		write_content.c

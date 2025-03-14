@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/14 14:36:34 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:20:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**remove_redirection_tokens(char **tokens)
 		if (ft_strcmp(tokens[i], ">") == 0
 			|| ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
-			i = i + 2;
+			i++;
 		else
 		{
 			new_count = new_count + 1;
@@ -52,7 +52,7 @@ char	**remove_redirection_tokens(char **tokens)
 		if (ft_strcmp(tokens[i], ">") == 0
 			|| ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
-			i = i + 2;
+			i++;
 		else
 			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
@@ -106,7 +106,7 @@ t_command	*parse_command(char *raw)
 	char		*heredoc;
 	char		*expanded_raw;
 
-	cmd = malloc(sizeof(t_command));
+	cmd = malloc(sizeof(t_command));//rajouter handle_pipe
 	if (cmd == NULL)
 		return (NULL);
 	expanded_raw = expand_variables(raw);
