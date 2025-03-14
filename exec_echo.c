@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/14 19:18:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:24:01 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_echo(t_prompt *prompt)
 		ft_printf("\n");
 }
 
-int	count_quotes(const char *cmd_line)
+/*int	count_quotes(const char *cmd_line)
 {
 	int	i;
 	int	count;
@@ -50,4 +50,4 @@ int	count_quotes(const char *cmd_line)
 	else if (cmd_line[i] == '"')
 		count = count_occurs(cmd_line, '"');
 	return (count);
-}
+}*/

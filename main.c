@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/14 15:26:21 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:26:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		ft_printf("");
 	else if (is_builtin(prompt->strs[0]))
 		execute_builtin(shell, prompt);
-	/*else if (!existing_command(shell->splitted_path, prompt->strs[0])
-		&& ft_strcmp(prompt->strs[0], "history") != 0)
-		ft_printf("command not found: %s\n", prompt->strs[0]);*/
 	else
 	{
 		pipeline = parse_input(line);
