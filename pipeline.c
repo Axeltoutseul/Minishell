@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/13 16:46:51 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:28:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ static void	setup_child(int i, int prev_fd, int pipe_fd[2],
 	}
 }
 
+static void	print_tokens(char **tokens, char *msg)
+{
+	int	i;
+
+	ft_printf("DEBUG: %s\n", msg);
+	i = 0;
+	while (tokens[i])
+	{
+		ft_printf("Token[%d] = '%s' (len=%d)\n", i, tokens[i], ft_strlen(tokens[i]));
+		i = i + 1;
+	}
+}
+
 static void	child_execute(int i, int prev_fd, int pipe_fd[2],
 			t_exec_context *ctx)
 {
@@ -84,7 +97,9 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2],
 
 	setup_child(i, prev_fd, pipe_fd, ctx);
 	cmd = &ctx->pipeline->commands[i];
+	print_tokens(cmd->args, "Tokens BEFORE apply_redirections");
 	apply_redirections(cmd);
+	print_tokens(cmd->args, "Tokens AFTER apply_redirections");
 	if (is_builtin(cmd->args[0]))
 	{
 		builtin_prompt = malloc(sizeof(t_prompt));
