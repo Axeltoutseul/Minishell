@@ -105,7 +105,7 @@ void		free_prompt(t_prompt *prompt);
 t_prompt	*init_prompt(const char *buffer);
 int			is_redirect(char c);
 t_command	*parse_command(char *raw);
-t_pipeline	*parse_input(const char *line);
+t_pipeline	*parse_input(const char *line, t_prompt *prompt);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
 int			valid_value(char *s);

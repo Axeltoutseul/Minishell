@@ -27,7 +27,7 @@ void	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 	}
 }
 
-t_pipeline	*parse_input(const char *line)
+t_pipeline	*parse_input(const char *line, t_prompt *prompt)
 {
 	t_pipeline	*pipeline;
 	char		**raw_cmds;
@@ -36,6 +36,7 @@ t_pipeline	*parse_input(const char *line)
 
 	raw_cmds = ft_split(line, '|');
 	count = count_raw_cmds(raw_cmds);
+	prompt->cmds = get_lines(raw_cmds);
 	pipeline = malloc(sizeof(t_pipeline));
 	if (pipeline == NULL)
 		return (NULL);

@@ -43,7 +43,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		execute_builtin(shell, prompt);
 	else
 	{
-		pipeline = parse_input(line);
+		pipeline = parse_input(line, prompt);
 		if (pipeline != NULL)
 		{
 			execute_pipeline(shell, pipeline, env);

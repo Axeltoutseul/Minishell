@@ -51,11 +51,12 @@ t_prompt	*init_prompt(const char *buffer)
 	t_prompt	*prompt;
 	char		*expanded;
 
-	prompt = malloc(sizeof(t_prompt));
+	prompt = (t_prompt *)malloc(sizeof(t_prompt));
 	if (prompt == NULL)
 		return (NULL);
 	expanded = expand_variables(buffer);
 	prompt->cmd_line = ft_strdup(expanded);
+	prompt->cmds = NULL;
 	prompt->strs = advanced_tokenize(expanded);
 	prompt->nb_args = count_strings(prompt->strs);
 	free(expanded);

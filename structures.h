@@ -59,6 +59,7 @@ typedef struct s_prompt
 {
 	char	*cmd_line;
 	char	*echo;
+	char	**cmds;
 	char	**strs;
 	int		nb_args;
 }	t_prompt;
