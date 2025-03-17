@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/17 17:37:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:43:26 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
 
-	if (!ft_strlen(line) || !count_strings(prompt->strs))
+	if (!count_words(line))
 		ft_printf("");
 	else if (is_builtin(prompt->strs[0]))
 		execute_builtin(shell, prompt);
