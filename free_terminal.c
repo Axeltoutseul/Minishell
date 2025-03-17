@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 16:11:17 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:37:36 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	free_prompt(t_prompt *prompt)
 {
 	if (prompt)
 	{
+		free(prompt->line);
 		free(prompt->cmd_line);
 		free_2d_array(prompt->strs);
 		free(prompt);
