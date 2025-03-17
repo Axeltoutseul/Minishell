@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:39:01 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 19:39:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:53:36 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 	}
 }
 
-t_pipeline	*parse_input(const char *line, t_prompt *prompt)
+t_pipeline	*parse_input(const char *line)
 {
 	t_pipeline	*pipeline;
 	char		**raw_cmds;
@@ -36,8 +36,8 @@ t_pipeline	*parse_input(const char *line, t_prompt *prompt)
 
 	raw_cmds = ft_split(line, '|');
 	count = count_raw_cmds(raw_cmds);
-	prompt->cmds = get_lines(raw_cmds);
 	pipeline = malloc(sizeof(t_pipeline));
+	printf("count %d\n", count);
 	if (pipeline == NULL)
 		return (NULL);
 	pipeline->count = count;

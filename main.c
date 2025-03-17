@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/15 16:26:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:37:05 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		execute_builtin(shell, prompt);
 	else
 	{
-		pipeline = parse_input(line, prompt);
+		pipeline = parse_input(line);
 		if (pipeline != NULL)
 		{
 			execute_pipeline(shell, pipeline, env);

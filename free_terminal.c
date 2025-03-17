@@ -30,8 +30,6 @@ void	free_prompt(t_prompt *prompt)
 	{
 		free(prompt->cmd_line);
 		free_2d_array(prompt->strs);
-		if (prompt->cmds)
-			free_2d_array(prompt->cmds);
 		free(prompt);
 	}
 }
