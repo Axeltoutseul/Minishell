@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/17 21:05:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:52:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	write_export(t_env *env)
 	while (temp)
 	{
 		if (temp->value)
-			ft_printf("export %s=\"%s\"\n", temp->name, temp->value);
+			ft_printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
 		else
-			ft_printf("export %s=\"\"\n", temp->name);
+			ft_printf("declare -x %s=\"\"\n", temp->name);
 		temp = temp->next;
 	}
 }
