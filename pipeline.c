@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/15 16:26:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:37:52 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,94 @@ static void	create_pipe_block(int i, int cmd_count, int pipe_fd[2])
 	}
 }
 
-static void	setup_heredoc(int i, t_pipeline *pipeline)
+static void	exec_echo_builtin(t_command *cmd)
 {
-	int	hd_fd;
+	int	i;
 
-	if (pipeline->commands[i].heredoc_delim != NULL)
+	i = 1;
+	while (cmd->args[i])
 	{
-		hd_fd = handle_heredoc(pipeline->commands[i].heredoc_delim);
+		ft_printf("%s", cmd->args[i]);
+		if (cmd->args[i + 1])
+			ft_printf(" ");
+		i = i + 1;
+	}
+	ft_printf("\n");
+}
+
+static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
+{
+	(void)env;
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
+	{
+		exec_echo_builtin(cmd);
+	}
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+	{
+		if (cmd->args[1] == NULL)
+			write_export(shell->export_lines);
+	}
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		write_env(NULL, shell->env_lines);
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		ft_printf("cd: modification de l'environnement impossible dans un pipeline\n");
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		ft_printf("%s\n", shell->pwd);
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		ft_printf("unset: modification de l'environnement impossible dans un pipeline\n");
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+		exit(0);
+	else if (ft_strcmp(cmd->args[0], "history") == 0)
+		display_history(shell);
+	else
+		ft_printf("Builtin %s non supporté en pipeline\n", cmd->args[0]);
+}
+
+static int	apply_command_redirections(t_command *cmd)
+{
+	t_redirection	*redir;
+	int				ret;
+
+	redir = cmd->redirections;
+	ret = 0;
+	while (redir)
+	{
+		if (ft_strcmp(redir->op, ">") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (ft_strcmp(redir->op, ">>") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (ft_strcmp(redir->op, "<") == 0)
+			ret = redirect_file(redir->target, STDIN_FILENO, O_RDONLY, 0);
+		if (ret == -1)
+			return (-1);
+		redir = redir->next;
+	}
+	return (0);
+}
+
+static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ctx)
+{
+	t_command	*cmd;
+	char		*cmd_path;
+	int			hd_fd;
+
+	cmd = &ctx->pipeline->commands[i];
+	if (i != 0)
+	{
+		dup2(prev_fd, STDIN_FILENO);
+		close(prev_fd);
+	}
+	if (i < ctx->cmd_count - 1)
+	{
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+	if (cmd->heredoc_delim != NULL)
+	{
+		hd_fd = handle_heredoc(cmd->heredoc_delim);
 		if (hd_fd == -1)
 		{
 			perror("heredoc");
@@ -48,83 +129,22 @@ static void	setup_heredoc(int i, t_pipeline *pipeline)
 		}
 		close(hd_fd);
 	}
-}
-
-static void	setup_child(int i, int prev_fd, int pipe_fd[2],
-			t_exec_context *ctx)
-{
-	if (i != 0)
-	{
-		if (dup2(prev_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(prev_fd);
-	}
-	setup_heredoc(i, ctx->pipeline);
-	if (i < ctx->cmd_count - 1)
-	{
-		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
-}
-
-static void	print_tokens(char **tokens, char *msg)
-{
-	int	i;
-
-	ft_printf("DEBUG: %s\n", msg);
-	i = 0;
-	while (tokens[i])
-	{
-		ft_printf("Token[%d] = '%s' (len=%d)\n", i, tokens[i], ft_strlen(tokens[i]));
-		i = i + 1;
-	}
-}
-
-static void	child_execute(int i, int prev_fd, int pipe_fd[2],
-			t_exec_context *ctx)
-{
-	t_prompt	*builtin_prompt;
-	char		*cmd_path;
-	t_command	*cmd;
-
-	setup_child(i, prev_fd, pipe_fd, ctx);
-	cmd = &ctx->pipeline->commands[i];
-	print_tokens(cmd->args, "Tokens BEFORE apply_redirections");
-	apply_redirections(cmd);
-	print_tokens(cmd->args, "Tokens AFTER apply_redirections");
+	if (apply_command_redirections(cmd) == -1)
+		exit(EXIT_FAILURE);
 	if (is_builtin(cmd->args[0]))
 	{
-		builtin_prompt = malloc(sizeof(t_prompt));
-		if (builtin_prompt == NULL)
-			exit(EXIT_FAILURE);
-		builtin_prompt->cmd_line = ft_strdup(cmd->args[0]);
-		builtin_prompt->strs = cmd->args;
-		builtin_prompt->nb_args = count_strings(cmd->args);
-		execute_builtin(ctx->shell, builtin_prompt);
-		free_prompt(builtin_prompt);
-		exit(EXIT_SUCCESS);
+		execute_builtin_in_child(ctx->shell, cmd, ctx->env);
+		exit(0);
 	}
-	else
+	cmd_path = get_command_path(cmd->args[0], ctx->env);
+	if (cmd_path == NULL)
 	{
-		cmd_path = get_command_path(cmd->args[0], ctx->env);
-		if (cmd_path == NULL)
-		{
-			ft_printf("Commande externe non trouvée: %s\n", cmd->args[0]);
-			exit(EXIT_FAILURE);
-		}
-		execve(cmd_path, cmd->args, ctx->env);
-		perror("execve");
-		free(cmd_path);
+		perror("command not found");
 		exit(EXIT_FAILURE);
 	}
+	execve(cmd_path, cmd->args, ctx->env);
+	perror("execve");
+	exit(EXIT_FAILURE);
 }
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
@@ -171,16 +191,8 @@ void	execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env)
 	{
 		create_pipe_block(i, ctx.cmd_count, pipe_fd);
 		prev_fd = handle_fork_and_update(i, prev_fd, pipe_fd, &ctx);
-		i = i + 1;
+		i++;
 	}
 	if (prev_fd != -1)
 		close(prev_fd);
 }
-
-/*
-	setup_child : configure l'environnement du processus enfant.
-	index de la commande dans le pipeline.
-	prev_fd descripteur de lecture du pipe précédent (-1 si aucun).
-	pipe_fd : tableau de 2 entiers pour le pipe courant.
-	tx regroupe les information contextuelles pipeline, env et cmd_count.
-*/

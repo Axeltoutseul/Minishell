@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/14 17:10:54 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:43:22 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	**remove_redirection_tokens(char **tokens)
 		if (ft_strcmp(tokens[i], ">") == 0
 			|| ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
-			i++;
+			i = i + 2;
 		else
 		{
-			new_count = new_count + 1;
+			new_count++;
 			i++;
 		}
 	}
@@ -52,7 +52,7 @@ char	**remove_redirection_tokens(char **tokens)
 		if (ft_strcmp(tokens[i], ">") == 0
 			|| ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
-			i++;
+			i = i + 2;
 		else
 			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
@@ -99,6 +99,77 @@ char	**remove_hd_tokens(char **tokens, char **heredoc)
 	return (new_tokens);
 }
 
+static int	count_non_redir_tokens(char **tokens)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], ">") == 0
+			|| ft_strcmp(tokens[i], ">>") == 0
+			|| ft_strcmp(tokens[i], "<") == 0)
+			i = i + 2;
+		else
+		{
+			count++;
+			i++;
+		}
+	}
+	return (count);
+}
+
+static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_size)
+{
+	int				i;
+	int				j;
+	char			**new_tokens;
+	t_redirection	*new_redir;
+
+	i = 0;
+	j = 0;
+	new_tokens = malloc(sizeof(char *) * (new_size + 1));
+	if (!new_tokens)
+		return (NULL);
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], ">") == 0
+			|| ft_strcmp(tokens[i], ">>") == 0
+			|| ft_strcmp(tokens[i], "<") == 0)
+		{
+			new_redir = malloc(sizeof(t_redirection));
+			if (!new_redir)
+				return (NULL);
+			new_redir->op = ft_strdup(tokens[i]);
+			new_redir->target = ft_strdup(tokens[i + 1]);
+			new_redir->next = *redir;
+			*redir = new_redir;
+			i = i + 2;
+		}
+		else
+		{
+			new_tokens[j] = ft_strdup(tokens[i]);
+			j++;
+			i++;
+		}
+	}
+	new_tokens[j] = NULL;
+	return (new_tokens);
+}
+
+static char	**extract_redirections(char **tokens, t_redirection **redir)
+{
+	int		non_redir_count;
+	char	**new_tokens;
+
+	non_redir_count = count_non_redir_tokens(tokens);
+	new_tokens = build_new_tokens(tokens, redir, non_redir_count);
+	free_2d_array(tokens);
+	return (new_tokens);
+}
+
 t_command	*parse_command(char *raw)
 {
 	t_command	*cmd;
@@ -106,7 +177,7 @@ t_command	*parse_command(char *raw)
 	char		*heredoc;
 	char		*expanded_raw;
 
-	cmd = malloc(sizeof(t_command));//rajouter handle_pipe
+	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
 		return (NULL);
 	expanded_raw = expand_variables(raw);
@@ -114,8 +185,9 @@ t_command	*parse_command(char *raw)
 	free(expanded_raw);
 	heredoc = NULL;
 	tokens = remove_hd_tokens(tokens, &heredoc);
-	tokens = remove_redirection_tokens(tokens);
-	cmd->args = tokens;
 	cmd->heredoc_delim = heredoc;
+	cmd->redirections = NULL;
+	tokens = extract_redirections(tokens, &cmd->redirections);
+	cmd->args = tokens;
 	return (cmd);
 }

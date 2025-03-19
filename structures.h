@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/17 20:37:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:44:31 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 # define STRUCTURES_H
 # include "libft/libft.h"
 
+typedef struct s_redirection
+{
+	char					*op;
+	char					*target;
+	struct s_redirection	*next;
+}	t_redirection;
+
 typedef struct s_command
 {
-	char	**args;
-	char	*heredoc_delim;
+	char			**args;
+	char			*heredoc_delim;
+	t_redirection	*redirections;
 }	t_command;
 
 typedef struct s_pipeline
@@ -57,8 +65,8 @@ typedef struct s_exec_context
 
 typedef struct s_prompt
 {
-	char	*line;
 	char	*cmd_line;
+	char	*echo;
 	char	**strs;
 	int		nb_args;
 }	t_prompt;

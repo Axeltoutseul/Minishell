@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/17 17:42:49 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:51:32 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,33 +32,48 @@ int	redirect_file(const char *target, int std_fd, int flags, int mode)
 	return (0);
 }
 
-void	apply_redirections(t_command *cmd)
+int	apply_redirections(char **tokens)
 {
 	int		i;
-	int		j;
-	char	**new_args;
+	int		fd;
 
 	i = 0;
-	j = 0;
-	new_args = malloc(sizeof(char *) * (count_strings(cmd->args) + 1));
-	if (new_args == NULL)
-		exit(EXIT_FAILURE);
-	while (cmd->args[i])
+	while (tokens[i])
 	{
-		if (ft_strcmp(cmd->args[i], ">") == 0
-			|| ft_strcmp(cmd->args[i], ">>") == 0
-			|| ft_strcmp(cmd->args[i], "<") == 0)
+		if (ft_strcmp(tokens[i], ">") == 0)
 		{
-			if (cmd->args[i + 1] == NULL)
-				break ;
-			adv_handle_redirect(cmd->args[i + 1], cmd->args[i],
-				(ft_strcmp(cmd->args[i], "<") == 0) ? STDIN_FILENO : STDOUT_FILENO);
-			i = i + 2;
+			fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				perror("open");
+				return (-1);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
 		}
-		else
-			new_args[j++] = ft_strdup(cmd->args[i++]);
+		else if (ft_strcmp(tokens[i], ">>") == 0)
+		{
+			fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd == -1)
+			{
+				perror("open");
+				return (-1);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (ft_strcmp(tokens[i], "<") == 0)
+		{
+			fd = open(tokens[i + 1], O_RDONLY);
+			if (fd == -1)
+			{
+				perror("open");
+				return (-1);
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		i++;
 	}
-	new_args[j] = NULL;
-	free_2d_array(cmd->args);
-	cmd->args = new_args;
+	return (0);
 }

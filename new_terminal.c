@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_terminal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/17 20:38:21 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:51:00 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,15 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-// echo "salut commment ca" va mon "amis"
-
-/*
-	char **cmd;
-
-	cmd[0] = echo;
-	cmd[0] = salut comment ca;
-	cmd[0] = va;
-	cmd[0] = mon;
-	cmd[0] = amis;
-*/
-
 t_prompt	*init_prompt(const char *buffer)
 {
 	t_prompt	*prompt;
 	char		*expanded;
 
-	prompt = (t_prompt *)malloc(sizeof(t_prompt));
+	prompt = malloc(sizeof(t_prompt));
 	if (prompt == NULL)
 		return (NULL);
 	expanded = expand_variables(buffer);
-	prompt->line = ft_strdup(buffer);
 	prompt->cmd_line = ft_strdup(expanded);
 	prompt->strs = advanced_tokenize(expanded);
 	prompt->nb_args = count_strings(prompt->strs);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/18 15:34:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:02:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	check_error(char *name, char *arg)
 		val = NULL;
 	while (name[i] && name[i] != '&' && name[i] != '(' && name[i] != ')')
 		i++;
-	if (name[i] == '&' || name[i] == '(' || name[i] == ')')
+	if (val && !valid_value(val))
+		ft_printf("syntax error: unclosed quote\n");
+	else if (name[i] == '&' || name[i] == '(' || name[i] == ')')
 		ft_printf("minishell: syntax error near unexpected token '%c'\n",
 			name[i]);
 	else
