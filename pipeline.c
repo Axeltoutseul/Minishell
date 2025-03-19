@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/19 13:37:52 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:21:37 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 {
 	(void)env;
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
-	{
 		exec_echo_builtin(cmd);
-	}
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 	{
 		if (cmd->args[1] == NULL)

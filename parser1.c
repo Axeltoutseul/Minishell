@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/19 13:43:22 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:57:17 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,48 +49,9 @@ char	**remove_redirection_tokens(char **tokens)
 	new_count = 0;
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 			i = i + 2;
-		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
-	}
-	new_tokens[new_count] = NULL;
-	free_2d_array(tokens);
-	return (new_tokens);
-}
-
-char	**remove_hd_tokens(char **tokens, char **heredoc)
-{
-	int		i;
-	int		new_count;
-	char	**new_tokens;
-
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-			i = i + 2;
-		else
-		{
-			new_count = new_count + 1;
-			i = i + 1;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (new_tokens == NULL)
-		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			*heredoc = ft_strdup(tokens[i + 1]);
-			i = i + 2;
-		}
 		else
 			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
@@ -121,7 +82,8 @@ static int	count_non_redir_tokens(char **tokens)
 	return (count);
 }
 
-static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_size)
+static char	**build_new_tokens(char **tokens, t_redirection **redir,
+				int new_size)
 {
 	int				i;
 	int				j;
@@ -135,8 +97,7 @@ static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_siz
 		return (NULL);
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 		{
 			new_redir = malloc(sizeof(t_redirection));
@@ -149,11 +110,7 @@ static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_siz
 			i = i + 2;
 		}
 		else
-		{
-			new_tokens[j] = ft_strdup(tokens[i]);
-			j++;
-			i++;
-		}
+			new_tokens[j++] = ft_strdup(tokens[i++]);
 	}
 	new_tokens[j] = NULL;
 	return (new_tokens);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/13 16:11:08 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:27:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	add_lines(t_shell *shell, t_prompt *prompt)
 		if (!valid_arg(new->name, prompt->strs[i]))
 		{
 			check_error(new->name, prompt->strs[i]);
+			free_new_and_temp(new, temp);
 			break ;
 		}
 		else if (!is_in_list(shell->export_lines, new->name))

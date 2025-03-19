@@ -3,14 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/19 13:45:30 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:51:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_redirections(t_redirection *redir)
+{
+	t_redirection	*tmp;
+
+	while (redir)
+	{
+		tmp = redir->next;
+		free(redir->op);
+		free(redir->target);
+		free(redir);
+		redir = tmp;
+	}
+}
+
+void	free_pipeline(t_pipeline *pipeline)
+{
+	int	i;
+	int	j;
+
+	if (pipeline == NULL)
+		return ;
+	i = 0;
+	while (i < pipeline->count)
+	{
+		if (pipeline->commands[i].args)
+		{
+			j = 0;
+			while (pipeline->commands[i].args[j])
+			{
+				free(pipeline->commands[i].args[j]);
+				j++;
+			}
+			free(pipeline->commands[i].args);
+		}
+		if (pipeline->commands[i].heredoc_delim)
+			free(pipeline->commands[i].heredoc_delim);
+		if (pipeline->commands[i].redirections)
+			free_redirections(pipeline->commands[i].redirections);
+		i++;
+	}
+	free(pipeline->commands);
+	free(pipeline);
+}
 
 int	is_builtin(const char *cmd)
 {
@@ -37,8 +81,10 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
 
-	if (!ft_strlen(line) || !count_strings(prompt->strs))
+	if (!count_words(line))
 		ft_printf("");
+	else if (!closed_quotes(line))
+		ft_printf("syntax error: unclosed quote\n");
 	else if (is_builtin(prompt->strs[0]))
 		execute_builtin(shell, prompt);
 	pipeline = parse_input(line);
