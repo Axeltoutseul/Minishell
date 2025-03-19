@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/17 17:44:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:27:49 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int			redirect_file(const char *target, int std_fd, int flags, int mode);
 int			handle_heredoc(const char *delimiter);
 void		setup_signal(void);
 void		handle_sigint(int sig);
-void		handle_sigquit(int sig);
 char		*expand_variables(const char *input);
 void		apply_redirections(t_command *cmd);
 

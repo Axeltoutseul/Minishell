@@ -6,11 +6,21 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/18 15:33:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:27:55 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	rl_set_prompt("\001\033[0;32m\002minishell> \001\033[0m\002");
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	is_builtin(const char *cmd)
 {
@@ -62,7 +72,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	setup_signal();
+	signal(SIGINT, handle_sigint);
 	shell = init_shell(env);
 	while (1)
 	{
