@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/19 15:13:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:13:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,30 @@ int	apply_redirections(char **tokens)
 			close(fd);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	apply_command_redirections(t_command *cmd)
+{
+	t_redirection	*redir;
+	int				ret;
+
+	redir = cmd->redirections;
+	ret = 0;
+	while (redir)
+	{
+		if (ft_strcmp(redir->op, ">") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (ft_strcmp(redir->op, ">>") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (ft_strcmp(redir->op, "<") == 0)
+			ret = redirect_file(redir->target, STDIN_FILENO, O_RDONLY, 0);
+		if (ret == -1)
+			return (-1);
+		redir = redir->next;
 	}
 	return (0);
 }

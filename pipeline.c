@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/19 15:21:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:19:34 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,10 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 		ft_printf("Builtin %s non supporté en pipeline\n", cmd->args[0]);
 }
 
-static int	apply_command_redirections(t_command *cmd)
+static void	send_error(char *str)
 {
-	t_redirection	*redir;
-	int				ret;
-
-	redir = cmd->redirections;
-	ret = 0;
-	while (redir)
-	{
-		if (ft_strcmp(redir->op, ">") == 0)
-			ret = redirect_file(redir->target, STDOUT_FILENO,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (ft_strcmp(redir->op, ">>") == 0)
-			ret = redirect_file(redir->target, STDOUT_FILENO,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (ft_strcmp(redir->op, "<") == 0)
-			ret = redirect_file(redir->target, STDIN_FILENO, O_RDONLY, 0);
-		if (ret == -1)
-			return (-1);
-		redir = redir->next;
-	}
-	return (0);
+	perror(str);
+	exit(EXIT_FAILURE);
 }
 
 static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ctx)
@@ -116,15 +98,9 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 	{
 		hd_fd = handle_heredoc(cmd->heredoc_delim);
 		if (hd_fd == -1)
-		{
-			perror("heredoc");
-			exit(EXIT_FAILURE);
-		}
+			send_error("heredoc");
 		if (dup2(hd_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 heredoc");
-			exit(EXIT_FAILURE);
-		}
+			send_error("dup2 heredoc");
 		close(hd_fd);
 	}
 	if (apply_command_redirections(cmd) == -1)
@@ -136,13 +112,9 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 	}
 	cmd_path = get_command_path(cmd->args[0], ctx->env);
 	if (cmd_path == NULL)
-	{
-		perror("command not found");
-		exit(EXIT_FAILURE);
-	}
+		send_error("command not found");
 	execve(cmd_path, cmd->args, ctx->env);
-	perror("execve");
-	exit(EXIT_FAILURE);
+	send_error("execve");
 }
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],

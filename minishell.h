@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/19 15:56:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:13:15 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 char		*expand_variables(const char *input);
 int			apply_redirections(char **token);
+int	        apply_command_redirections(t_command *cmd);
 
 // Outils de strings
 int			calculate_total_size(int size, char **strs, char *sep);
