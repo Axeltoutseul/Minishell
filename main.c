@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/19 15:51:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:03:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,3 +122,32 @@ int	main(int argc, char **argv, char **env)
 	free_terminal(shell);
 	return (0);
 }
+
+/*int	main(int argc, char **argv, char **env)
+{
+	t_shell		*shell;
+	int			i;
+	char		*line;
+	char		**strs;
+
+	(void)argc;
+	(void)argv;
+	setup_signal();
+	shell = init_shell(env);
+	while (1)
+	{
+		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
+		if (line == NULL)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
+		strs = split_pipeline(line);
+		i = 0;
+		while (strs[i])
+			ft_printf("%s\n", strs[i++]);
+		free(line);
+	}
+	free_terminal(shell);
+	return (0);
+}*/

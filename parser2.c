@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:39:01 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/20 19:04:26 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:45:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ t_pipeline	*parse_input(const char *line)
 	int			count;
 	int			i;
 
-	raw_cmds = ft_split(line, '|');
+	raw_cmds = split_pipeline(line);
 	count = count_raw_cmds(raw_cmds);
 	pipeline = malloc(sizeof(t_pipeline));
-	//printf("count %d\n", count);
 	if (pipeline == NULL)
 		return (NULL);
 	pipeline->count = count;
