@@ -1,92 +1,47 @@
-jczkjckdl
-kdjklkc
-
-
-c
-
-c
-
-t
-
-
-
-lllll
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/11 14:53:01 by quenalla         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-CC = cc
-
-CFLAGS = -Wall -Wextra -Werror
-
-NAME = minishell
-
-RM = rm -f
-
-SRCS =	adv_redirection.c \
-		adv_tokeniser1.c \
-		adv_tokeniser2.c \
-		check_words.c \
-		exec_echo.c \
-		exec_export.c \
-		exec_unset.c \
-		free_terminal.c \
-		get_env_paths.c \
-		handle_dollar.c \
-		handle_paths.c \
-		handle_strings.c \
-		heredoc.c \
-		history.c \
-		main.c \
-		manage_env_list.c \
-		minishell.c \
-		new_terminal.c \
-		parse_prompt.c \
-		parser1.c \
-		parser2.c \
-		pipe_handling.c \
-		pipeline.c \
-		read_content.c \
-		redirect_file.c \
-		replace.c \
-		signal.c \
-		string_utils.c \
-		write_content.c
-
-OBJS = $(SRCS:.c=.o)
-
-LIBFT = libft/libft.a
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) libft/libft.a -lreadline
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(LIBFT):
-	make -C libft/
-
-all: $(NAME)
-
-clean:
-	$(RM) $(OBJS)
-	make clean -C libft/
-
-fclean: clean
-	$(RM) $(NAME)
-
-re: fclean all
-
-.PHONY: all clean fclean re
-ls
-
-
-
+SYSTEMD_EXEC_PID=40750
+SSH_AUTH_SOCK=/run/user/107667/keyring/ssh
+SESSION_MANAGER=local/bess-f4r2s5.clusters.42paris.fr:@/tmp/.ICE-unix/39320,unix/bess-f4r2s5.clusters.42paris.fr:/tmp/.ICE-unix/39320
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/431bd7a7_2a47_4381_8839_0e80c972b395
+LANG=en_US.UTF-8
+LANGUAGE=en_US
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/quenalla
+LIBVIRT_DEFAULT_URI=qemu:///system
+GPG_AGENT_INFO=/run/user/107667/gnupg/S.gpg-agent:0:1
+DESKTOP_SESSION=ubuntu
+QT_IM_MODULE=ibus
+XDG_MENU_PREFIX=gnome-
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
+USER=quenalla
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/107667/bus
+DOCKER_HOST=unix:///run/user/107667/docker.sock
+SSH_AGENT_LAUNCHER=gnome-keyring
+GTK_MODULES=gail:atk-bridge
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+GTK_IM_MODULE=ibus
+XDG_SESSION_DESKTOP=ubuntu
+QT_ACCESSIBILITY=1
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+KRB5CCNAME=FILE:/tmp/krb5cc_107667_d5RwNs
+LOGNAME=quenalla
+GNOME_TERMINAL_SERVICE=:1.87
+VTE_VERSION=6800
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+PATH=/home/quenalla/.local/funcheck/host:/home/quenalla/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/home/quenalla/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XMODIFIERS=@im=ibus
+XDG_RUNTIME_DIR=/run/user/107667
+XDG_SESSION_TYPE=x11
+SHELL=/bin/zsh
+HOME=/home/quenalla
+GDM_LANG=en_US
+COLORTERM=truecolor
+XAUTHORITY=/home/quenalla/.Xauthority
+PWD=/home/quenalla/Downloads/minishell_fonctionelle_20_03_25/minishell_fonctionelle_/actuel_minishell/minishell
+DISPLAY=:0
+TERM=xterm-256color
+GDMSESSION=ubuntu
+XDG_SESSION_CLASS=user
+SHLVL=1
+OLDPWD=/home/quenalla/Downloads/minishell_fonctionelle_20_03_25/minishell_fonctionelle_/actuel_minishell/minishell
+_=/usr/bin/env

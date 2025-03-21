@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 18:42:03 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:19:32 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_strndup(const char *src, size_t n)
 	char	*dest;
 
 	i = 0;
-	dest = (char *)malloc(sizeof(char) * (n + 1));
+	dest = (char *)malloc(sizeof(char) * (n + 1));//modifie leak malloc
 	if (!dest)
 		return (NULL);
 	while (src[i] && i < n)

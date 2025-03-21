@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 13:53:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:44:31 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ typedef struct s_prompt
 {
 	char	*cmd_line;
 	char	*echo;
-	char	**cmds;
 	char	**strs;
-	int		count_cmds;
 	int		nb_args;
 }	t_prompt;
 

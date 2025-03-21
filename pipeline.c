@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/21 12:47:33 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:23:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 			write_export(shell->export_lines);
 	}
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		write_env(NULL, shell->env_lines);
+		write_env(shell->env_lines);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		ft_printf("cd: modification de l'environnement impossible dans un pipeline\n");
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
@@ -68,6 +68,30 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 		display_history(shell);
 	else
 		ft_printf("Builtin %s non supporté en pipeline\n", cmd->args[0]);
+}
+
+static int	apply_command_redirections(t_command *cmd)
+{
+	t_redirection	*redir;
+	int				ret;
+
+	redir = cmd->redirections;
+	ret = 0;
+	while (redir)
+	{
+		if (ft_strcmp(redir->op, ">") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (ft_strcmp(redir->op, ">>") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (ft_strcmp(redir->op, "<") == 0)
+			ret = redirect_file(redir->target, STDIN_FILENO, O_RDONLY, 0);
+		if (ret == -1)
+			return (-1);
+		redir = redir->next;
+	}
+	return (0);
 }
 
 static void	send_error(char *str)
@@ -110,7 +134,7 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 		execute_builtin_in_child(ctx->shell, cmd, ctx->env);
 		exit(0);
 	}
-	cmd_path = get_command_path(cmd->args[0], ctx->shell);
+	cmd_path = get_command_path(cmd->args[0], ctx->env);
 	if (cmd_path == NULL)
 		send_error("command not found");
 	execve(cmd_path, cmd->args, ctx->env);

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 12:37:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:22:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 char		**remove_hd_tokens(char **tokens, char **heredoc);
-char		*get_command_path(char *cmd, t_shell *shell);
+char		*get_command_path(char *cmd, char **env);
 char		**split_pipeline(const char *line);
 
 // Redirection
@@ -49,7 +49,6 @@ void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
 char		*expand_variables(const char *input);
 int			apply_redirections(char **token);
-int			apply_command_redirections(t_command *cmd);
 
 // Outils de strings
 int			calculate_total_size(int size, char **strs, char *sep);
@@ -92,7 +91,7 @@ void		remove_line(t_env **lst, char *arg);
 char		**split_path(char **envp);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
-void		write_env(t_prompt *prompt, t_env *env);
+void		write_env(t_env *env);
 void		write_export(t_env *env);
 
 // Parsing du prompt

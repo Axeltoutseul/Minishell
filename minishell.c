@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/08 11:53:47 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:31:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
 	if (ft_strcmp(prompt->strs[0], "echo") == 0)
 		exec_echo(prompt);
-	else if (ft_strcmp(prompt->strs[0], "export") == 0)
+	else if (ft_strcmp(prompt->strs[0], "export") == 0 && prompt->strs[1])
 		exec_export(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "env") == 0)
-		write_env(prompt, shell->env_lines);
+	/*else if (ft_strcmp(prompt->strs[0], "env") == 0)
+		write_env(shell->env_lines);*/
 	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
-	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
-		exec_pwd(shell, prompt);
+	/*else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
+		exec_pwd(shell, prompt);*/
 	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0)

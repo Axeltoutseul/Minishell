@@ -6,52 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 14:02:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:50:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_redirections(t_redirection *redir)
-{
-	t_redirection	*tmp;
-
-	while (redir)
-	{
-		tmp = redir->next;
-		free(redir->op);
-		free(redir->target);
-		free(redir);
-		redir = tmp;
-	}
-}
-
-void	free_pipeline(t_pipeline *pipeline)
-{
-	int	i;
-	int	j;
-
-	if (pipeline == NULL)
-		return ;
-	i = 0;
-	while (i < pipeline->count)
-	{
-		if (pipeline->commands[i].args)
-		{
-			j = 0;
-			while (pipeline->commands[i].args[j])
-				free(pipeline->commands[i].args[j++]);
-			free(pipeline->commands[i].args);
-		}
-		if (pipeline->commands[i].heredoc_delim)
-			free(pipeline->commands[i].heredoc_delim);
-		if (pipeline->commands[i].redirections)
-			free_redirections(pipeline->commands[i].redirections);
-		i++;
-	}
-	free(pipeline->commands);
-	free(pipeline);
-}
 
 int	is_builtin(const char *cmd)
 {
@@ -78,20 +37,17 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
 
-	if (!count_words(line))
+	if (!count_strings(prompt->strs))
 		ft_printf("");
 	else if (!closed_quotes(line))
 		ft_printf("syntax error: unclosed quote\n");
-	else if (is_builtin(prompt->strs[0]) && prompt->count_cmds == 1)
+	else if (is_builtin(prompt->strs[0]))
 		execute_builtin(shell, prompt);
-	else
+	pipeline = parse_input(line);
+	if (pipeline != NULL)
 	{
-		pipeline = parse_input(line);
-		if (pipeline != NULL)
-		{
-			execute_pipeline(shell, pipeline, env);
-			free_pipeline(pipeline);
-		}
+		execute_pipeline(shell, pipeline, env);
+		free_pipeline(pipeline);
 	}
 }
 
@@ -122,32 +78,3 @@ int	main(int argc, char **argv, char **env)
 	free_terminal(shell);
 	return (0);
 }
-
-/*int	main(int argc, char **argv, char **env)
-{
-	t_shell		*shell;
-	int			i;
-	char		*line;
-	char		**strs;
-
-	(void)argc;
-	(void)argv;
-	setup_signal();
-	shell = init_shell(env);
-	while (1)
-	{
-		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
-		if (line == NULL)
-		{
-			write(1, "exit\n", 5);
-			break ;
-		}
-		strs = split_pipeline(line);
-		i = 0;
-		while (strs[i])
-			ft_printf("%s\n", strs[i++]);
-		free(line);
-	}
-	free_terminal(shell);
-	return (0);
-}*/

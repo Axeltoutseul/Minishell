@@ -6,18 +6,18 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:11:01 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/21 12:20:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:39:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**split_pipeline(const char *line)
+char	**split_pipeline(const char *line)//a modifie 
 {
 	int		i;
 	int		start;
 	int		count;
-	char	**segments;
+	char	**segments;//6variable au lieu de 5 limit
 	int		in_single;
 	int		in_double;
 
@@ -36,6 +36,7 @@ char	**split_pipeline(const char *line)
 			count++;
 		i++;
 	}
+	//je pense pouvoir separer la fonction en deux a partir de cette endroit avec segment qui n'est pas encore utilise  ce moment la 
 	segments = malloc(sizeof(char *) * (count + 2));
 	if (!segments)
 		return (NULL);

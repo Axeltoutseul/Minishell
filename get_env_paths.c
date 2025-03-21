@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 12:27:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:50:07 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ char	**split_path(char **envp)
 	return (splitted_path);
 }
 
-char	*get_command_path(char *cmd, t_shell *shell)
+char	*get_command_path(char *cmd, char **env)
 {
+	char	**paths;
+	char	*path_var;
 	int		i;
 	char	*temp;
 	char	*full_path;
@@ -65,16 +67,33 @@ char	*get_command_path(char *cmd, t_shell *shell)
 	if (ft_strchr(cmd, '/') != NULL)
 		return (ft_strdup(cmd));
 	i = 0;
-	full_path = NULL;
-	while (shell->splitted_path[i])
+	while (env[i])
 	{
-		temp = ft_strjoin(shell->splitted_path[i], "/");
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			break ;
+		i = i + 1;
+	}
+	if (env[i] == 0)
+		return (NULL);
+	path_var = env[i] + 5;
+	paths = ft_split(path_var, ':');
+	if (paths == NULL)
+		return (NULL);
+	i = 0;
+	full_path = NULL;
+	while (paths[i])
+	{
+		temp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(temp, cmd);
 		free(temp);
 		if (access(full_path, F_OK | X_OK) == 0)
+		{
+			free_2d_array(paths);
 			return (full_path);
+		}
 		free(full_path);
 		i = i + 1;
 	}
+	free_2d_array(paths);
 	return (NULL);
 }

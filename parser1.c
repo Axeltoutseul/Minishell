@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 13:00:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:02:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ char	**remove_redirection_tokens(char **tokens)
 	new_count = 0;
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 			i = i + 2;
 		else
@@ -69,8 +68,7 @@ static int	count_non_redir_tokens(char **tokens)
 	count = 0;
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 			i = i + 2;
 		else
@@ -82,8 +80,7 @@ static int	count_non_redir_tokens(char **tokens)
 	return (count);
 }
 
-static char	**build_new_tokens(char **tokens, t_redirection **redir,
-				int new_size)
+static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_size)
 {
 	int				i;
 	int				j;
