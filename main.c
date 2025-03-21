@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 13:03:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:02:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ void	free_pipeline(t_pipeline *pipeline)
 		{
 			j = 0;
 			while (pipeline->commands[i].args[j])
-			{
-				free(pipeline->commands[i].args[j]);
-				j++;
-			}
+				free(pipeline->commands[i].args[j++]);
 			free(pipeline->commands[i].args);
 		}
 		if (pipeline->commands[i].heredoc_delim)
@@ -85,13 +82,16 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		ft_printf("");
 	else if (!closed_quotes(line))
 		ft_printf("syntax error: unclosed quote\n");
-	else if (is_builtin(prompt->strs[0]))
+	else if (is_builtin(prompt->strs[0]) && prompt->count_cmds == 1)
 		execute_builtin(shell, prompt);
-	pipeline = parse_input(line);
-	if (pipeline != NULL)
+	else
 	{
-		execute_pipeline(shell, pipeline, env);
-		free_pipeline(pipeline);
+		pipeline = parse_input(line);
+		if (pipeline != NULL)
+		{
+			execute_pipeline(shell, pipeline, env);
+			free_pipeline(pipeline);
+		}
 	}
 }
 
