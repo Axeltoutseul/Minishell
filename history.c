@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:44:05 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/06 16:36:14 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:16:13 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ void	verif_history(t_shell *shell, const char *input)
 {
 	if (input[0] != '\0')
 		update_history(shell, input);
-	if (ft_strcmp(input, "history") == 0)
-		display_history(shell);
+	/*if (ft_strcmp(input, "history") == 0)
+		display_history(shell);*/
 }
