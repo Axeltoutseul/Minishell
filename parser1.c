@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 17:02:28 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:28:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static int	count_non_redir_tokens(char **tokens)
 	return (count);
 }
 
-static char	**build_new_tokens(char **tokens, t_redirection **redir, int new_size)
+static char	**build_new_tokens(char **tokens, t_redirection **redir,
+				int new_size)
 {
 	int				i;
 	int				j;

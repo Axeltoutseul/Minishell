@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
+#    By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/21 00:14:38 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/22 17:44:37 by axbaudri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRCS =	adv_redirection.c \
 		adv_tokeniser1.c \
 		adv_tokeniser2.c \
 		check_words.c \
-		exec_echo.c \
 		exec_export.c \
 		exec_unset.c \
 		free_terminal.c \

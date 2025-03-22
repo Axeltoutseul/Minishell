@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/22 12:35:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:19:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 		execute_builtin_in_child(ctx->shell, cmd, ctx->env);
 		exit(0);
 	}
-	cmd_path = get_command_path(cmd->args[0], ctx->env);
+	cmd_path = get_command_path(cmd->args[0], ctx->shell);
 	if (cmd_path == NULL)
 		send_error("command not found");
 	execve(cmd_path, cmd->args, ctx->env);

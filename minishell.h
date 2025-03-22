@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/22 15:30:32 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:18:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 char		**remove_hd_tokens(char **tokens, char **heredoc);
-char		*get_command_path(char *cmd, char **env);
+char		*get_command_path(char *cmd, t_shell *shell);
 char		**split_pipeline(const char *line);
 
 // Redirection
