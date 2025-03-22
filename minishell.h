@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 17:22:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:30:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ int			valid_name(char *name);
 int			valid_value(char *s);
 void		verif_history(t_shell *shell, const char *input);
 int			is_builtin(const char *cmd);
+char		*get_line_without_space(char *line);
 
 #endif

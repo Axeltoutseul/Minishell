@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 16:36:47 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:30:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,34 @@ int	is_space(int c)
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
+}
+
+char	*get_line_without_space(char *line)
+{
+	int		i;
+	int		j;
+	int		size;
+	char	*new_string;
+
+	i = 0;
+	size = 0;
+	while (line[i])
+	{
+		if (!is_space(line[i]))
+			size++;
+		i++;
+	}
+	new_string = (char *)malloc(sizeof(char) * (size + 1));
+	if (!new_string)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (!is_space(line[i]))
+			new_string[j++] = line[i];
+		i++;
+	}
+	new_string[j] = 0;
+	return (new_string);
 }

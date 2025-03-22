@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_terminal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/19 13:51:00 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/22 13:26:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_prompt	*init_prompt(const char *buffer)
 		return (NULL);
 	expanded = expand_variables(buffer);
 	prompt->cmd_line = ft_strdup(expanded);
+	prompt->cmds = split_pipeline(prompt->cmd_line);
 	prompt->strs = advanced_tokenize(expanded);
 	prompt->nb_args = count_strings(prompt->strs);
 	free(expanded);

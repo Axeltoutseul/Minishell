@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/21 17:19:02 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:01:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,45 @@ int	apply_redirections(char **tokens)
 		i++;
 	}
 	return (0);
+}
+
+static void	free_redirections(t_redirection *redir)
+{
+	t_redirection	*tmp;
+
+	while (redir)
+	{
+		tmp = redir->next;
+		free(redir->op);
+		free(redir->target);
+		free(redir);
+		redir = tmp;
+	}
+}
+
+void	free_pipeline(t_pipeline *pipeline)
+{
+	int	i;
+	int	j;
+
+	if (pipeline == NULL)
+		return ;
+	i = 0;
+	while (i < pipeline->count)
+	{
+		if (pipeline->commands[i].args)
+		{
+			j = 0;
+			while (pipeline->commands[i].args[j])
+				free(pipeline->commands[i].args[j++]);
+			free(pipeline->commands[i].args);
+		}
+		if (pipeline->commands[i].heredoc_delim)
+			free(pipeline->commands[i].heredoc_delim);
+		if (pipeline->commands[i].redirections)
+			free_redirections(pipeline->commands[i].redirections);
+		i++;
+	}
+	free(pipeline->commands);
+	free(pipeline);
 }
