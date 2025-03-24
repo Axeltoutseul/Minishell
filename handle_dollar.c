@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/13 16:19:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:11:45 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,18 @@ static char	*expand_var(const char *in, int *i)
 	return (ft_strdup(val));
 }
 
+void	check_state(int i, int *state, const char *input)
+{
+	if (input[i] == '\'' && *state == 0)
+		*state = 1;
+	else if (input[i] == '\'' && *state == 1)
+		*state = 0;
+	else if (input[i] == '"' && *state == 0)
+		*state = 2;
+	else if (input[i] == '"' && *state == 2)
+		*state = 0;
+}
+
 char	*expand_variables(const char *input)
 {
 	int		i;
@@ -82,8 +94,6 @@ char	*expand_variables(const char *input)
 	i = 0;
 	state = 0;
 	result = ft_strdup("");
-	if (result == NULL)
-		return (NULL);
 	while (input[i])
 	{
 		if (input[i] == '$' && state != 1)
@@ -93,14 +103,7 @@ char	*expand_variables(const char *input)
 			free(temp);
 			continue ;
 		}
-		if (input[i] == '\'' && state == 0)
-			state = 1;
-		else if (input[i] == '\'' && state == 1)
-			state = 0;
-		else if (input[i] == '"' && state == 0)
-			state = 2;
-		else if (input[i] == '"' && state == 2)
-			state = 0;
+		check_state(i, &state, input);
 		ch[0] = input[i];
 		ch[1] = '\0';
 		result = append_str(result, ch);
