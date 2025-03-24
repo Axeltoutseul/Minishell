@@ -6,21 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:38:31 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/22 17:28:41 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:35:44 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	count_raw_cmds(char **raw_cmds)
-{
-	int	count;
-
-	count = 0;
-	while (raw_cmds[count])
-		count++;
-	return (count);
-}
 
 char	**remove_redirection_tokens(char **tokens)
 {

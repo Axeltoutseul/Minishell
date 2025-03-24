@@ -6,11 +6,21 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:39:01 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/21 16:44:17 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:35:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_raw_cmds(char **raw_cmds)
+{
+	int	count;
+
+	count = 0;
+	while (raw_cmds[count])
+		count++;
+	return (count);
+}
 
 void	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 {
