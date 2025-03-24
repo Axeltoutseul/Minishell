@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/22 17:18:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:19:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
 int			closed_quotes(char *cmd_line);
 void		display_history(t_shell *shell);
-void		exec_echo(t_prompt *prompt);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		free_prompt(t_prompt *prompt);

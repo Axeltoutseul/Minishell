@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/22 17:19:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:05:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void	exec_echo_builtin(t_command *cmd)
 	int	i;
 
 	i = 1;
+	if (ft_strcmp(cmd->args[i], "-n") == 0)
+		i++;
 	while (cmd->args[i])
 	{
 		ft_printf("%s", cmd->args[i]);
@@ -41,7 +43,8 @@ static void	exec_echo_builtin(t_command *cmd)
 			ft_printf(" ");
 		i = i + 1;
 	}
-	ft_printf("\n");
+	if (!(cmd->args[1] && ft_strcmp(cmd->args[1], "-n") == 0))
+		ft_printf("\n");
 }
 
 static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)

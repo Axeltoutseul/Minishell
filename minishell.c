@@ -6,13 +6,13 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/22 17:51:37 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:02:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_echo(t_prompt *prompt)
+/*void	exec_echo(t_prompt *prompt)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ void	exec_echo(t_prompt *prompt)
 	}
 	if (!(prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0))
 		ft_printf("\n");
-}
+}*/
 
 void	exec_exit(t_shell *shell, t_prompt *prompt)
 {
@@ -44,9 +44,9 @@ void	exec_exit(t_shell *shell, t_prompt *prompt)
 
 void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
-	if (ft_strcmp(prompt->strs[0], "echo") == 0)
-		exec_echo(prompt);
-	else if (ft_strcmp(prompt->strs[0], "export") == 0 && prompt->strs[1])
+	/*if (ft_strcmp(prompt->strs[0], "echo") == 0)
+		exec_echo(prompt);*/
+	if (ft_strcmp(prompt->strs[0], "export") == 0 && prompt->strs[1])
 		exec_export(shell, prompt);
 	/*else if (ft_strcmp(prompt->strs[0], "env") == 0)
 		write_env(shell->env_lines);*/
