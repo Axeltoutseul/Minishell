@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 19:01:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:19:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 	}
 	if (cmd->heredoc_delim != NULL)
 	{
-		hd_fd = handle_heredoc(cmd->heredoc_delim);
+		hd_fd = handle_heredoc_parent_pipe(cmd->heredoc_delim);
 		if (hd_fd == -1)
 			send_error("heredoc");
 		if (dup2(hd_fd, STDIN_FILENO) == -1)
