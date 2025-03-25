@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 16:50:53 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:18:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,36 @@ int	contains_redirection(char **tokens)
 	return (0);
 }
 
+void	check_cmd(t_pipeline *pipeline, int i)
+{
+	if (pipeline->commands[i].heredoc_delim)
+	{
+		pipeline->commands[i].heredoc_fd = handle_heredoc_parent_pipe
+			(pipeline->commands[i].heredoc_delim);
+		if (pipeline->commands[i].heredoc_fd == -1)
+			return (free_pipeline(pipeline));
+		free(pipeline->commands[i].heredoc_delim);
+		pipeline->commands[i].heredoc_delim = NULL;
+	}
+}
+
 void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
+	char		*trimmed;
 	int			i;
+	int			j;
 
 	if (!ft_strlen(line) || !count_strings(prompt->strs))
 		return ;
+	trimmed = ft_strtrim(line, " \t");
+	j = ft_strlen(trimmed) - 1;
+	if (trimmed[0] == '|' || trimmed[j] == '|')
+	{
+		ft_printf("bash: syntax error near unexpected token `|'\n");
+		return (free(trimmed));
+	}
+	free(trimmed);
 	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
 		&& !contains_redirection(prompt->strs))
 		return (execute_builtin(shell, prompt));
@@ -65,17 +88,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		return ;
 	i = -1;
 	while (++i < pipeline->count)
-	{
-		if (pipeline->commands[i].heredoc_delim)
-		{
-			pipeline->commands[i].heredoc_fd = handle_heredoc_parent_pipe
-				(pipeline->commands[i].heredoc_delim);
-			if (pipeline->commands[i].heredoc_fd == -1)
-				return (free_pipeline(pipeline));
-			free(pipeline->commands[i].heredoc_delim);
-			pipeline->commands[i].heredoc_delim = NULL;
-		}
-	}
+		check_cmd(pipeline, i);
 	return (execute_pipeline(shell, pipeline, env), free_pipeline(pipeline));
 }
 

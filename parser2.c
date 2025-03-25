@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 18:34:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:09:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,6 @@ static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 	return (1);
 }
 
-static void	trim_space(char **raw_cmds)
-{
-	char	*trimmed;
-	int		i;
-
-	i = -1;
-	while (raw_cmds[++i])
-	{
-		trimmed = ft_strtrim(raw_cmds[i], " \t");
-		if (!trimmed || trimmed[0] == '\0')
-		{
-			ft_printf("bash: erreur de syntaxe près du symbole inattendu `|'\n");
-			if (trimmed)
-				free(trimmed);
-			return (free_2d_array(raw_cmds));
-		}
-		free(trimmed);
-	}
-}
-
 t_pipeline	*parse_input(const char *line)
 {
 	t_pipeline	*pipeline;
@@ -60,7 +40,6 @@ t_pipeline	*parse_input(const char *line)
 	raw_cmds = split_pipeline(line);
 	if (!raw_cmds)
 		return (NULL);
-	trim_space(raw_cmds);
 	count = count_raw_cmds(raw_cmds);
 	pipeline = malloc(sizeof(t_pipeline));
 	if (!pipeline)
