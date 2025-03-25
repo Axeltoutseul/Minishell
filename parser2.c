@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 16:29:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:03:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	trim_space(char **raw_cmds)
 			ft_printf("bash: erreur de syntaxe près du symbole inattendu `|'\n");
 			if (trimmed)
 				free(trimmed);
-			return (free_2d_array(raw_cmds), NULL);
+			return (free_2d_array(raw_cmds));
 		}
 		free(trimmed);
 	}
