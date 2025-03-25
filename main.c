@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 14:47:25 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:38:06 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		return ;
 	}
 	pipeline = parse_input(line);
-	if (pipeline == NULL)
-		return ;
 	i = 0;
 	while (i < pipeline->count)
 	{

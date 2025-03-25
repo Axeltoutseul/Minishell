@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/24 14:18:47 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/25 15:51:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,45 @@ int	apply_command_redirections(t_command *cmd)
 		redir = redir->next;
 	}
 	return (0);
+}
+
+static void	free_redirections(t_redirection *redir)
+{
+	t_redirection	*tmp;
+
+	while (redir)
+	{
+		tmp = redir->next;
+		free(redir->op);
+		free(redir->target);
+		free(redir);
+		redir = tmp;
+	}
+}
+
+void	free_pipeline(t_pipeline *pipeline)
+{
+	int	i;
+	int	j;
+
+	if (pipeline == NULL)
+		return ;
+	i = 0;
+	while (i < pipeline->count)
+	{
+		if (pipeline->commands[i].args)
+		{
+			j = 0;
+			while (pipeline->commands[i].args[j])
+				free(pipeline->commands[i].args[j++]);
+			free(pipeline->commands[i].args);
+		}
+		if (pipeline->commands[i].heredoc_delim)
+			free(pipeline->commands[i].heredoc_delim);
+		if (pipeline->commands[i].redirections)
+			free_redirections(pipeline->commands[i].redirections);
+		i++;
+	}
+	free(pipeline->commands);
+	free(pipeline);
 }
