@@ -3,36 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 15:14:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:30:43 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*void	exec_echo(t_prompt *prompt)
+void	exec_pwd(t_shell *shell, t_prompt *prompt)
 {
-	int	i;
-
-	i = 1;
-	if (ft_strcmp(prompt->strs[1], "-n") == 0)
-		i++;
-	while (prompt->strs[i])
-	{
-		if (ft_strcmp(prompt->strs[i], ">") == 0
-			|| ft_strcmp(prompt->strs[i], ">>") == 0)
-			break ;
-		ft_printf("%s", prompt->strs[i]);
-		if (prompt->strs[i + 1] && ft_strcmp(prompt->strs[i + 1], ">") != 0
-			&& ft_strcmp(prompt->strs[i + 1], ">>") != 0)
-			ft_printf(" ");
-		i++;
-	}
-	if (!(prompt->strs[1] && ft_strcmp(prompt->strs[1], "-n") == 0))
-		ft_printf("\n");
-}*/
+	(void)prompt;
+	ft_printf("%s\n", shell->pwd);
+}
 
 void	exec_exit(t_shell *shell, t_prompt *prompt)
 {
@@ -44,16 +28,16 @@ void	exec_exit(t_shell *shell, t_prompt *prompt)
 
 void	execute_builtin(t_shell *shell, t_prompt *prompt)
 {
-	/*if (ft_strcmp(prompt->strs[0], "echo") == 0)
-		exec_echo(prompt);*/
-	if (ft_strcmp(prompt->strs[0], "export") == 0 && prompt->strs[1])
+	if (ft_strcmp(prompt->strs[0], "echo") == 0)
+		exec_echo(prompt);
+	else if (ft_strcmp(prompt->strs[0], "export") == 0)
 		exec_export(shell, prompt);
-	/*else if (ft_strcmp(prompt->strs[0], "env") == 0)
-		write_env(shell->env_lines);*/
+	else if (ft_strcmp(prompt->strs[0], "env") == 0)
+		write_env(prompt, shell->env_lines);
 	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
-	/*else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
-		ft_printf("%s\n", shell->pwd);*/
+	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
+		exec_pwd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0)

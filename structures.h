@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/22 13:24:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:46:30 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_command
 {
 	char			**args;
 	char			*heredoc_delim;
+	int				heredoc_fd;
 	t_redirection	*redirections;
 }	t_command;
 
@@ -67,7 +68,6 @@ typedef struct s_prompt
 {
 	char	*cmd_line;
 	char	*echo;
-	char	**cmds;
 	char	**strs;
 	int		nb_args;
 }	t_prompt;

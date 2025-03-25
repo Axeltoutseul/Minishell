@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/22 17:01:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:18:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,43 +78,26 @@ int	apply_redirections(char **tokens)
 	return (0);
 }
 
-static void	free_redirections(t_redirection *redir)
+int	apply_command_redirections(t_command *cmd)
 {
-	t_redirection	*tmp;
+	t_redirection	*redir;
+	int				ret;
 
+	redir = cmd->redirections;
+	ret = 0;
 	while (redir)
 	{
-		tmp = redir->next;
-		free(redir->op);
-		free(redir->target);
-		free(redir);
-		redir = tmp;
+		if (ft_strcmp(redir->op, ">") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (ft_strcmp(redir->op, ">>") == 0)
+			ret = redirect_file(redir->target, STDOUT_FILENO,
+					O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (ft_strcmp(redir->op, "<") == 0)
+			ret = redirect_file(redir->target, STDIN_FILENO, O_RDONLY, 0);
+		if (ret == -1)
+			return (-1);
+		redir = redir->next;
 	}
-}
-
-void	free_pipeline(t_pipeline *pipeline)
-{
-	int	i;
-	int	j;
-
-	if (pipeline == NULL)
-		return ;
-	i = 0;
-	while (i < pipeline->count)
-	{
-		if (pipeline->commands[i].args)
-		{
-			j = 0;
-			while (pipeline->commands[i].args[j])
-				free(pipeline->commands[i].args[j++]);
-			free(pipeline->commands[i].args);
-		}
-		if (pipeline->commands[i].heredoc_delim)
-			free(pipeline->commands[i].heredoc_delim);
-		if (pipeline->commands[i].redirections)
-			free_redirections(pipeline->commands[i].redirections);
-		i++;
-	}
-	free(pipeline->commands);
-	free(pipeline);
+	return (0);
 }

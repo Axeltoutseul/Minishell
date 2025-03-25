@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:04:07 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/21 16:48:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:47:10 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_heredoc(const char *delimiter)
+int	handle_heredoc_parent_pipe(const char *delimiter)
 {
 	int		pipe_fd[2];
 	char	*line;
@@ -38,42 +38,4 @@ int	handle_heredoc(const char *delimiter)
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
-}
-
-char	**remove_hd_tokens(char **tokens, char **heredoc)
-{
-	int		i;
-	int		new_count;
-	char	**new_tokens;
-
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-			i = i + 2;
-		else
-		{
-			new_count = new_count + 1;
-			i = i + 1;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (new_tokens == NULL)
-		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			*heredoc = ft_strdup(tokens[i + 1]);
-			i = i + 2;
-		}
-		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
-	}
-	new_tokens[new_count] = NULL;
-	free_2d_array(tokens);
-	return (new_tokens);
 }

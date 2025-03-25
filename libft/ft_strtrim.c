@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:42:22 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/01/30 12:37:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 04:48:32 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	i = 0;
 	j = 0;
-	end = ft_strlen(s1);
 	if (s1 == NULL)
 		return (0);
+	end = ft_strlen(s1);
 	while (is_in_set(s1[i], set) == 1)
 		i++;
 	while (is_in_set(s1[end - 1], set) == 1 && end > i)

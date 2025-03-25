@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 15:08:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:02:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	check_error(char *name, char *arg)
 		val = NULL;
 	while (name[i] && name[i] != '&' && name[i] != '(' && name[i] != ')')
 		i++;
-	if (name[i] == '&' || name[i] == '(' || name[i] == ')')
+	if (val && !valid_value(val))
+		ft_printf("syntax error: unclosed quote\n");
+	else if (name[i] == '&' || name[i] == '(' || name[i] == ')')
 		ft_printf("minishell: syntax error near unexpected token '%c'\n",
 			name[i]);
 	else
@@ -68,31 +70,4 @@ int	is_space(int c)
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
-}
-
-char	*get_line_without_space(char *line)
-{
-	int		i;
-	int		j;
-	int		size;
-	char	*new_string;
-
-	i = 0;
-	size = 0;
-	while (line[i])
-		if (!is_space(line[i++]))
-			size++;
-	new_string = (char *)malloc(sizeof(char) * (size + 1));
-	if (!new_string)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (line[i])
-	{
-		if (!is_space(line[i]))
-			new_string[j++] = line[i];
-		i++;
-	}
-	new_string[j] = 0;
-	return (new_string);
 }
