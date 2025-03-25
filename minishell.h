@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 15:32:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:11:27 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char		**remove_hd_tokens(char **tokens, char **heredoc);
 char		*get_command_path(char *cmd, t_shell *shell);
 char		**split_pipeline(const char *line);
 char		*preprocess_line(const char *line);
-
+char		**build_new_tokens(char **tokens, t_redirection **redir, int size);
+int			count_non_redir_tokens(char **tokens);
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
@@ -65,12 +66,10 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
-
 // Gestion de la structure principale
 void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
 t_shell		*init_shell(char **envp);
-
 // Gestion de l'environnement
 void		add_env_line(t_env **env, t_env *new);
 void		add_lines(t_shell *shell, t_prompt *prompt);
@@ -95,7 +94,6 @@ void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 void		exec_echo_builtin(t_command *cmd);
-
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);

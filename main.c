@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 15:38:06 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:21:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,24 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		return ;
 	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
 		&& !contains_redirection(prompt->strs))
-	{
-		execute_builtin(shell, prompt);
-		return ;
-	}
+		return (execute_builtin(shell, prompt));
 	pipeline = parse_input(line);
-	i = 0;
-	while (i < pipeline->count)
+	if (pipeline == NULL)
+		return ;
+	i = -1;
+	while (++i < pipeline->count)
 	{
 		if (pipeline->commands[i].heredoc_delim)
 		{
 			pipeline->commands[i].heredoc_fd = handle_heredoc_parent_pipe
 				(pipeline->commands[i].heredoc_delim);
 			if (pipeline->commands[i].heredoc_fd == -1)
-			{
-				free_pipeline(pipeline);
-				return ;
-			}
+				return (free_pipeline(pipeline));
 			free(pipeline->commands[i].heredoc_delim);
 			pipeline->commands[i].heredoc_delim = NULL;
 		}
-		i++;
 	}
-	execute_pipeline(shell, pipeline, env);
-	free_pipeline(pipeline);
+	return (execute_pipeline(shell, pipeline, env), free_pipeline(pipeline));
 }
 
 int	main(int argc, char **argv, char **env)
