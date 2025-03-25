@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 16:10:55 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:01:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 	(void)env;
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exec_echo_builtin(cmd);
-	else if (ft_strcmp(cmd->args[0], "export") == 0)
-	{
-		if (cmd->args[1] == NULL)
-			write_export(shell->export_lines);
-	}
+	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->args[1] == NULL)
+		write_export(shell->export_lines);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 	{
 		temp = shell->env_lines;
@@ -51,18 +48,18 @@ static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
 			temp = temp->next;
 		}
 	}
-	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		ft_printf("cd: modification de l'environnement impossible dans un pipeline\n");
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		ft_printf("%s\n", shell->pwd);
-	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		ft_printf("unset: modification de l'environnement impossible dans un pipeline\n");
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		exit(0);
 	else if (ft_strcmp(cmd->args[0], "history") == 0)
 		display_history(shell);
-	else
-		ft_printf("Builtin %s non supporté en pipeline\n", cmd->args[0]);
+}
+
+static void	send_error(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
 }
 
 static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ctx)
@@ -83,14 +80,13 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	if (cmd->heredoc_fd != -1)
+	if (cmd->heredoc_delim != NULL)
 	{
-		hd_fd = cmd->heredoc_fd;
+		hd_fd = handle_heredoc(cmd->heredoc_delim);
+		if (hd_fd == -1)
+			send_error("heredoc");
 		if (dup2(hd_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 heredoc");
-			exit(EXIT_FAILURE);
-		}
+			send_error("dup2 heredoc");
 		close(hd_fd);
 	}
 	if (apply_command_redirections(cmd) == -1)
@@ -102,13 +98,9 @@ static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ct
 	}
 	cmd_path = get_command_path(cmd->args[0], ctx->shell);
 	if (cmd_path == NULL)
-	{
-		perror("command not found");
-		exit(EXIT_FAILURE);
-	}
+		send_error("command not found");
 	execve(cmd_path, cmd->args, ctx->env);
-	perror("execve");
-	exit(EXIT_FAILURE);
+	send_error("execve");
 }
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],

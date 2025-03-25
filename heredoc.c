@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:04:07 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 14:47:10 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:59:23 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,42 @@ int	handle_heredoc_parent_pipe(const char *delimiter)
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
+}
+
+char	**remove_hd_tokens(char **tokens, char **heredoc)
+{
+	int		i;
+	int		new_count;
+	char	**new_tokens;
+
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "<<") == 0)
+			i += 2;
+		else
+		{
+			new_count++;
+			i++;
+		}
+	}
+	new_tokens = malloc(sizeof(char *) * (new_count + 1));
+	if (!new_tokens)
+		return (NULL);
+	i = 0;
+	new_count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "<<") == 0)
+		{
+			*heredoc = ft_strdup(tokens[i + 1]);
+			i += 2;
+		}
+		else
+			new_tokens[new_count++] = ft_strdup(tokens[i++]);
+	}
+	new_tokens[new_count] = NULL;
+	free_2d_array(tokens);
+	return (new_tokens);
 }

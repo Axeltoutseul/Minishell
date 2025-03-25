@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 17:03:29 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:34:12 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,7 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 	{
 		temp = ft_strtrim(tokens[i], " \t");
 		if (!temp)
-		{
-			free_2d_array(new_tokens);
-			return (NULL);
-		}
+			return (free_2d_array(new_tokens), NULL);
 		if (ft_strcmp(temp, ">") == 0
 			|| ft_strcmp(temp, ">>") == 0
 			|| ft_strcmp(temp, "<") == 0)
@@ -107,38 +104,27 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 			free(temp);
 			if (!tokens[i + 1])
 			{
-				ft_printf("bash: erreur de syntaxe près du symbole inattendu `newline'\n");
-				free_2d_array(new_tokens);
-				return (NULL);
+				ft_printf("bash:syntax error near unexpected token `newline'\n");
+				return (free_2d_array(new_tokens), NULL);
 			}
 			temp = ft_strtrim(tokens[i + 1], " \t");
 			if (!temp)
-			{
-				free_2d_array(new_tokens);
-				return (NULL);
-			}
+				return (free_2d_array(new_tokens), NULL);
 			if (temp[0] == '\0')
 			{
-				ft_printf("bash: erreur de syntaxe près du symbole inattendu `newline'\n");
-				free(temp);
-				free_2d_array(new_tokens);
-				return (NULL);
+				ft_printf("bash:syntax error near unexpected token `newline'\n");
+				return (free(temp), free_2d_array(new_tokens), NULL);
 			}
 			new_redir = malloc(sizeof(t_redirection));
 			if (!new_redir)
-			{
-				free(temp);
-				free_2d_array(new_tokens);
-				return (NULL);
-			}
+				return (free(temp), free_2d_array(new_tokens), NULL);
+			else
 			{
 				op = ft_strtrim(tokens[i], " \t");
 				if (!op)
 				{
 					free(new_redir);
-					free(temp);
-					free_2d_array(new_tokens);
-					return (NULL);
+					return (free(temp), free_2d_array(new_tokens), NULL);
 				}
 				new_redir->op = ft_strdup(op);
 				free(op);
@@ -151,9 +137,8 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 		}
 		else
 		{
-			new_tokens[j] = ft_strdup(temp);
+			new_tokens[j++] = ft_strdup(temp);
 			free(temp);
-			j++;
 			i++;
 		}
 	}

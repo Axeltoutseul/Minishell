@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:15:42 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 16:32:05 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:05:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ char	*preprocess_line(const char *line)
 				new_line[j++] = ' ';
 			new_line[j++] = line[i];
 			if (line[i + 1] && line[i + 1] == line[i])
-			{
-				i++;
-				new_line[j++] = line[i];
-			}
+				new_line[j++] = line[++i];
 			if (line[i + 1] && line[i + 1] != ' ')
 				new_line[j++] = ' ';
 		}

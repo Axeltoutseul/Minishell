@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/25 16:09:45 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:15:21 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	*expand_var(const char *in, int *i)
 	return (ft_strdup(val));
 }
 
-void	check_state(int i, int *state, const char *input)
+static void	check_state(int i, int *state, const char *input)
 {
 	if (input[i] == '\'' && *state == 0)
 		*state = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:15 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 15:29:34 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:58:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,13 @@ char	**remove_redirection_tokens(char **tokens)
 	new_count = 0;
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 		{
 			if (!tokens[i + 1])
 			{
-				ft_printf("bash: erreur de syntaxe près du symbole inattendu `newline'\n");
-				free_2d_array(tokens);
-				return (NULL);
+				ft_printf("bash:syntax error near unexpected token `newline'\n");
+				return (free_2d_array(tokens), NULL);
 			}
 			i += 2;
 		}
@@ -57,48 +55,9 @@ char	**remove_redirection_tokens(char **tokens)
 	new_count = 0;
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
+		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
 			|| ft_strcmp(tokens[i], "<") == 0)
 			i += 2;
-		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
-	}
-	new_tokens[new_count] = NULL;
-	free_2d_array(tokens);
-	return (new_tokens);
-}
-
-char	**remove_hd_tokens(char **tokens, char **heredoc)
-{
-	int		i;
-	int		new_count;
-	char	**new_tokens;
-
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-			i += 2;
-		else
-		{
-			new_count++;
-			i++;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (!new_tokens)
-		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			*heredoc = ft_strdup(tokens[i + 1]);
-			i += 2;
-		}
 		else
 			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
@@ -115,7 +74,7 @@ static char	**extract_redirections(char **tokens, t_redirection **redir)
 	non_redir_count = count_non_redir_tokens(tokens);
 	if (non_redir_count == -1)
 	{
-		ft_printf("bash: erreur de syntaxe près du symbole inattendu `newline'\n");
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
 		free_2d_array(tokens);
 		return (NULL);
 	}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
+#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/24 14:17:41 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/25 17:41:06 by quenalla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,6 @@ SRCS =	adv_redirection.c \
 		parser2.c \
 		pipe_handling.c \
 		pipeline.c \
-		pipeline2.c \
 		read_content.c \
 		redirect_file.c \
 		signal.c \
