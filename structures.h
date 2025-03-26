@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 14:46:30 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:45:58 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 # include "libft/libft.h"
+
+typedef struct s_split_context
+{
+	int		i;
+	int		start;
+	int		count;
+	int		state;
+	char	**segments;
+}	t_split_context;
 
 typedef struct s_redirection
 {

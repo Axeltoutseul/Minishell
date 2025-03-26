@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/26 11:45:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:34:46 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,81 +27,6 @@ static void	create_pipe_block(int i, int cmd_count, int pipe_fd[2])
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
 	}
-}
-
-static void	execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env)
-{
-	t_env	*temp;
-
-	(void)env;
-	if (ft_strcmp(cmd->args[0], "echo") == 0)
-		exec_echo_builtin(cmd);
-	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->args[1] == NULL)
-		write_export(shell->export_lines);
-	else if (ft_strcmp(cmd->args[0], "env") == 0)
-	{
-		temp = shell->env_lines;
-		while (temp)
-		{
-			if (temp->value)
-				ft_printf("%s=%s\n", temp->name, temp->value);
-			temp = temp->next;
-		}
-	}
-	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		ft_printf("%s\n", shell->pwd);
-	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exit(0);
-	else if (ft_strcmp(cmd->args[0], "history") == 0)
-		display_history(shell);
-}
-
-static void	child_execute(int i, int prev_fd, int pipe_fd[2], t_exec_context *ctx)
-{
-	t_command	*cmd;
-	char		*cmd_path;
-	int			hd_fd;
-
-	cmd = &ctx->pipeline->commands[i];
-	if (i != 0)
-	{
-		dup2(prev_fd, STDIN_FILENO);
-		close(prev_fd);
-	}
-	if (i < ctx->cmd_count - 1)
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
-	if (cmd->heredoc_fd != -1)
-	{
-		hd_fd = cmd->heredoc_fd;
-		if (dup2(hd_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 heredoc");
-			exit(EXIT_FAILURE);
-		}
-		close(hd_fd);
-	}
-	if (ft_strcmp(cmd->args[0], "cat") == 0 && cmd->args[1] == NULL && isatty(STDIN_FILENO))
-		close(STDIN_FILENO);
-	if (apply_command_redirections(cmd) == -1)
-		exit(EXIT_FAILURE);
-	if (is_builtin(cmd->args[0]))
-	{
-		execute_builtin_in_child(ctx->shell, cmd, ctx->env);
-		exit(0);
-	}
-	cmd_path = get_command_path(cmd->args[0], ctx->shell);
-	if (cmd_path == NULL)
-	{
-		perror("command not found");
-		exit(EXIT_FAILURE);
-	}
-	execve(cmd_path, cmd->args, ctx->env);
-	perror("execve");
-	exit(EXIT_FAILURE);
 }
 
 static int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:15 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/26 12:16:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:35:23 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,63 +22,73 @@ int	count_raw_cmds(char **raw_cmds)
 	return (count);
 }
 
-char	**remove_redirection_tokens(char **tokens)
+static int	count_non_redirection_tokens(char **tokens)
 {
-	int		i;
-	int		new_count;
+	int		index;
+	int		count;
+
+	index = 0;
+	count = 0;
+	while (tokens[index])
+	{
+		if (ft_strcmp(tokens[index], ">") == 0
+			|| ft_strcmp(tokens[index], ">>") == 0
+			|| ft_strcmp(tokens[index], "<") == 0)
+		{
+			if (!tokens[index + 1])
+				return (-1);
+			index = index + 2;
+		}
+		else
+		{
+			count = count + 1;
+			index = index + 1;
+		}
+	}
+	return (count);
+}
+
+static char	**dup_non_redirection_tokens(char **tokens, int count)
+{
+	int		index;
+	int		pos;
 	char	**new_tokens;
 
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
-			|| ft_strcmp(tokens[i], "<") == 0)
-		{
-			if (!tokens[i + 1])
-			{
-				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				return (free_2d_array(tokens), NULL);
-			}
-			i += 2;
-		}
-		else
-		{
-			new_count++;
-			i++;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (!new_tokens)
+	index = 0;
+	pos = 0;
+	new_tokens = malloc(sizeof(char *) * (count + 1));
+	if (new_tokens == NULL)
 		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
+	while (tokens[index])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0
-			|| ft_strcmp(tokens[i], "<") == 0)
-			i += 2;
+		if (ft_strcmp(tokens[index], ">") == 0
+			|| ft_strcmp(tokens[index], ">>") == 0
+			|| ft_strcmp(tokens[index], "<") == 0)
+			index = index + 2;
 		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
+		{
+			new_tokens[pos] = ft_strdup(tokens[index]);
+			pos = pos + 1;
+			index = index + 1;
+		}
 	}
-	new_tokens[new_count] = NULL;
-	free_2d_array(tokens);
+	new_tokens[pos] = NULL;
 	return (new_tokens);
 }
 
-static char	**extract_redirections(char **tokens, t_redirection **redir)
+char	**remove_redirection_tokens(char **tokens)
 {
 	int		non_redir_count;
 	char	**new_tokens;
 
-	non_redir_count = count_non_redir_tokens(tokens);
+	non_redir_count = count_non_redirection_tokens(tokens);
 	if (non_redir_count == -1)
 	{
 		ft_printf("bash: syntax error near unexpected token `newline'\n");
 		free_2d_array(tokens);
 		return (NULL);
 	}
-	new_tokens = build_new_tokens(tokens, redir, non_redir_count);
+	new_tokens = dup_non_redirection_tokens(tokens, non_redir_count);
 	free_2d_array(tokens);
 	return (new_tokens);
 }

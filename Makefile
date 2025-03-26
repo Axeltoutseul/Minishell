@@ -6,7 +6,7 @@
 #    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/25 17:41:06 by quenalla         ###   ########.fr        #
+#    Updated: 2025/03/26 15:56:06 by quenalla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ RM = rm -f
 SRCS =	adv_redirection.c \
 		adv_tokeniser1.c \
 		adv_tokeniser2.c \
+		adv_tokeniser3.c \
 		check_words.c \
 		exec_echo.c \
 		exec_export.c \
@@ -39,10 +40,14 @@ SRCS =	adv_redirection.c \
 		parse_prompt.c \
 		parser1.c \
 		parser2.c \
+		parser3.c \
 		pipe_handling.c \
 		pipeline.c \
+		pipeline2.c \
+		pipeline3.c \
 		read_content.c \
 		redirect_file.c \
+		redirect_file2.c \
 		signal.c \
 		split_pipeline.c \
 		string_utils.c \

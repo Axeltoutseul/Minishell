@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/26 15:42:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:32:22 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,49 +75,33 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 	{
 		temp = ft_strtrim(tokens[i], " \t");
 		if (!temp)
-		{
-			free_2d_array(new_tokens);
-			return (NULL);
-		}
-		if (ft_strcmp(temp, ">") == 0
-			|| ft_strcmp(temp, ">>") == 0
+			return (free_2d_array(new_tokens), NULL);
+		if (ft_strcmp(temp, ">") == 0 || ft_strcmp(temp, ">>") == 0
 			|| ft_strcmp(temp, "<") == 0)
 		{
 			free(temp);
 			if (!tokens[i + 1])
 			{
 				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				free_2d_array(new_tokens);
-				return (NULL);
+				return (free_2d_array(new_tokens), NULL);
 			}
 			temp = ft_strtrim(tokens[i + 1], " \t");
 			if (!temp)
-			{
-				free_2d_array(new_tokens);
-				return (NULL);
-			}
+				return (free_2d_array(new_tokens), NULL);
 			if (temp[0] == '\0')
 			{
 				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				free(temp);
-				free_2d_array(new_tokens);
-				return (NULL);
+				return (free(temp), free_2d_array(new_tokens), NULL);
 			}
 			new_redir = malloc(sizeof(t_redirection));
 			if (!new_redir)
-			{
-				free(temp);
-				free_2d_array(new_tokens);
-				return (NULL);
-			}
+				return (free(temp), free_2d_array(new_tokens), NULL);
 			{
 				op = ft_strtrim(tokens[i], " \t");
 				if (!op)
 				{
 					free(new_redir);
-					free(temp);
-					free_2d_array(new_tokens);
-					return (NULL);
+					return (free(temp), free_2d_array(new_tokens), NULL);
 				}
 				new_redir->op = ft_strdup(op);
 				free(op);
@@ -130,9 +114,8 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 		}
 		else
 		{
-			new_tokens[j] = ft_strdup(temp);
+			new_tokens[j++] = ft_strdup(temp);
 			free(temp);
-			j++;
 			i++;
 		}
 	}
@@ -165,3 +148,51 @@ int	count_non_redir_tokens(char **tokens)
 	}
 	return (count);
 }
+
+/*static void	trim_space(char **raw_cmds)
+{
+	char	*trimmed;
+	int		i;
+
+	i = -1;
+	while (raw_cmds[++i])
+	{
+		trimmed = ft_strtrim(raw_cmds[i], " \t");
+		if (!trimmed || trimmed[0] == '\0')
+		{
+			ft_printf("bash: erreur de syntaxe près du symbole inattendu `|'\n");
+			if (trimmed)
+				free(trimmed);
+			return (free_2d_array(raw_cmds));
+		}
+		free(trimmed);
+	}
+}*/
+
+/*t_pipeline	*parse_input(const char *line)
+{
+	t_pipeline	*pipeline;
+	char		**raw_cmds;
+	int			count;
+	int			i;
+
+	raw_cmds = split_pipeline(line);
+	if (!raw_cmds)
+		return (NULL);
+	trim_space(raw_cmds);
+	count = count_raw_cmds(raw_cmds);
+	pipeline = malloc(sizeof(t_pipeline));
+	if (!pipeline)
+		return (free_2d_array(raw_cmds), NULL);
+	pipeline->count = count;
+	pipeline->commands = malloc(sizeof(t_command) * count);
+	if (!pipeline->commands)
+		return (free(pipeline), free_2d_array(raw_cmds), NULL);
+	if (!fill_pipeline(pipeline, raw_cmds, count))
+		return (free_2d_array(raw_cmds), free(pipeline->commands), \
+		free(pipeline), NULL);
+	i = -1;
+	while (raw_cmds[++i])
+		free(raw_cmds[i]);
+	return (free(raw_cmds), pipeline);
+}*/

@@ -4,13 +4,6 @@ la ligne de commande qui avec kle fichier suprpress permet de supprimer les leak
 
 voir le fichier de corrections du minishell 
 
-
-minishell> cat | ls marche pas 
-
-echo $ n'affiche pas dollar 
-
-apres ctrl c on peut effacer une partie du code voie sigint
-
 6 declarations de variable dans une fonction que 5 autorise 
 
 heredoc peux encore segfault

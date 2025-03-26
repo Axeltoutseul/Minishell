@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 11:44:56 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:36:18 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,18 @@ void		process_default(char c, t_state *state, char **curr);
 void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
-char		**remove_hd_tokens(char **tokens, char **heredoc);
-char		*get_command_path(char *cmd, t_shell *shell);
+char		*get_command_path(char *cmd, char **env);
 char		**split_pipeline(const char *line);
 char		*preprocess_line(const char *line);
 char		**build_new_tokens(char **tokens, t_redirection **redir, int size);
 int			count_non_redir_tokens(char **tokens);
+char		**remove_hd_tokens(char **tokens, char **heredoc);
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
-int			handle_redirection(const char *file, int io_flag);
 int			handle_redirection_char(const char *file, const char *op);
 int			redirect_file(const char *target, int std_fd, int flags, int mode);
 void		setup_signal(void);
@@ -51,6 +50,7 @@ char		*expand_variables(const char *input);
 int			apply_redirections(char **token);
 int			apply_command_redirections(t_command *cmd);
 int			handle_heredoc_parent_pipe(const char *delimiter);
+char		**extract_redirections(char **tokens, t_redirection **redir);
 
 // Outils de strings
 int			calculate_total_size(int size, char **strs, char *sep);
@@ -66,6 +66,7 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
+
 // Gestion de la structure principale
 void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
@@ -94,6 +95,8 @@ void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 void		exec_echo_builtin(t_command *cmd);
+void		process_char(char c, t_state *state, char **curr);
+
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
@@ -111,5 +114,9 @@ int			valid_name(char *name);
 int			valid_value(char *s);
 void		verif_history(t_shell *shell, const char *input);
 int			is_builtin(const char *cmd);
+void		child_execute(int i, int prev_fd, int pipe_fd[2],
+				t_exec_context *ctx);
+void		execute_builtin_in_child(t_shell *shell,
+				t_command *cmd, char **env);
 
 #endif

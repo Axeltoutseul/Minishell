@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   adv_tokeniser2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:15:42 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/26 11:12:21 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:49:25 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	process_char(char c, t_state *state, char **curr)
-{
-	if (*state == STATE_DEFAULT)
-	{
-		process_default(c, state, curr);
-		return ;
-	}
-	if (*state == STATE_IN_SINGLE)
-	{
-		process_in_single(c, state, curr);
-		return ;
-	}
-	if (*state == STATE_IN_DOUBLE)
-	{
-		process_in_double(c, state, curr);
-		return ;
-	}
-	if (*state == STATE_ESCAPING)
-	{
-		process_escaping(c, state, curr);
-		return ;
-	}
-}
 
 void	tokenize_loop(const char *line, t_tokenize_context *ctx)
 {
@@ -55,31 +31,55 @@ void	tokenize_loop(const char *line, t_tokenize_context *ctx)
 	}
 }
 
+void	process_redirection(const char *line, int *i, int *j, char *new_line)
+{
+	if (*i > 0)
+	{
+		if (line[*i - 1] != ' ')
+		{
+			new_line[*j] = ' ';
+			*j = *j + 1;
+		}
+	}
+	new_line[*j] = line[*i];
+	*j = *j + 1;
+	if (line[*i + 1] != '\0')
+	{
+		if (line[*i + 1] == line[*i])
+			new_line[*j++] = line[++*i];
+	}
+	if (line[*i + 1] != '\0')
+	{
+		if (line[*i + 1] != ' ')
+		{
+			new_line[*j] = ' ';
+			*j = *j + 1;
+		}
+	}
+}
+
 char	*preprocess_line(const char *line)
 {
 	int		i;
 	int		j;
+	int		len;
 	char	*new_line;
 
 	i = 0;
 	j = 0;
-	new_line = malloc(sizeof(char) * (ft_strlen(line) * 3 + 1));
-	if (!new_line)
+	len = ft_strlen(line);
+	new_line = malloc(sizeof(char) * ((len * 3) + 1));
+	if (new_line == NULL)
 		return (NULL);
-	while (line[i])
+	while (line[i] != '\0')
 	{
 		if (line[i] == '>' || line[i] == '<')
-		{
-			if (i > 0 && line[i - 1] != ' ')
-				new_line[j++] = ' ';
-			new_line[j++] = line[i];
-			if (line[i + 1] && line[i + 1] == line[i])
-				new_line[j++] = line[++i];
-			if (line[i + 1] && line[i + 1] != ' ')
-				new_line[j++] = ' ';
-		}
+			process_redirection(line, &i, &j, new_line);
 		else
-			new_line[j++] = line[i];
+		{
+			new_line[j] = line[i];
+			j = j + 1;
+		}
 		i++;
 	}
 	new_line[j] = '\0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/26 12:44:45 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:54:42 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	redirect_file(const char *target, int std_fd, int flags, int mode)
 	return (0);
 }
 
-int	apply_redirections(char **tokens)
+/*int	apply_redirections(char **tokens)
 {
 	int		i;
 	int		fd;
@@ -40,12 +40,17 @@ int	apply_redirections(char **tokens)
 	i = -1;
 	while (tokens[++i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0 || ft_strcmp(tokens[i], ">>") == 0)
+		if (ft_strcmp(tokens[i], ">") == 0)
 		{
-			if (ft_strcmp(tokens[i], ">") == 0)
-				fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else
-				fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (perror("open"), -1);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (ft_strcmp(tokens[i], ">>") == 0)
+		{
+			fd = open(tokens[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd == -1)
 				return (perror("open"), -1);
 			dup2(fd, STDOUT_FILENO);
@@ -61,7 +66,7 @@ int	apply_redirections(char **tokens)
 		}
 	}
 	return (0);
-}
+}*/
 
 int	apply_command_redirections(t_command *cmd)
 {
