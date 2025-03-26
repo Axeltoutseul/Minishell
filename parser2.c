@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 21:09:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:56:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 	{
 		temp = ft_strtrim(tokens[i], " \t");
 		if (!temp)
-			return (free_2d_array(new_tokens), NULL);
+		{
+			free_2d_array(new_tokens);
+			return (NULL);
+		}
 		if (ft_strcmp(temp, ">") == 0
 			|| ft_strcmp(temp, ">>") == 0
 			|| ft_strcmp(temp, "<") == 0)
@@ -84,26 +87,37 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 			if (!tokens[i + 1])
 			{
 				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				return (free_2d_array(new_tokens), NULL);
+				free_2d_array(new_tokens);
+				return (NULL);
 			}
 			temp = ft_strtrim(tokens[i + 1], " \t");
 			if (!temp)
-				return (free_2d_array(new_tokens), NULL);
+			{
+				free_2d_array(new_tokens);
+				return (NULL);
+			}
 			if (temp[0] == '\0')
 			{
 				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				return (free(temp), free_2d_array(new_tokens), NULL);
+				free(temp);
+				free_2d_array(new_tokens);
+				return (NULL);
 			}
 			new_redir = malloc(sizeof(t_redirection));
 			if (!new_redir)
-				return (free(temp), free_2d_array(new_tokens), NULL);
-			else
+			{
+				free(temp);
+				free_2d_array(new_tokens);
+				return (NULL);
+			}
 			{
 				op = ft_strtrim(tokens[i], " \t");
 				if (!op)
 				{
 					free(new_redir);
-					return (free(temp), free_2d_array(new_tokens), NULL);
+					free(temp);
+					free_2d_array(new_tokens);
+					return (NULL);
 				}
 				new_redir->op = ft_strdup(op);
 				free(op);
@@ -116,8 +130,9 @@ char	**build_new_tokens(char **tokens, t_redirection **redir, int size)
 		}
 		else
 		{
-			new_tokens[j++] = ft_strdup(temp);
+			new_tokens[j] = ft_strdup(temp);
 			free(temp);
+			j++;
 			i++;
 		}
 	}

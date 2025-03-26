@@ -1,6 +1,6 @@
 
 
-la ligne de commande qui avec le fichier suprpress permet de supprimer les leaks readlines :bess-f4r2s5% valgrind --suppressions=/home/quenalla/Downloads/minishell_fonctionelle_20_03_25/minishell_fonctionelle_/actuel_minishell/minishell/suppress -s  --leak-check=full --show-leak-kinds=all ./minishell
+la ligne de commande qui avec kle fichier suprpress permet de supprimer les leaks readlines :bess-f4r2s5% valgrind --suppressions=/home/quenalla/Downloads/minishell_fonctionelle_20_03_25/minishell_fonctionelle_/actuel_minishell/minishell/suppress -s  --leak-check=full --show-leak-kinds=all ./minishell
 
 voir le fichier de corrections du minishell 
 

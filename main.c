@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 21:18:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:27:20 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,23 @@ int	contains_redirection(char **tokens)
 	return (0);
 }
 
-void	check_cmd(t_pipeline *pipeline, int i)
+static void	check_cmd(t_pipeline *pipeline)
 {
-	if (pipeline->commands[i].heredoc_delim)
+	int	i;
+
+	i = 0;
+	while (i < pipeline->count)
 	{
-		pipeline->commands[i].heredoc_fd = handle_heredoc_parent_pipe
-			(pipeline->commands[i].heredoc_delim);
-		if (pipeline->commands[i].heredoc_fd == -1)
-			return (free_pipeline(pipeline));
-		free(pipeline->commands[i].heredoc_delim);
-		pipeline->commands[i].heredoc_delim = NULL;
+		if (pipeline->commands[i].heredoc_delim)
+		{
+			pipeline->commands[i].heredoc_fd = handle_heredoc_parent_pipe
+				(pipeline->commands[i].heredoc_delim);
+			if (pipeline->commands[i].heredoc_fd == -1)
+				return (free_pipeline(pipeline));
+			free(pipeline->commands[i].heredoc_delim);
+			pipeline->commands[i].heredoc_delim = NULL;
+		}
+		i++;
 	}
 }
 
@@ -67,7 +74,6 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
 	char		*trimmed;
-	int			i;
 	int			j;
 
 	if (!ft_strlen(line) || !count_strings(prompt->strs))
@@ -86,9 +92,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	pipeline = parse_input(line);
 	if (pipeline == NULL)
 		return ;
-	i = -1;
-	while (++i < pipeline->count)
-		check_cmd(pipeline, i);
+	check_cmd(pipeline);
 	return (execute_pipeline(shell, pipeline, env), free_pipeline(pipeline));
 }
 

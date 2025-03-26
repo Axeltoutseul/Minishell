@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:16:58 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/25 21:07:50 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:22:33 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,8 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	setup_signal(void)
 {
 	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 }

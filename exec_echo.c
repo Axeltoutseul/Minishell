@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 14:38:28 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/26 11:43:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	exec_echo(t_prompt *prompt)
 	int	i;
 
 	i = 1;
+	if (ft_strcmp(prompt->strs[i], "-n") == 0)
+		i++;
 	while (prompt->strs[i])
 	{
 		if (ft_strcmp(prompt->strs[i], ">") == 0
@@ -39,6 +41,8 @@ void	exec_echo_builtin(t_command *cmd)
 	int	i;
 
 	i = 1;
+	if (ft_strcmp(cmd->args[i], "-n") == 0)
+		i++;
 	while (cmd->args[i])
 	{
 		ft_printf("%s", cmd->args[i]);
@@ -46,5 +50,6 @@ void	exec_echo_builtin(t_command *cmd)
 			ft_printf(" ");
 		i = i + 1;
 	}
-	ft_printf("\n");
+	if (!(cmd->args[1] && ft_strcmp(cmd->args[1], "-n") == 0))
+		ft_printf("\n");
 }

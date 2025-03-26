@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/25 19:15:21 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:12:22 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,23 @@ char	*expand_variables(const char *input)
 	{
 		if (input[i] == '$' && state != 1)
 		{
+			if (input[i + 1] == '?' || input[i + 1] == '$')
+			{
+				temp = expand_var(input, &i);
+				result = append_str(result, temp);
+				free(temp);
+				continue;
+			}
+			if (!input[i + 1] || (!ft_isalnum(input[i + 1]) && input[i + 1] != '_'))
+			{
+				result = append_str(result, "$");
+				i = i + 1;
+				continue;
+			}
 			temp = expand_var(input, &i);
 			result = append_str(result, temp);
 			free(temp);
-			continue ;
+			continue;
 		}
 		check_state(i, &state, input);
 		ch[0] = input[i];
