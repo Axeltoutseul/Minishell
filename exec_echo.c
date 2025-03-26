@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:05:39 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 16:07:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:21:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exec_echo(t_prompt *prompt)
 	int	i;
 
 	i = 1;
-	if (ft_strcmp(prompt->strs[i], "-n") == 0)
+	if (prompt->strs[i] && ft_strcmp(prompt->strs[i], "-n") == 0)
 		i++;
 	while (prompt->strs[i])
 	{
@@ -41,7 +41,7 @@ void	exec_echo_builtin(t_command *cmd)
 	int	i;
 
 	i = 1;
-	if (ft_strcmp(cmd->args[i], "-n") == 0)
+	if (cmd->args[i] && ft_strcmp(cmd->args[i], "-n") == 0)
 		i++;
 	while (cmd->args[i])
 	{
