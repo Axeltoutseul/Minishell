@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 16:11:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:56:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,12 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 		return ;
 	trimmed = ft_strtrim(line, " \t");
 	j = ft_strlen(trimmed) - 1;
-	if (trimmed[0] == '|' || trimmed[j] == '|')
+	if (trimmed[0] == '|' || trimmed[j] == '|' || invalid_prompt(line))
 	{
-		ft_printf("bash: syntax error near unexpected token `|'\n");
+		if (trimmed[0] == '|' || trimmed[j] == '|')
+			ft_printf("bash: syntax error near unexpected token `|'\n");
+		else
+			ft_printf("bash: syntax error near unexpected token `newline'\n");
 		return (free(trimmed));
 	}
 	free(trimmed);

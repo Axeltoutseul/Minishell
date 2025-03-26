@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 16:36:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:55:16 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int			valid_name(char *name);
 int			valid_value(char *s);
 void		verif_history(t_shell *shell, const char *input);
 int			is_builtin(const char *cmd);
+int			invalid_prompt(char	*line);
 void		child_execute(int i, int prev_fd, int pipe_fd[2],
 				t_exec_context *ctx);
 void		execute_builtin_in_child(t_shell *shell,

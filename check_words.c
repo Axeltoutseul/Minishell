@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 17:02:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:54:31 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,29 @@ int	is_space(int c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
+	return (0);
+}
+
+int	invalid_prompt(char	*line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (ft_strlen(line + i) >= 2 && line[i] == '|' && line[i + 1] == '|')
+			return (1);
+		if (ft_strlen(line + i) >= 2 && ((line[i] == '<' && line[i + 1] == '>')
+			|| (line[i] == '>' && line[i + 1] == '<')))
+			return (1);
+		if (ft_strlen(line + i) >= 3)
+		{
+			if ((line[i] == '<' || line[i] == '>')
+				&& (line[i + 1] == '<' || line[i + 1] == '>')
+				&& (line[i + 2] == '<' || line[i + 2] == '>'))
+				return (1);
+		}
+		i++;
+	}
 	return (0);
 }
