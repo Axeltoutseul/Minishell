@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 12:27:20 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:43:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	char		*trimmed;
 	int			j;
 
-	if (!ft_strlen(line) || !count_strings(prompt->strs))
+	if (!ft_strlen(line) || !count_strings(prompt->strs)
+		|| !closed_quotes(line))
 		return ;
 	trimmed = ft_strtrim(line, " \t");
 	j = ft_strlen(trimmed) - 1;

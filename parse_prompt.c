@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:54:44 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/11 14:48:11 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:44:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	closed_quotes(char *cmd_line)
 			i++;
 	}
 	if (quote_count % 2 == 1)
+	{
+		ft_printf("syntax error: unclosed quote\n");
 		return (0);
+	}
 	return (1);
 }
 
