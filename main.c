@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 17:00:11 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:38:57 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,22 @@ static void	check_cmd(t_pipeline *pipeline)
 void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	t_pipeline	*pipeline;
-	char		*trimmed;
+	char		*tmp;
 	int			j;
 
 	if (!count_strings(prompt->strs) || !closed_quotes(line))
 		return ;
-	trimmed = ft_strtrim(line, " \t");
-	j = ft_strlen(trimmed) - 1;
-	if (trimmed[0] == '|' || trimmed[j] == '|' || invalid_prompt(line))
+	tmp = get_line_without_space(line);
+	j = ft_strlen(tmp) - 1;
+	if (tmp[0] == '|' || tmp[j] == '|' || invalid_prompt(tmp))
 	{
-		if (trimmed[0] == '|' || trimmed[j] == '|')
+		if (tmp[0] == '|' || tmp[j] == '|')
 			ft_printf("bash: syntax error near unexpected token `|'\n");
 		else
 			ft_printf("bash: syntax error near unexpected token `newline'\n");
-		return (free(trimmed));
+		return (free(tmp));
 	}
-	free(trimmed);
+	free(tmp);
 	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
 		&& !contains_redirection(prompt->strs))
 		return (execute_builtin(shell, prompt));

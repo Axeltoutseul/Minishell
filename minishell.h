@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 16:55:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:39:41 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
+char		*get_line_without_space(char *line);
 
 // Gestion de la structure principale
 void		free_2d_array(char **strs);

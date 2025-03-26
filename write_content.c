@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_content.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:10:48 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/07 14:11:45 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:42:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,32 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 		i++;
 	}
 	new_string[total_size] = 0;
+	return (new_string);
+}
+
+char	*get_line_without_space(char *line)
+{
+	int		i;
+	int		j;
+	int		size;
+	char	*new_string;
+
+	i = 0;
+	size = 0;
+	while (line[i])
+		if (!is_space(line[i++]))
+			size++;
+	new_string = (char *)malloc(sizeof(char) * (size + 1));
+	if (!new_string)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (!is_space(line[i]))
+			new_string[j++] = line[i];
+		i++;
+	}
+	new_string[j] = 0;
 	return (new_string);
 }
