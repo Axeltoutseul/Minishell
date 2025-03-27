@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   adv_tokeniser2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:15:42 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 11:46:01 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:43:52 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,24 @@ char	*preprocess_line(const char *line)
 {
 	int		i;
 	int		j;
+	int		len;
 	char	*new_line;
 
 	i = 0;
 	j = 0;
-	new_line = malloc(sizeof(char) * (ft_strlen(line) * 3 + 1));
+	len = ft_strlen(line);
+	new_line = malloc(sizeof(char) * (len * 3 + 1));
 	if (!new_line)
 		return (NULL);
 	while (line[i])
 	{
 		if (line[i] == '>' || line[i] == '<')
 		{
-			if (i > 0 && line[i - 1] != ' ')
-				new_line[j++] = ' ';
-			new_line[j++] = line[i];
-			if (line[i + 1] && line[i + 1] == line[i])
-				new_line[j++] = line[++i];
-			if (line[i + 1] && line[i + 1] != ' ')
-				new_line[j++] = ' ';
+			handle_redirection(line, &i, &j, new_line);
 		}
 		else
 			new_line[j++] = line[i];
-		i++;
+		i = i + 1;
 	}
 	new_line[j] = '\0';
 	return (new_line);

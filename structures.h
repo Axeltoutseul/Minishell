@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 14:46:30 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:58:51 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ typedef struct s_redirection
 	char					*target;
 	struct s_redirection	*next;
 }	t_redirection;
+
+typedef struct s_build_ctx
+{
+	char			**tokens;
+	int				i;
+	int				j;
+	char			**new_tokens;
+	t_redirection	**redir;
+}	t_build_ctx;
 
 typedef struct s_command
 {
