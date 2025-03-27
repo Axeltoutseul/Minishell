@@ -1,0 +1,10 @@
+cat probleme peut etre lie a la redirection 
+
+echo -n probleme
+
+<< heredoc re segfault "<< delim"
+
+redirection quand plsu de deux n'affiche plus rien 
+
+getenv dans handle dollar prends le env du shell et non le minishell d'env
+
