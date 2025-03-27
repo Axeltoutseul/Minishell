@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_new_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:51:41 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 13:56:36 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 17:39:29 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_token_build_new_tokens(t_build_ctx *ctx)
 	char			*temp;
 	t_redirection	*new_redir;
 
-	temp = ft_strtrim(ctx->tokens[ctx->i], " \t");
+	temp = ft_strtrim(ctx->tokens[ctx->i], "\t");
 	if (!temp)
 		return (-1);
 	if (ft_strcmp(temp, ">") == 0 || ft_strcmp(temp, ">>") == 0
