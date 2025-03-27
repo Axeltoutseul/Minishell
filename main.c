@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 19:38:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:29:51 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,15 @@ static void	check_cmd(t_pipeline *pipeline)
 
 void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
-	t_pipeline	*pipeline;
 	char		*tmp;
-	int			j;
+	t_pipeline	*pipeline;
 
 	if (!count_strings(prompt->strs) || !closed_quotes(line))
 		return ;
 	tmp = get_line_without_space(line);
-	j = ft_strlen(tmp) - 1;
-	if (tmp[0] == '|' || tmp[j] == '|' || invalid_prompt(tmp))
+	if (invalid_prompt(tmp))
 	{
-		if (tmp[0] == '|' || tmp[j] == '|')
+		if (invalid_prompt(tmp) == 2)
 			ft_printf("bash: syntax error near unexpected token `|'\n");
 		else
 			ft_printf("bash: syntax error near unexpected token `newline'\n");
@@ -96,7 +94,10 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	if (pipeline == NULL)
 		return ;
 	check_cmd(pipeline);
-	return (execute_pipeline(shell, pipeline, env), free_pipeline(pipeline));
+	signal(SIGINT, SIG_IGN);
+	execute_pipeline(shell, pipeline, env);
+	signal(SIGINT, handle_sigint);
+	free_pipeline(pipeline);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -104,10 +105,19 @@ int	main(int argc, char **argv, char **env)
 	t_shell		*shell;
 	char		*line;
 	t_prompt	*prompt;
+	char		*shlvl_env;
+	int			shlvl;
 
 	(void)argc;
 	(void)argv;
-	setup_signal();
+	shlvl_env = getenv("SHLVL");
+	shlvl = 0;
+	if (shlvl_env)
+		shlvl = atoi(shlvl_env);
+	if (shlvl <= 1)
+		setup_signal();
+	else
+		signal(SIGINT, SIG_DFL);
 	shell = init_shell(env);
 	while (1)
 	{

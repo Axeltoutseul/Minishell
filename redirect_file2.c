@@ -1,95 +1,101 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rdirect_file2.c                                    :+:      :+:    :+:   */
+/*   redirect_file2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 15:55:03 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/26 15:55:21 by quenalla         ###   ########.fr       */
+/*   Created: 2025/03/27 10:56:26 by qacjl             #+#    #+#             */
+/*   Updated: 2025/03/27 11:11:13 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
-static void	get_redir_params(const char *op, int *flags, int *mode, int *std_fd)
+int	process_output_redirect(char **tokens, int *index)
 {
-	if (ft_strcmp(op, ">") == 0)
-	{
-		*flags = O_WRONLY | O_CREAT | O_TRUNC;
-		*mode = 0644;
-		*std_fd = STDOUT_FILENO;
-	}
-	else if (ft_strcmp(op, ">>") == 0)
-	{
-		*flags = O_WRONLY | O_CREAT | O_APPEND;
-		*mode = 0644;
-		*std_fd = STDOUT_FILENO;
-	}
-	else if (ft_strcmp(op, "<") == 0)
-	{
-		*flags = O_RDONLY;
-		*mode = 0;
-		*std_fd = STDIN_FILENO;
-	}
-	else
-	{
-		*flags = 0;
-		*mode = 0;
-		*std_fd = -1;
-	}
-}
+	int	fd;
 
-static int	open_and_dup_file(const char *file, int std_fd, int flags, int mode)
-{
-	int		fd;
-
-	fd = open(file, flags, mode);
+	if (tokens[*index + 1] == 0)
+	{
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	fd = open(tokens[*index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("open");
 		return (-1);
 	}
-	if (dup2(fd, std_fd) == -1)
-	{
-		perror("dup2");
-		close(fd);
-		return (-1);
-	}
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	*index = *index + 2;
 	return (0);
 }
 
-static int	handle_single_redirection(const char *op, const char *file)
+int	process_input_redirect(char **tokens, int *index)
 {
-	int		flags;
-	int		mode;
-	int		std_fd;
-	int		ret;
+	int	fd;
 
-	get_redir_params(op, &flags, &mode, &std_fd);
-	if (std_fd == -1)
+	if (tokens[*index + 1] == 0)
+	{
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
 		return (-1);
-	ret = open_and_dup_file(file, std_fd, flags, mode);
-	return (ret);
+	}
+	fd = open(tokens[*index + 1], O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	*index = *index + 2;
+	return (0);
 }
 
-int	apply_redirections(char **tokens)
+int	process_append_redirect(char **tokens, int *index)
 {
-	int	i;
-	int	ret;
+	int	fd;
 
-	i = 0;
+	if (tokens[*index + 1] == 0)
+	{
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	fd = open(tokens[*index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	*index = *index + 2;
+	return (0);
+}
+
+int	process_redirections_loop(char **tokens, int i, int ret)
+{
 	while (tokens[i])
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
-			|| ft_strcmp(tokens[i], "<") == 0)
+		if (ft_strcmp(tokens[i], ">") == 0)
 		{
-			ret = handle_single_redirection(tokens[i], tokens[i + 1]);
-			if (ret == -1)
+			ret = process_output_redirect(tokens, &i);
+			if (ret < 0)
 				return (-1);
-			i = i + 2;
+		}
+		else if (ft_strcmp(tokens[i], ">>") == 0)
+		{
+			ret = process_append_redirect(tokens, &i);
+			if (ret < 0)
+				return (-1);
+		}
+		else if (ft_strcmp(tokens[i], "<") == 0)
+		{
+			ret = process_input_redirect(tokens, &i);
+			if (ret < 0)
+				return (-1);
 		}
 		else
 			i = i + 1;

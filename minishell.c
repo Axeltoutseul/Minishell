@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 16:24:31 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:30:43 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	exec_pwd(t_shell *shell, t_prompt *prompt)
+{
+	(void)prompt;
+	ft_printf("%s\n", shell->pwd);
+}
 
 void	exec_exit(t_shell *shell, t_prompt *prompt)
 {
@@ -31,7 +37,7 @@ void	execute_builtin(t_shell *shell, t_prompt *prompt)
 	else if (ft_strcmp(prompt->strs[0], "cd") == 0)
 		exec_cd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "pwd") == 0)
-		ft_printf("%s\n", shell->pwd);
+		exec_pwd(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "unset") == 0)
 		exec_unset(shell, prompt);
 	else if (ft_strcmp(prompt->strs[0], "exit") == 0)

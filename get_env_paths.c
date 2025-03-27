@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/26 13:07:41 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:18:49 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*get_path_value(char **envp, char *name)
 
 int	get_shell_level(char **envp)
 {
-	int	i;
-	int	shlvl;
+	int		i;
+	int		shlvl;
 
 	i = 0;
 	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
@@ -62,61 +62,21 @@ char	**split_path(char **envp)
 	return (splitted_path);
 }
 
-static char	**get_paths(char **env)
-{
-	int		i;
-	char	*path_var;
-	char	**paths;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
-		i = i + 1;
-	}
-	if (env[i] == 0)
-		return (NULL);
-	path_var = env[i] + 5;
-	paths = ft_split(path_var, ':');
-	return (paths);
-}
-
-static char	*join_cmd_to_path(char *path, char *cmd)
-{
-	char	*temp;
-	char	*full_path;
-
-	temp = ft_strjoin(path, "/");
-	full_path = ft_strjoin(temp, cmd);
-	free(temp);
-	return (full_path);
-}
-
 char	*get_command_path(char *cmd, char **env)
 {
 	char	**paths;
 	char	*full_path;
-	int		i;
 
 	if (ft_strchr(cmd, '/') != NULL)
-		return (ft_strdup(cmd));
-	paths = get_paths(env);
-	if (paths == NULL)
-		return (NULL);
-	i = 0;
-	full_path = NULL;
-	while (paths[i])
 	{
-		full_path = join_cmd_to_path(paths[i], cmd);
-		if (access(full_path, F_OK | X_OK) == 0)
-		{
-			free_2d_array(paths);
-			return (full_path);
-		}
-		free(full_path);
-		i = i + 1;
+		return (ft_strdup(cmd));
 	}
+	paths = split_path(env);
+	if (paths == 0)
+	{
+		return (0);
+	}
+	full_path = search_cmd_in_paths(paths, cmd);
 	free_2d_array(paths);
-	return (NULL);
+	return (full_path);
 }

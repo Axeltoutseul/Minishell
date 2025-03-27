@@ -4,7 +4,19 @@ la ligne de commande qui avec kle fichier suprpress permet de supprimer les leak
 
 voir le fichier de corrections du minishell 
 
+
+minishell> cat | ls marche pas 
+
+echo $ n'affiche pas dollar 
+
 6 declarations de variable dans une fonction que 5 autorise 
 
-heredoc peux encore segfault
+redirection sepqre pqr des espace segfaults
 
+heredoc peux encore segfault la commande est juste << et si on fait << delim >> file1.txt il marche mais ne append  pas dans le fichier 
+i
+! et : doivent return line
+
+cat | ls marche mais cat tout seul n'est pas bon
+
+echo "       " n'affiche rien 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/26 16:09:38 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:02:51 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,36 +62,18 @@ static char	*expand_var(const char *in, int *i)
 	j = *i + 1;
 	while (in[j] && (ft_isalnum(in[j]) || in[j] == '_'))
 		j = j + 1;
+	if (j == *i + 1)
+	{
+		*i = *i + 1;
+		return (ft_strdup("$"));
+	}
 	name = ft_strndup(in + *i + 1, j - *i - 1);
+	*i = j;
 	val = getenv(name);
 	if (val == NULL)
 		val = "";
 	free(name);
-	*i = j;
 	return (ft_strdup(val));
-}
-
-static char	*process_dollar(const char *input, int *i)
-{
-	char	*res;
-
-	if (input[*i + 1] == '?' || input[*i + 1] == '$')
-	{
-		res = expand_var(input, i);
-		return (res);
-	}
-	if (!input[*i + 1])
-	{
-		*i = *i + 1;
-		return (ft_strdup("$"));
-	}
-	if (!ft_isalnum(input[*i + 1]) && input[*i + 1] != '_')
-	{
-		*i = *i + 1;
-		return (ft_strdup("$"));
-	}
-	res = expand_var(input, i);
-	return (res);
 }
 
 static void	check_state(int i, int *state, const char *input)
@@ -106,55 +88,6 @@ static void	check_state(int i, int *state, const char *input)
 		*state = 0;
 }
 
-static char	*append_char_helper(char *result, char c)
-{
-	char	*tmp;
-
-	tmp = malloc(2);
-	if (tmp == NULL)
-		return (NULL);
-	tmp[0] = c;
-	tmp[1] = '\0';
-	result = append_str(result, tmp);
-	free(tmp);
-	return (result);
-}
-
-static char	*expand_loop(const char *input)
-{
-	int		i;
-	int		state;
-	char	*result;
-	char	*temp;
-
-	i = 0;
-	state = 0;
-	result = ft_strdup("");
-	if (result == NULL)
-		return (NULL);
-	while (input[i])
-	{
-		if (input[i] == '$' && state != 1)
-		{
-			temp = process_dollar(input, &i);
-			result = append_str(result, temp);
-			free(temp);
-			continue ;
-		}
-		check_state(i, &state, input);
-		result = append_char_helper(result, input[i]);
-		i = i + 1;
-	}
-	return (result);
-}
-
-char	*expand_variables(const char *input)
-{
-	return (expand_loop(input));
-}
-
-
-/*
 char	*expand_variables(const char *input)
 {
 	int		i;
@@ -177,18 +110,18 @@ char	*expand_variables(const char *input)
 				temp = expand_var(input, &i);
 				result = append_str(result, temp);
 				free(temp);
-				continue;
+				continue ;
 			}
 			if (!input[i + 1] || (!ft_isalnum(input[i + 1]) && input[i + 1] != '_'))
 			{
 				result = append_str(result, "$");
 				i = i + 1;
-				continue;
+				continue ;
 			}
 			temp = expand_var(input, &i);
 			result = append_str(result, temp);
 			free(temp);
-			continue;
+			continue ;
 		}
 		check_state(i, &state, input);
 		ch[0] = input[i];
@@ -198,4 +131,3 @@ char	*expand_variables(const char *input)
 	}
 	return (result);
 }
-*/
