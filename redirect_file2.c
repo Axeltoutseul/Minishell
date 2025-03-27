@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:56:26 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 11:11:13 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:09:23 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	process_append_redirect(char **tokens, int *index)
 	return (0);
 }
 
-int	process_redirections_loop(char **tokens, int i, int ret)
+int	process_redirs_loop(char **tokens, int i, int ret)
 {
 	while (tokens[i])
 	{

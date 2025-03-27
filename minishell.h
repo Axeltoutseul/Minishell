@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 14:04:14 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:09:23 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char		**remove_hd_tokens(char **tokens, char **heredoc);
 char		*get_command_path(char *cmd, char **env);
 char		**split_pipeline(const char *line);
 char		*preprocess_line(const char *line);
-char		**build_new_tokens(char **tokens, t_redirection **redir, int size);
+char		**build_new_tokens(char **tokens, t_redir **redir, int size);
 int			count_non_redir_tokens(char **tokens);
 int			invalid_prompt(char	*line);
 char		*get_line_without_space(char *line);
@@ -53,7 +53,7 @@ char		*expand_variables(const char *input);
 int			apply_redirections(char **token);
 int			apply_command_redirections(t_command *cmd);
 int			handle_heredoc_parent_pipe(const char *delimiter);
-int			process_redirections_loop(char **tokens, int i, int ret);
+int			process_redirs_loop(char **tokens, int i, int ret);
 // Outils de strings
 int			calculate_size_for_replace(const char *str, char *a, char *b);
 int			calculate_total_size(int size, char **strs, char *sep);
@@ -104,7 +104,8 @@ void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 void		exec_echo_builtin(t_command *cmd);
-char		*do_expand_loop(const char *input, int *i, int *state, char *result);
+char		*do_expand_loop(const char *input, int *i, int *state
+				, char *result);
 char		*handle_dollar_case(const char *input, int *i);
 char		*expand_var(const char *in, int *i);
 void		check_state(int i, int *state, const char *input);
@@ -130,12 +131,13 @@ void		verif_history(t_shell *shell, const char *input);
 int			is_builtin(const char *cmd);
 int			process_hd_token(char **tokens, int *i, char **heredoc);
 int			count_tokens_without_hd(char **tokens);
-char		**build_tokens_without_hd(char **tokens, char **heredoc, int new_count);
+char		**build_tokens_without_hd(char **tokens
+				, char **heredoc, int new_count);
 int			count_non_redir_tokens(char **tokens);
 char		**build_tokens_without_redir(char **tokens, int non_redir_count);
-char		**build_new_tokens(char **tokens, t_redirection **redir, int size);
+char		**build_new_tokens(char **tokens, t_redir **redir, int size);
 int			handle_token_build_new_tokens(t_build_ctx *ctx);
-t_redirection	*create_redirection_token(char **tokens, int *i);
+t_redir	*create_redirection_token(char **tokens, int *i);
 char		*create_redirection_op(char *token);
 void		child_execute(t_exec_context *ctx, int i, int prev_fd, int pipe_fd[2]);
 void		execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 09:43:53 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:09:23 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_builtin(const char *cmd)
 	return (0);
 }
 
-int	contains_redirection(char **tokens)
+int	contains_redir(char **tokens)
 {
 	int	i;
 
@@ -91,7 +91,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	}
 	free(tmp);
 	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
-		&& !contains_redirection(prompt->strs))
+		&& !contains_redir(prompt->strs))
 		return (execute_builtin(shell, prompt));
 	pipeline = parse_input(line);
 	if (pipeline == NULL)
