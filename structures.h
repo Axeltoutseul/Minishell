@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 13:58:51 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:14:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 # define STRUCTURES_H
 # include "libft/libft.h"
 
-typedef struct s_redirection
+typedef struct s_redir
 {
-	char					*op;
-	char					*target;
-	struct s_redirection	*next;
-}	t_redirection;
+	char			*op;
+	char			*target;
+	struct s_redir	*next;
+}	t_redir;
 
 typedef struct s_build_ctx
 {
-	char			**tokens;
-	int				i;
-	int				j;
-	char			**new_tokens;
-	t_redirection	**redir;
+	char		**tokens;
+	int			i;
+	int			j;
+	char		**new_tokens;
+	t_redir		**redir;
 }	t_build_ctx;
 
 typedef struct s_command
 {
-	char			**args;
-	char			*heredoc_delim;
-	int				heredoc_fd;
-	t_redirection	*redirections;
+	char		**args;
+	char		*heredoc_delim;
+	int			heredoc_fd;
+	t_redir		*redirections;
 }	t_command;
 
 typedef struct s_pipeline

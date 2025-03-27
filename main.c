@@ -6,32 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 17:00:59 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:39:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_builtin(const char *cmd)
-{
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "history") == 0)
-		return (1);
-	return (0);
-}
 
 int	contains_redirection(char **tokens)
 {
@@ -70,6 +49,15 @@ static void	check_cmd(t_pipeline *pipeline)
 	}
 }
 
+void	exec_command2(t_pipeline *pipeline, t_shell *shell, char **env)
+{
+	check_cmd(pipeline);
+	signal(SIGINT, SIG_IGN);
+	execute_pipeline(shell, pipeline, env);
+	signal(SIGINT, handle_sigint);
+	free_pipeline(pipeline);
+}
+
 void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	char		*tmp;
@@ -93,11 +81,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	pipeline = parse_input(line);
 	if (pipeline == NULL)
 		return ;
-	check_cmd(pipeline);
-	signal(SIGINT, SIG_IGN);
-	execute_pipeline(shell, pipeline, env);
-	signal(SIGINT, handle_sigint);
-	free_pipeline(pipeline);
+	exec_command2(pipeline, shell, env);
 }
 
 int	main(int argc, char **argv, char **env)

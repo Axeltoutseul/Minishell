@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:02:36 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 14:05:07 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:24:56 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static void	process_builtin(t_shell *shell, t_command *cmd)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		execute_env_builtin(shell);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		ft_printf("cd: modification de l'environnement impossible dans un pipeline\n");
+		ft_printf("cd: modification de l'env impossible dans un pipe\n");
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		ft_printf("%s\n", shell->pwd);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		ft_printf("unset: modification de l'environnement impossible dans un pipeline\n");
+		ft_printf("unset: modification de l'env impossible dans un pipe\n");
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		exit(0);
 	else if (ft_strcmp(cmd->args[0], "history") == 0)

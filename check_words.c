@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 15:06:56 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:23:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ int	invalid_prompt(char	*line)
 	{
 		if (ft_strlen(line + i) >= 2 && line[i] == '|' && line[i + 1] == '|')
 			return (2);
-		if (ft_strlen(line + i) >= 2 && ((line[i] == '<' && line[i + 1] == '>')
-			|| (line[i] == '>' && line[i + 1] == '<')))
+		if (ft_strlen(line + i) >= 2
+			&& ((line[i] == '<' && line[i + 1] == '>')
+				|| (line[i] == '>' && line[i + 1] == '<')))
 			return (1);
 		if (ft_strlen(line + i) >= 3)
 		{

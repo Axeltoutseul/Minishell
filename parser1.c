@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:15 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 13:59:05 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:12:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**remove_hd_tokens(char **tokens, char **heredoc)
 	return (new_tokens);
 }
 
-static char	**extract_redirections(char **tokens, t_redirection **redir)
+static char	**extract_redirections(char **tokens, t_redir **redir)
 {
 	int		non_redir_count;
 	char	**new_tokens;
