@@ -6,22 +6,22 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:42:20 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 12:42:44 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 12:47:09 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_redirection(const char *line, int *i, int *j, char *new_line)
+void	handle_redirection(const char *line, int *i, int *j, char *nw_lin)
 {
 	if (*i > 0 && line[*i - 1] != ' ')
-		new_line[(*j)++] = ' ';
-	new_line[(*j)++] = line[*i];
+		nw_lin[(*j)++] = ' ';
+	nw_lin[(*j)++] = line[*i];
 	if (line[*i + 1] && line[*i + 1] == line[*i])
 	{
 		*i = *i + 1;
-		new_line[(*j)++] = line[*i];
+		nw_lin[(*j)++] = line[*i];
 	}
 	if (line[*i + 1] && line[*i + 1] != ' ')
-		new_line[(*j)++] = ' ';
+		nw_lin[(*j)++] = ' ';
 }

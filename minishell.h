@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 12:43:03 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:05:26 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
 int			adv_handle_redirect(const char *target, const char *op, int std_fd);
 void		handle_pipe(char *cmd1[], char *cmd2[]);
-void		handle_redirection(const char *line, int *i, int *j, char *new_line);
+void		handle_redirection(const char *line, int *i, int *j, char *nw_lin);
 int			handle_redirection_char(const char *file, const char *op);
 int			redirect_file(const char *target, int std_fd, int flags, int mode);
 void		setup_signal(void);
@@ -104,6 +104,11 @@ void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 void		exec_echo_builtin(t_command *cmd);
+char		*do_expand_loop(const char *input, int *i, int *state, char *result);
+char		*handle_dollar_case(const char *input, int *i);
+char		*expand_var(const char *in, int *i);
+void		check_state(int i, int *state, const char *input);
+char		*append_str(char *dest, const char *src);
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);

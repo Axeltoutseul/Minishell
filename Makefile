@@ -6,7 +6,7 @@
 #    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/27 12:43:21 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/27 12:57:12 by qacjl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS =	adv_redirection.c \
 		get_env_paths.c \
 		get_env_paths2.c \
 		handle_dollar.c \
+		handle_dollar2.c \
 		handle_paths.c \
 		handle_strings.c \
 		heredoc.c \
