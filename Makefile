@@ -6,7 +6,7 @@
 #    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/27 12:57:12 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/27 14:05:54 by qacjl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS =	adv_redirection.c \
 		adv_tokeniser1.c \
 		adv_tokeniser2.c \
 		adv_tokeniser3.c \
+		build_new_tokens.c \
 		check_words.c \
 		exec_echo.c \
 		exec_export.c \
@@ -42,8 +43,11 @@ SRCS =	adv_redirection.c \
 		parse_prompt.c \
 		parser1.c \
 		parser2.c \
+		parser3.c \
 		pipe_handling.c \
 		pipeline.c \
+		pipeline2.c \
+		pipeline3.c \
 		read_content.c \
 		redirect_file.c \
 		redirect_file2.c \

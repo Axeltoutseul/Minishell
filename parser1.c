@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:15 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 09:58:15 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:59:05 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,106 +24,36 @@ int	count_raw_cmds(char **raw_cmds)
 
 char	**remove_redirection_tokens(char **tokens)
 {
-	int		i;
-	int		new_count;
+	int		non_redir_count;
 	char	**new_tokens;
 
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
+	non_redir_count = count_non_redir_tokens(tokens);
+	if (non_redir_count == -1)
 	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
-			|| ft_strcmp(tokens[i], "<") == 0)
-		{
-			if (!tokens[i + 1])
-			{
-				ft_printf("bash:syntax error near unexpected token `newline'\n");
-				free_2d_array(tokens);
-				return (NULL);
-			}
-			i += 2;
-		}
-		else
-		{
-			new_count++;
-			i++;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (!new_tokens)
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
+		free_2d_array(tokens);
 		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i])
-	{
-		if (ft_strcmp(tokens[i], ">") == 0
-			|| ft_strcmp(tokens[i], ">>") == 0
-			|| ft_strcmp(tokens[i], "<") == 0)
-			i += 2;
-		else
-			new_tokens[new_count++] = ft_strdup(tokens[i++]);
 	}
-	new_tokens[new_count] = NULL;
+	new_tokens = build_tokens_without_redir(tokens, non_redir_count);
 	free_2d_array(tokens);
 	return (new_tokens);
 }
 
 char	**remove_hd_tokens(char **tokens, char **heredoc)
 {
-	int		i;
 	int		new_count;
 	char	**new_tokens;
 
 	if (tokens == NULL)
 		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i] != NULL)
+	new_count = count_tokens_without_hd(tokens);
+	if (new_count == -1)
 	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			if (tokens[i + 1] == NULL)
-			{
-				ft_printf("bash: syntax error near unexpected token `newline'\n");
-				free_2d_array(tokens);
-				return (NULL);
-			}
-			i = i + 2;
-		}
-		else
-		{
-			new_count++;
-			i++;
-		}
-	}
-	new_tokens = malloc(sizeof(char *) * (new_count + 1));
-	if (new_tokens == NULL)
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
+		free_2d_array(tokens);
 		return (NULL);
-	i = 0;
-	new_count = 0;
-	while (tokens[i] != NULL)
-	{
-		if (ft_strcmp(tokens[i], "<<") == 0)
-		{
-			if (tokens[i + 1] == NULL)
-			{
-				ft_printf("bash: unexpected error: missing heredoc delimiter\n");
-				free_2d_array(tokens);
-				free(new_tokens);
-				return (NULL);
-			}
-			*heredoc = ft_strdup(tokens[i + 1]);
-			i = i + 2;
-		}
-		else
-		{
-			new_tokens[new_count] = ft_strdup(tokens[i]);
-			new_count++;
-			i++;
-		}
 	}
-	new_tokens[new_count] = NULL;
+	new_tokens = build_tokens_without_hd(tokens, heredoc, new_count);
 	free_2d_array(tokens);
 	return (new_tokens);
 }
@@ -161,19 +91,13 @@ t_command	*parse_command(char *raw)
 	heredoc = NULL;
 	tokens = remove_hd_tokens(tokens, &heredoc);
 	if (tokens == NULL)
-	{
-		free(cmd);
-		return (NULL);
-	}
+		return (free(cmd), NULL);
 	cmd->heredoc_delim = heredoc;
 	cmd->heredoc_fd = -1;
 	cmd->redirections = NULL;
 	tokens = extract_redirections(tokens, &cmd->redirections);
 	if (tokens == NULL)
-	{
-		free(cmd);
-		return (NULL);
-	}
+		return (free(cmd), NULL);
 	cmd->args = tokens;
 	return (cmd);
 }

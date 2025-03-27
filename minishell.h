@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 13:05:26 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 14:04:14 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,16 @@ int			valid_name(char *name);
 int			valid_value(char *s);
 void		verif_history(t_shell *shell, const char *input);
 int			is_builtin(const char *cmd);
+int			process_hd_token(char **tokens, int *i, char **heredoc);
+int			count_tokens_without_hd(char **tokens);
+char		**build_tokens_without_hd(char **tokens, char **heredoc, int new_count);
+int			count_non_redir_tokens(char **tokens);
+char		**build_tokens_without_redir(char **tokens, int non_redir_count);
+char		**build_new_tokens(char **tokens, t_redirection **redir, int size);
+int			handle_token_build_new_tokens(t_build_ctx *ctx);
+t_redirection	*create_redirection_token(char **tokens, int *i);
+char		*create_redirection_op(char *token);
+void		child_execute(t_exec_context *ctx, int i, int prev_fd, int pipe_fd[2]);
+void		execute_builtin_in_child(t_shell *shell, t_command *cmd, char **env);
 
 #endif
