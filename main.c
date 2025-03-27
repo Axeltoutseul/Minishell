@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 15:10:15 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:00:59 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,11 @@ int	main(int argc, char **argv, char **env)
 	t_shell		*shell;
 	char		*line;
 	t_prompt	*prompt;
-	char		*shlvl_env;
-	int			shlvl;
 
 	(void)argc;
 	(void)argv;
-	shlvl_env = getenv("SHLVL");
-	shlvl = 0;
-	if (shlvl_env)
-		shlvl = atoi(shlvl_env);
-	if (shlvl <= 1)
-		setup_signal();
-	else
-		signal(SIGINT, SIG_DFL);
 	shell = init_shell(env);
+	check_signal(&shell->shlvl);
 	while (1)
 	{
 		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
