@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:16:58 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/28 13:57:19 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 14:33:39 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static int	g_last_exit_status = 0;
 
 int	get_last_exit_status(void)
 {
-    return (g_last_exit_status);
+	return (g_last_exit_status);
 }
 
 void	set_last_exit_status(int status)
 {
-    g_last_exit_status = status;
+	g_last_exit_status = status;
 }
 
 void	handle_sigint(int sig)
@@ -50,4 +50,3 @@ void	check_signal(int *shlvl)
 	else
 		signal(SIGINT, SIG_DFL);
 }
-
