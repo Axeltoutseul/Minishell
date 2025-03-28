@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 15:07:16 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:57:19 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	add_to_env_and_export(t_env *new, t_env *temp, t_shell *shell)
 {
 	add_env_line(&shell->env_lines, new);
 	add_env_line(&shell->export_lines, temp);
+	setenv(new->name, new->value, 1);
 }
 
 void	add_lines(t_shell *shell, t_prompt *prompt)
@@ -74,18 +75,21 @@ void	update_line(char *arg, t_env **env)
 	t_env	*temp;
 	int		i;
 	char	*var_name;
+	char	*value;
 
 	temp = *env;
 	i = 0;
 	while (arg[i] && arg[i] != '=')
 		i++;
 	var_name = ft_strndup(arg, i);
+	value = ft_strdup(ft_strchr(arg, '=') + 1);
 	while (temp)
 	{
 		if (ft_strcmp(var_name, temp->name) == 0)
 		{
 			free(temp->value);
-			temp->value = ft_strdup(ft_strchr(arg, '=') + 1);
+			temp->value = value;
+			setenv(var_name, value, 1);
 		}
 		temp = temp->next;
 	}

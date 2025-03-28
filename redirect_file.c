@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:42:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:13:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:49:22 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	apply_command_redirections(t_command *cmd)
 	t_redir	*redir;
 	int		ret;
 
-	redir = cmd->redirections;
+	redir = reverse_redir_list(cmd->redirections);
 	ret = 0;
 	while (redir)
 	{

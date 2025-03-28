@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_strings.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 17:12:26 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:00:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,24 @@ void	ft_swap(char **s1, char **s2)
 	tmp = *s1;
 	*s1 = *s2;
 	*s2 = tmp;
+}
+
+int	is_valid_n_option(const char *str)
+{
+	int	i;
+
+	if (str == NULL || str[0] != '-')
+		return (0);
+	i = 1;
+	if (str[i] == '\0')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	sort_strings(char **envp, int size)

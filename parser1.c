@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:15 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:12:24 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:49:09 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static char	**extract_redirections(char **tokens, t_redir **redir)
 t_command	*parse_command(char *raw)
 {
 	t_command	*cmd;
+	char		*expanded_raw;
 	char		**tokens;
 	char		*heredoc;
-	char		*expanded_raw;
 
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
@@ -89,9 +89,7 @@ t_command	*parse_command(char *raw)
 	tokens = advanced_tokenize_modified(expanded_raw);
 	free(expanded_raw);
 	heredoc = NULL;
-	tokens = remove_hd_tokens(tokens, &heredoc);
-	if (tokens == NULL)
-		return (free(cmd), NULL);
+	tokens = prepare_tokens(tokens, &heredoc);
 	cmd->heredoc_delim = heredoc;
 	cmd->heredoc_fd = -1;
 	cmd->redirections = NULL;

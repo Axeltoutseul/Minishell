@@ -6,11 +6,25 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 13:42:14 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 11:44:49 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**prepare_tokens(char **tokens, char **heredoc)
+{
+	tokens = remove_hd_tokens(tokens, heredoc);
+	if (tokens == NULL || tokens[0] == NULL)
+	{
+		tokens = malloc(sizeof(char *) * 2);
+		if (!tokens)
+			return (NULL);
+		tokens[0] = ft_strdup("");
+		tokens[1] = NULL;
+	}
+	return (tokens);
+}
 
 static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 {

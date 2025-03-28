@@ -6,11 +6,29 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:56:26 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 11:11:13 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 11:33:16 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_redir	*reverse_redir_list(t_redir *head)
+{
+	t_redir	*prev;
+	t_redir	*curr;
+	t_redir	*next;
+
+	prev = NULL;
+	curr = head;
+	while (curr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	return (prev);
+}
 
 int	process_output_redirect(char **tokens, int *index)
 {

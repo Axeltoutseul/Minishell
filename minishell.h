@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:19:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:01:11 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char		**build_new_tokens(char **tokens, t_redir **redir, int size);
 int			count_non_redir_tokens(char **tokens);
 int			invalid_prompt(char	*line);
 char		*get_line_without_space(char *line);
+char		**prepare_tokens(char **tokens, char **heredoc);
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
@@ -55,6 +56,8 @@ int			apply_command_redirections(t_command *cmd);
 int			handle_heredoc_parent_pipe(const char *delimiter);
 int			process_redirections_loop(char **tokens, int i, int ret);
 void		check_signal(int *shlvl);
+t_redir		*reverse_redir_list(t_redir *head);
+
 // Outils de strings
 int			calculate_total_size(int size, char **strs, char *sep);
 void		check_error(char *name, char *arg);
@@ -69,6 +72,7 @@ char		*ft_strndup(const char *src, size_t n);
 void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
+int			is_valid_n_option(const char *str);
 // Gestion de la structure principale
 void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
