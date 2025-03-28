@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:14:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 13:49:59 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_global
+{
+	int		last_exit_status;
+	t_env	*internal_env;
+}	t_global;
+
+extern t_global	g_ms_state;
 
 typedef struct s_shell
 {

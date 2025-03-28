@@ -6,11 +6,27 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:55:41 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 12:00:47 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 13:39:43 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*mini_getenv(const char *name)
+{
+	t_env	*curr;
+
+	if (!g_ms_state.internal_env)
+		return ("");
+	curr = g_ms_state.internal_env;
+	while (curr)
+	{
+		if (ft_strcmp(curr->name, name) == 0)
+			return (curr->value);
+		curr = curr->next;
+	}
+	return ("");
+}
 
 void	ft_swap(char **s1, char **s2)
 {

@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 14:14:30 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 13:48:33 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
-	shell = (t_shell *)malloc(sizeof(t_shell));
+	shell = malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->path = get_path_value(envp, "PATH=");
@@ -31,6 +31,7 @@ t_shell	*init_shell(char **envp)
 	shell->export_lines = NULL;
 	copy_export(&shell->export_lines, envp);
 	shell->history = NULL;
+	g_ms_state.internal_env = shell->env_lines;
 	return (shell);
 }
 

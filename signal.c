@@ -3,18 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 16:16:58 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:28:12 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/28 13:57:19 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#include "signal.h"
+
+static int	g_last_exit_status = 0;
+
+int	get_last_exit_status(void)
+{
+    return (g_last_exit_status);
+}
+
+void	set_last_exit_status(int status)
+{
+    g_last_exit_status = status;
+}
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	set_last_exit_status(130);
 	rl_set_prompt("\001\033[0;32m\002minishell> \001\033[0m\002");
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -36,23 +51,3 @@ void	check_signal(int *shlvl)
 		signal(SIGINT, SIG_DFL);
 }
 
-int	is_builtin(const char *cmd)
-{
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "history") == 0)
-		return (1);
-	return (0);
-}
