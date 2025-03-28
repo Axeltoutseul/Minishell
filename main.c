@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:09:23 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:39:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(const char *cmd)
-{
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "env") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	if (ft_strcmp(cmd, "history") == 0)
-		return (1);
-	return (0);
-}
-
-int	contains_redir(char **tokens)
+int	contains_redirection(char **tokens)
 {
 	int	i;
 
@@ -70,32 +49,8 @@ static void	check_cmd(t_pipeline *pipeline)
 	}
 }
 
-void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
+void	exec_command2(t_pipeline *pipeline, t_shell *shell, char **env)
 {
-	char		*tmp;
-	int			j;
-	t_pipeline	*pipeline;
-
-	if (!count_strings(prompt->strs) || !closed_quotes(line))
-		return ;
-	tmp = get_line_without_space(line);
-	j = ft_strlen(tmp) - 1;
-	if (tmp[0] == '|' || tmp[j] == '|' || invalid_prompt(tmp))
-	{
-		if (tmp[0] == '|' || tmp[j] == '|')
-			ft_printf("bash: syntax error near unexpected token `|'\n");
-		else
-			ft_printf("bash: syntax error near unexpected token `newline'\n");
-		free(tmp);
-		return ;
-	}
-	free(tmp);
-	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
-		&& !contains_redir(prompt->strs))
-		return (execute_builtin(shell, prompt));
-	pipeline = parse_input(line);
-	if (pipeline == NULL)
-		return ;
 	check_cmd(pipeline);
 	signal(SIGINT, SIG_IGN);
 	execute_pipeline(shell, pipeline, env);
@@ -103,25 +58,42 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	free_pipeline(pipeline);
 }
 
+void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
+{
+	char		*tmp;
+	t_pipeline	*pipeline;
+
+	if (!count_strings(prompt->strs) || !closed_quotes(line))
+		return ;
+	tmp = get_line_without_space(line);
+	if (invalid_prompt(tmp))
+	{
+		if (invalid_prompt(tmp) == 2)
+			ft_printf("bash: syntax error near unexpected token `|'\n");
+		else
+			ft_printf("bash: syntax error near unexpected token `newline'\n");
+		return (free(tmp));
+	}
+	free(tmp);
+	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
+		&& !contains_redirection(prompt->strs))
+		return (execute_builtin(shell, prompt));
+	pipeline = parse_input(line);
+	if (pipeline == NULL)
+		return ;
+	exec_command2(pipeline, shell, env);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_shell		*shell;
 	char		*line;
 	t_prompt	*prompt;
-	char		*shlvl_env;
-	int			shlvl;
 
 	(void)argc;
 	(void)argv;
-	shlvl_env = getenv("SHLVL");
-	shlvl = 0;
-	if (shlvl_env)
-		shlvl = atoi(shlvl_env);
-	if (shlvl <= 1)
-		setup_signal();
-	else
-		signal(SIGINT, SIG_DFL);
 	shell = init_shell(env);
+	check_signal(&shell->shlvl);
 	while (1)
 	{
 		line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");

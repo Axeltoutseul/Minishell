@@ -6,7 +6,7 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:05:14 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 14:05:30 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 11:54:21 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	child_execute(t_exec_context *ctx, int i, int prev_fd, int pipe_fd[2])
 	handle_heredoc_and_cat(cmd);
 	if (apply_command_redirections(cmd) == -1)
 		exit(EXIT_FAILURE);
+	if (cmd->args[0] == NULL || cmd->args[0][0] == '\0')
+		exit(0);
 	if (is_builtin(cmd->args[0]))
 	{
 		execute_builtin_in_child(ctx->shell, cmd, ctx->env);

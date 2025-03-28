@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_file2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:56:26 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:09:23 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:33:16 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_redir	*reverse_redir_list(t_redir *head)
+{
+	t_redir	*prev;
+	t_redir	*curr;
+	t_redir	*next;
+
+	prev = NULL;
+	curr = head;
+	while (curr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	return (prev);
+}
 
 int	process_output_redirect(char **tokens, int *index)
 {
@@ -75,7 +93,7 @@ int	process_append_redirect(char **tokens, int *index)
 	return (0);
 }
 
-int	process_redirs_loop(char **tokens, int i, int ret)
+int	process_redirections_loop(char **tokens, int i, int ret)
 {
 	while (tokens[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 17:48:21 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:24:27 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	handle_fork_and_update(int i, int prev_fd, int pipe_fd[2],
 	return (new_prev_fd);
 }
 
-static t_exec_context	init_ctx(t_shell *shell, t_pipeline *pipeline
-						, char **env)
+static t_exec_context	init_ctx(t_shell *shell, t_pipeline *pipeline,
+							char **env)
 {
 	t_exec_context	ctx;
 

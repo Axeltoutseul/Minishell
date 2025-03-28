@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 09:42:38 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/27 18:23:40 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,18 @@ int	is_space(int c)
 int	invalid_prompt(char	*line)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = ft_strlen(line) - 1;
+	if (line[i] == '|' || line[j] == '|')
+		return (2);
 	while (line[i])
 	{
 		if (ft_strlen(line + i) >= 2 && line[i] == '|' && line[i + 1] == '|')
-			return (1);
+			return (2);
 		if (ft_strlen(line + i) >= 2
-			&& ((line[i] == '<'
-					&& line[i + 1] == '>')
+			&& ((line[i] == '<' && line[i + 1] == '>')
 				|| (line[i] == '>' && line[i + 1] == '<')))
 			return (1);
 		if (ft_strlen(line + i) >= 3)

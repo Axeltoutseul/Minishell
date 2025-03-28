@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_new_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:51:41 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:08:13 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:22:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_token_build_new_tokens(t_build_ctx *ctx)
 {
-	char			*temp;
+	char	*temp;
 	t_redir	*new_redir;
 
 	temp = ft_strtrim(ctx->tokens[ctx->i], "\t");

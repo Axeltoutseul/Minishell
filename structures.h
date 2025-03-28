@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:09:55 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:14:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ typedef struct s_build_ctx
 
 typedef struct s_command
 {
-	char	**args;
-	char	*heredoc_delim;
-	int		heredoc_fd;
-	t_redir	*redirections;
+	char		**args;
+	char		*heredoc_delim;
+	int			heredoc_fd;
+	t_redir		*redirections;
 }	t_command;
 
 typedef struct s_pipeline
