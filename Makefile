@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
+#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/28 13:51:14 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/28 15:29:36 by quenalla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRCS =	adv_redirection.c \
 		adv_tokeniser1.c \
 		adv_tokeniser2.c \
 		adv_tokeniser3.c \
-		build_array.c \
 		build_new_tokens.c \
 		check_words.c \
 		exec_echo.c \
@@ -31,6 +30,7 @@ SRCS =	adv_redirection.c \
 		free_terminal.c \
 		get_env_paths.c \
 		get_env_paths2.c \
+		getpid_setenv.c \
 		handle_dollar.c \
 		handle_dollar2.c \
 		handle_paths.c \

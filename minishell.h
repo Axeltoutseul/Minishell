@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 13:55:19 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 15:32:36 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ int			count_non_redir_tokens(char **tokens);
 int			invalid_prompt(char	*line);
 char		*get_line_without_space(char *line);
 char		**prepare_tokens(char **tokens, char **heredoc);
-void		set_internal_env(t_env *env);
-char		*mini_getenv(const char *name);
-int			get_last_exit_status(void);
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
@@ -62,7 +59,9 @@ void		check_signal(int *shlvl);
 t_redir		*reverse_redir_list(t_redir *head);
 
 // Outils de strings
-char		**build_env_array(t_env *env_list);
+pid_t		my_getpid(void);
+int			my_setenv(t_env **env, const char *name,
+				const char *value, int overwrite);
 int			calculate_total_size(int size, char **strs, char *sep);
 void		check_error(char *name, char *arg);
 int			count_occurs(const char *cmd_line, int to_find);

@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:53:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/28 13:43:44 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/28 15:29:06 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_exit_status;
 
 static char	*expand_special_var(const char *in, int *i)
 {
 	if (in[*i + 1] == '?')
 	{
 		*i = *i + 2;
-		return (ft_itoa(g_ms_state.last_exit_status));
+		return (ft_itoa(g_exit_status));
 	}
 	if (in[*i + 1] == '$')
 	{
 		*i = *i + 2;
-		return (ft_itoa(getpid()));
+		return (ft_itoa(my_getpid()));
 	}
 	return (NULL);
 }
@@ -47,7 +49,7 @@ char	*expand_var(const char *in, int *i)
 	}
 	name = ft_strndup(in + *i + 1, j - *i - 1);
 	*i = j;
-	val = mini_getenv(name);
+	val = getenv(name);
 	if (val == NULL)
 		val = "";
 	free(name);

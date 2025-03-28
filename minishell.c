@@ -6,13 +6,11 @@
 /*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:52 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 13:44:14 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/22 20:30:43 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_global	g_ms_state = {0, NULL};
 
 void	exec_pwd(t_shell *shell, t_prompt *prompt)
 {
