@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 15:37:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:38:48 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
 t_shell		*init_shell(char **envp);
 char		**get_env_lines(t_env *env);
+void		update_vars(t_shell *shell);
 // Gestion de l'environnement
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
-char		**split_path(char **envp);
 char		*get_command_path(char *cmd, char **env);
 char		*get_env_value(char **env, char *key);
 char		*search_cmd_in_paths(char **paths, char *cmd);
@@ -105,7 +105,7 @@ int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);
 void		remove_line(t_env **lst, char *arg);
-char		**split_path(char **envp);
+char		**split_path(char *env_line);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);

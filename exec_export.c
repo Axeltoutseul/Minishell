@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 15:31:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:56:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void	update_line(char *arg, t_env **env)
 		if (ft_strcmp(var_name, temp->name) == 0)
 		{
 			free(temp->value);
+			free(temp->line);
 			temp->value = value;
+			temp->line = ft_strjoin(temp->name, "=");
+			temp->line = join_and_free(temp->line, temp->value);
 		}
 		temp = temp->next;
 	}

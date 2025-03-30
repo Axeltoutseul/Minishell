@@ -6,11 +6,37 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/02/27 20:45:10 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:51:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	update_vars(t_shell *shell)
+{
+	free_2d_array(shell->env);
+	shell->env = get_env_lines(shell->env_lines);
+	free(shell->path);
+	free(shell->home_path);
+	free(shell->old_pwd);
+	free(shell->pwd);
+	free_2d_array(shell->splitted_path);
+	shell->path = get_path_value(shell->env, "PATH");
+	shell->home_path = get_path_value(shell->env, "HOME");
+	shell->old_pwd = get_path_value(shell->env, "OLDPWD");
+	shell->pwd = get_path_value(shell->env, "PWD");
+	shell->splitted_path = split_path(shell->path);
+}
+
+static void	check_home_path(t_shell *shell)
+{
+	if (shell->home_path == NULL)
+		ft_printf("bash: cd : HOME not set\n");
+	else if (chdir(shell->home_path) != 0)
+		ft_printf("cd: no such file or directory: %s\n", shell->home_path);
+	free(shell->pwd);
+	shell->pwd = ft_strdup(shell->home_path);
+}
 
 void	exec_cd(t_shell *shell, t_prompt *prompt)
 {
@@ -23,7 +49,7 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 	else
 	{
 		if (prompt->nb_args == 1)
-			chdir(shell->home_path);
+			check_home_path(shell);
 		if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)
 		{
 			free(shell->old_pwd);
@@ -48,11 +74,17 @@ void	update_paths(t_shell *shell, t_env **env)
 		{
 			free(temp->value);
 			temp->value = ft_strdup(shell->old_pwd);
+			free(temp->line);
+			temp->line = ft_strjoin("OLDPWD", "=");
+			temp->line = join_and_free(temp->line, shell->old_pwd);
 		}
 		else if (ft_strcmp(temp->name, "PWD") == 0)
 		{
 			free(temp->value);
 			temp->value = ft_strdup(shell->pwd);
+			free(temp->line);
+			temp->line = ft_strjoin("PWD", "=");
+			temp->line = join_and_free(temp->line, shell->pwd);
 		}
 		temp = temp->next;
 	}
