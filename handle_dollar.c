@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:36:56 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/27 12:59:45 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 15:37:32 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,14 @@ char	*append_str(char *dest, const char *src)
 	return (new_str);
 }
 
-char	*expand_variables(const char *input)
+char	*expand_variables(const char *input, char **env)
 {
 	int		i;
-	int		state;
 	char	*result;
 
 	i = 0;
-	state = 0;
 	result = ft_strdup("");
 	if (result == NULL)
 		return (NULL);
-	return (do_expand_loop(input, &i, &state, result));
+	return (do_expand_loop(input, &i, result, env));
 }

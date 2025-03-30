@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:14:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:32:52 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	char			*line;
 	struct s_env	*next;
 }	t_env;
 

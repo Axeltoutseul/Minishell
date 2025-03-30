@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_terminal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:06:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/25 17:15:04 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/03/30 13:20:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ void	free_terminal(t_shell *shell)
 
 void	free_new_and_temp(t_env *new, t_env *temp)
 {
-	free(new->name);
-	free(new->value);
-	free(new);
-	free(temp->name);
-	free(temp->value);
-	free(temp);
+	del_content(new);
+	del_content(temp);
 }

@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:39:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:09:19 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	if (!ft_strchr(line, '|') && is_builtin(prompt->strs[0])
 		&& !contains_redirection(prompt->strs))
 		return (execute_builtin(shell, prompt));
-	pipeline = parse_input(line);
+	pipeline = parse_input(line, shell->env);
 	if (pipeline == NULL)
 		return ;
 	exec_command2(pipeline, shell, env);
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		verif_history(shell, line);
-		prompt = init_prompt(line);
+		prompt = init_prompt(line, shell->env);
 		exec_command(shell, prompt, env, line);
 		free_prompt(prompt);
 		free(line);

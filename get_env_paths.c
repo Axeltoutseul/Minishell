@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 11:18:49 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 14:56:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ char	*get_path_value(char **envp, char *name)
 	char	*path;
 
 	i = 0;
-	size = ft_strlen(name);
-	while (ft_strncmp(envp[i], name, size) != 0)
+	size = ft_strlen(name) + 1;
+	while (envp[i] && ft_strncmp(envp[i], name, size - 1) != 0)
 	{
 		i = i + 1;
 	}
+	if (!envp[i] || (envp[i] && !ft_strchr(envp[i], '=')))
+		return (NULL);
 	path = ft_strdup(envp[i] + size);
 	return (path);
 }

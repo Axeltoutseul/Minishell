@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_env_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:16:06 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/06 13:57:47 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 13:21:01 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_env	*new_line(char *env_line)
 	}
 	else
 		new_node->value = NULL;
+	new_node->line = ft_strdup(env_line);
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -76,9 +77,7 @@ void	free_env_lines(t_env *env)
 	while (temp)
 	{
 		next = temp->next;
-		free(temp->name);
-		free(temp->value);
-		free(temp);
+		del_content(temp);
 		temp = next;
 	}
 }

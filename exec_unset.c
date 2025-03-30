@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 13:39:27 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 11:57:12 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 13:56:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,17 @@ void	exec_unset(t_shell *shell, t_prompt *prompt)
 			}
 			i++;
 		}
+		free_2d_array(shell->env);
+		shell->env = get_env_lines(shell->env_lines);
 	}
+}
+
+void	del_content(t_env *temp)
+{
+	free(temp->name);
+	free(temp->value);
+	free(temp->line);
+	free(temp);
 }
 
 void	remove_line(t_env **lst, char *arg)
@@ -48,9 +58,7 @@ void	remove_line(t_env **lst, char *arg)
 	if (ft_strcmp(temp->name, arg) == 0)
 	{
 		*lst = temp->next;
-		free(temp->name);
-		free(temp->value);
-		free(temp);
+		del_content(temp);
 		return ;
 	}
 	while (temp)
@@ -59,9 +67,7 @@ void	remove_line(t_env **lst, char *arg)
 		{
 			next_one = temp->next;
 			temp->next = temp->next->next;
-			free(next_one->name);
-			free(next_one->value);
-			free(next_one);
+			del_content(next_one);
 			return ;
 		}
 		temp = temp->next;

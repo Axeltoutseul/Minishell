@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+         #
+#    By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 13:47:59 by axbaudri          #+#    #+#              #
-#    Updated: 2025/03/27 14:05:54 by qacjl            ###   ########.fr        #
+#    Updated: 2025/03/28 15:29:36 by quenalla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS =	adv_redirection.c \
 		free_terminal.c \
 		get_env_paths.c \
 		get_env_paths2.c \
+		getpid_setenv.c \
 		handle_dollar.c \
 		handle_dollar2.c \
 		handle_paths.c \

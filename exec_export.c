@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 10:57:19 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 15:31:58 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	exec_export(t_shell *shell, t_prompt *prompt)
 		write_export(shell->export_lines);
 	else
 		add_lines(shell, prompt);
+	free_2d_array(shell->env);
+	shell->env = get_env_lines(shell->env_lines);
 }
 
 void	add_to_env_and_export(t_env *new, t_env *temp, t_shell *shell)
 {
 	add_env_line(&shell->env_lines, new);
 	add_env_line(&shell->export_lines, temp);
-	setenv(new->name, new->value, 1);
 }
 
 void	add_lines(t_shell *shell, t_prompt *prompt)
@@ -89,7 +90,6 @@ void	update_line(char *arg, t_env **env)
 		{
 			free(temp->value);
 			temp->value = value;
-			setenv(var_name, value, 1);
 		}
 		temp = temp->next;
 	}
