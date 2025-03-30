@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 17:51:08 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:59:11 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ static void	check_home_path(t_shell *shell)
 {
 	if (shell->home_path == NULL)
 		ft_printf("bash: cd : HOME not set\n");
-	else if (chdir(shell->home_path) != 0)
-		ft_printf("cd: no such file or directory: %s\n", shell->home_path);
-	free(shell->pwd);
-	shell->pwd = ft_strdup(shell->home_path);
+	else
+	{
+		if (chdir(shell->home_path) != 0)
+			ft_printf("cd: no such file or directory: %s\n", shell->home_path);
+		free(shell->pwd);
+		shell->pwd = ft_strdup(shell->home_path);
+	}
 }
 
 void	exec_cd(t_shell *shell, t_prompt *prompt)
