@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 18:26:19 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:31:00 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ void	update_vars(t_shell *shell)
 {
 	free_2d_array(shell->env);
 	shell->env = get_env_lines(shell->env_lines);
+	if (shell->old_pwd)
+	{
+		free(shell->old_pwd);
+		shell->old_pwd = get_path_value(shell->env, "OLDPWD");
+	}
 	free(shell->path);
 	free(shell->home_path);
-	free(shell->old_pwd);
 	free(shell->pwd);
 	free_2d_array(shell->splitted_path);
 	shell->path = get_path_value(shell->env, "PATH");
 	shell->home_path = get_path_value(shell->env, "HOME");
-	shell->old_pwd = get_path_value(shell->env, "OLDPWD");
 	shell->pwd = get_path_value(shell->env, "PWD");
 	shell->splitted_path = split_path(shell->path);
 }
@@ -36,7 +39,7 @@ static void	check_home_path(t_shell *shell)
 	{
 		if (chdir(shell->home_path) != 0)
 			ft_printf("cd: no such file or directory: %s\n", shell->home_path);
-		else if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)
+		else if (shell->old_pwd && ft_strcmp(shell->old_pwd, shell->pwd) != 0)
 		{
 			free(shell->old_pwd);
 			shell->old_pwd = ft_strdup(shell->pwd);
@@ -56,7 +59,7 @@ void	exec_cd(t_shell *shell, t_prompt *prompt)
 	{
 		if (prompt->nb_args == 1)
 			check_home_path(shell);
-		else if (ft_strcmp(shell->old_pwd, shell->pwd) != 0)
+		else if (shell->old_pwd && ft_strcmp(shell->old_pwd, shell->pwd) != 0)
 		{
 			free(shell->old_pwd);
 			shell->old_pwd = ft_strdup(shell->pwd);
