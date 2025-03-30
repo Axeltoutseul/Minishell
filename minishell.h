@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 17:38:48 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 20:54:42 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int			count_non_redir_tokens(char **tokens);
 int			invalid_prompt(char	*line);
 char		*get_line_without_space(char *line);
 char		**prepare_tokens(char **tokens, char **heredoc);
+
 // Redirection
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
@@ -76,12 +77,14 @@ void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
 int			is_valid_n_option(const char *str);
+
 // Gestion de la structure principale
 void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
 t_shell		*init_shell(char **envp);
 char		**get_env_lines(t_env *env);
 void		update_vars(t_shell *shell);
+
 // Gestion de l'environnement
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
@@ -118,6 +121,7 @@ char		*expand_var(const char *in, int *i, char **env);
 void		check_state(int i, int *state, const char *input);
 char		*append_str(char *dest, const char *src);
 void		del_content(t_env *temp);
+
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);

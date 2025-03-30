@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:41:53 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/24 11:56:01 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 21:11:14 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
-}
-
-int	count_occurs(const char *cmd_line, int to_find)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == to_find)
-			count++;
-		i++;
-	}
-	return (count);
 }
 
 int	count_words(const char *str)
