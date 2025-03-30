@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 17:38:43 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 19:07:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	get_shell_level(char **envp)
 	int		shlvl;
 
 	i = 0;
+	if (!envp[0])
+		return (-1);
 	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
 	{
 		i = i + 1;
@@ -50,6 +52,8 @@ char	**split_path(char *env_line)
 	char	**splitted_path;
 
 	i = 0;
+	if (!env_line)
+		return (NULL);
 	splitted_path = ft_split(env_line, ':');
 	i = 0;
 	while (splitted_path[i])
