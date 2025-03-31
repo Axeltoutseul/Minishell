@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:49 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:23:40 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:31:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,31 @@ int	is_space(int c)
 	return (0);
 }
 
-int	invalid_prompt(char	*line)
+int	invalid_prompt(char	*line, int *state)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = ft_strlen(line) - 1;
-	if (line[i] == '|' || line[j] == '|')
+	if (line[0] == '|' || line[j] == '|')
 		return (2);
-	while (line[i])
+	while (line[++i])
 	{
-		if (ft_strlen(line + i) >= 2 && line[i] == '|' && line[i + 1] == '|')
+		update_quote_state(state, line[i]);
+		if (ft_strlen(line + i) >= 2 && line[i] == '|' && line[i + 1] == '|'
+			&& *state == 0)
 			return (2);
-		if (ft_strlen(line + i) >= 2
-			&& ((line[i] == '<' && line[i + 1] == '>')
+		if (ft_strlen(line + i) >= 2 && ((line[i] == '<' && line[i + 1] == '>')
 				|| (line[i] == '>' && line[i + 1] == '<')))
 			return (1);
-		if (ft_strlen(line + i) >= 3)
+		if (ft_strlen(line + i) >= 3 && *state == 0)
 		{
 			if ((line[i] == '<' || line[i] == '>')
 				&& (line[i + 1] == '<' || line[i + 1] == '>')
 				&& (line[i + 2] == '<' || line[i + 2] == '>'))
 				return (1);
 		}
-		i++;
 	}
 	return (0);
 }

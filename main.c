@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 19:05:18 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:29:09 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,15 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 {
 	char		*tmp;
 	t_pipeline	*pipeline;
+	int			state;
 
+	state = 0;
 	if (!count_strings(prompt->strs) || !closed_quotes(line))
 		return ;
 	tmp = get_line_without_space(line);
-	if (invalid_prompt(tmp))
+	if (invalid_prompt(tmp, &state))
 	{
-		if (invalid_prompt(tmp) == 2)
+		if (invalid_prompt(tmp, &state) == 2)
 			ft_printf("bash: syntax error near unexpected token `|'\n");
 		else
 			ft_printf("bash: syntax error near unexpected token `newline'\n");
