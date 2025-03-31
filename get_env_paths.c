@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 19:07:47 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:11:00 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ char	*get_command_path(char *cmd, char **env)
 	}
 	full_path = search_cmd_in_paths(paths, cmd);
 	free_2d_array(paths);
+	free(path_line);
 	return (full_path);
 }
