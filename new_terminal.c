@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:09:19 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 21:15:57 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:49:24 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,16 @@ t_prompt	*init_prompt(const char *buffer, char **env)
 	return (prompt);
 }
 
-void	get_mini_env(t_env **env)
+static char	**get_mini_env(char **envp)
 {
-	t_env	*new;
-	char	*pwd_line;
 	char	buffer[1000];
 
 	getcwd(buffer, PATH_MAX);
-	pwd_line = ft_strjoin("PWD=", buffer);
-	new = new_line(pwd_line);
-	add_env_line(env, new);
-	new = new_line("SHLVL=1");
-	add_env_line(env, new);
-	new = new_line("_=/usr/bin/env");
-	add_env_line(env, new);
+	envp[0] = ft_strdup("SHLVL=1");
+	envp[1] = ft_strjoin("PWD=", buffer);
+	envp[2] = ft_strdup("_=/usr/bin/env");
+	envp[3] = 0;
+	return (envp);
 }
 
 void	copy_env(t_env **env, char **envp)
@@ -76,7 +72,7 @@ void	copy_env(t_env **env, char **envp)
 
 	i = 0;
 	if (!envp[0])
-		return (get_mini_env(env));
+		envp = get_mini_env(envp);
 	while (envp[i])
 	{
 		new = new_line(envp[i]);
@@ -91,13 +87,14 @@ void	copy_export(t_env **export, char **envp)
 	int		i;
 
 	i = 0;
-	if (!envp[0])
-		return (get_mini_env(export));
 	sort_strings(envp, count_strings(envp));
 	while (envp[i])
 	{
-		new = new_line(envp[i]);
-		add_env_line(export, new);
+		if (!(envp[i][0] == '_' && envp[i][1] == '='))
+		{
+			new = new_line(envp[i]);
+			add_env_line(export, new);
+		}
 		i++;
 	}
 }

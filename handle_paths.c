@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:07:10 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/30 21:31:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:10:28 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	update_vars(t_shell *shell)
 {
+	char	buffer[PATH_MAX];
+
 	free_2d_array(shell->env);
 	shell->env = get_env_lines(shell->env_lines);
 	if (shell->old_pwd)
@@ -27,7 +29,7 @@ void	update_vars(t_shell *shell)
 	free_2d_array(shell->splitted_path);
 	shell->path = get_path_value(shell->env, "PATH");
 	shell->home_path = get_path_value(shell->env, "HOME");
-	shell->pwd = get_path_value(shell->env, "PWD");
+	shell->pwd = ft_strdup(getcwd(buffer, PATH_MAX));
 	shell->splitted_path = split_path(shell->path);
 }
 
