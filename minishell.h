@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 15:32:36 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/04/01 02:09:48 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "libft/libft.h"
 
 // Token
+void		set_shell_instance(t_shell *shell);
+t_shell		*get_shell_instance(void);
+void		reset_signals(void);
 char		**advanced_tokenize_modified(const char *line);
 int			count_raw_cmds(char **raw_cmds);
 void		process_default(char c, t_state *state, char **curr);
@@ -38,7 +41,9 @@ int			count_non_redir_tokens(char **tokens);
 int			invalid_prompt(char	*line);
 char		*get_line_without_space(char *line);
 char		**prepare_tokens(char **tokens, char **heredoc);
+
 // Redirection
+int			contains_redirection(char **tokens);
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
@@ -50,7 +55,7 @@ int			redirect_file(const char *target, int std_fd, int flags, int mode);
 void		setup_signal(void);
 void		handle_sigint(int sig);
 void		handle_sigquit(int sig);
-char		*expand_variables(const char *input);
+char		*expand_variables(const char *input, char **env);
 int			apply_redirections(char **token);
 int			apply_command_redirections(t_command *cmd);
 int			handle_heredoc_parent_pipe(const char *delimiter);
@@ -76,14 +81,17 @@ void		ft_swap(char **s1, char **s2);
 int			is_space(int c);
 void		sort_strings(char **envp, int size);
 int			is_valid_n_option(const char *str);
+
 // Gestion de la structure principale
 void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
 t_shell		*init_shell(char **envp);
+char		**get_env_lines(t_env *env);
+void		update_vars(t_shell *shell);
+
 // Gestion de l'environnement
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
-char		**split_path(char **envp);
 char		*get_command_path(char *cmd, char **env);
 char		*get_env_value(char **env, char *key);
 char		*search_cmd_in_paths(char **paths, char *cmd);
@@ -104,18 +112,20 @@ int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);
 void		remove_line(t_env **lst, char *arg);
-char		**split_path(char **envp);
+char		**split_path(char *env_line);
 void		update_line(char *arg, t_env **env);
 void		update_paths(t_shell *shell, t_env **env);
 void		write_env(t_prompt *prompt, t_env *env);
 void		write_export(t_env *env);
 void		exec_echo_builtin(t_command *cmd);
-char		*do_expand_loop(const char *input, int *i,
-				int *state, char *result);
-char		*handle_dollar_case(const char *input, int *i);
-char		*expand_var(const char *in, int *i);
+char		*do_expand_loop(const char *input, int *i, char *result,
+				char **env);
+char		*handle_dollar_case(const char *input, int *i, char **env);
+char		*expand_var(const char *in, int *i, char **env);
 void		check_state(int i, int *state, const char *input);
 char		*append_str(char *dest, const char *src);
+void		del_content(t_env *temp);
+
 // Parsing du prompt
 char		**advanced_tokenize(const char *line);
 int			check_path_validity(char *cmd);
@@ -125,9 +135,9 @@ void		exec_echo(t_prompt *prompt);
 void		execute_builtin(t_shell *shell, t_prompt *prompt);
 int			existing_command(char **paths, char *cmd);
 void		free_prompt(t_prompt *prompt);
-t_prompt	*init_prompt(const char *buffer);
-t_command	*parse_command(char *raw);
-t_pipeline	*parse_input(const char *line);
+t_prompt	*init_prompt(const char *buffer, char **env);
+t_command	*parse_command(char *raw, char **env);
+t_pipeline	*parse_input(const char *line, char **env);
 int			valid_arg(char *name, char *arg);
 int			valid_name(char *name);
 int			valid_value(char *s);

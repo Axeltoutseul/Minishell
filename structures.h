@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:22:37 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 18:14:46 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:15:57 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	char			*line;
 	struct s_env	*next;
 }	t_env;
 
@@ -63,6 +64,7 @@ typedef struct s_shell
 	t_env	*env_lines;
 	t_env	*export_lines;
 	t_list	*history;
+	int		exit_status;
 }	t_shell;
 
 typedef struct s_exec_context

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 03:16:43 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:24:27 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 01:53:55 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_exec_context	init_ctx(t_shell *shell, t_pipeline *pipeline,
 	return (ctx);
 }
 
-static void	handle_single_cat(t_pipeline *pipeline, char **env)
+/*static void	handle_single_cat(t_pipeline *pipeline, char **env)
 {
 	pid_t	pid;
 	char	*path;
@@ -88,31 +88,54 @@ static void	handle_single_cat(t_pipeline *pipeline, char **env)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, NULL, 0);
+}*/
+
+static pid_t	run_pipeline_command(t_exec_context *ctx, int i, int *prev_fd)
+{
+	int		pipe_fd[2];
+	pid_t	pid;
+
+	create_pipe_block(i, ctx->cmd_count, pipe_fd);
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+		child_execute(ctx, i, *prev_fd, pipe_fd);
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (i < ctx->cmd_count - 1)
+	{
+		*prev_fd = pipe_fd[0];
+		close(pipe_fd[1]);
+	}
+	else
+		*prev_fd = -1;
+	return (pid);
 }
 
 void	execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env)
 {
 	int				i;
 	int				prev_fd;
-	int				pipe_fd[2];
 	t_exec_context	ctx;
+	pid_t			last_pid;
 
 	i = 0;
 	prev_fd = -1;
 	ctx = init_ctx(shell, pipeline, env);
-	if (pipeline->count == 1
-		&& !pipeline->commands[0].redirections
-		&& !ft_strcmp(pipeline->commands[0].args[0], "cat"))
-	{
-		handle_single_cat(pipeline, env);
-		return ;
-	}
 	while (i < ctx.cmd_count)
 	{
-		create_pipe_block(i, ctx.cmd_count, pipe_fd);
-		prev_fd = handle_fork_and_update(i, prev_fd, pipe_fd, &ctx);
+		last_pid = run_pipeline_command(&ctx, i, &prev_fd);
 		i++;
 	}
 	if (prev_fd != -1)
 		close(prev_fd);
+	waitpid(last_pid, &shell->exit_status, 0);
+	if (WIFEXITED(shell->exit_status))
+		shell->exit_status = WEXITSTATUS(shell->exit_status);
+	else if (WIFSIGNALED(shell->exit_status))
+		shell->exit_status = 128 + WTERMSIG(shell->exit_status);
 }

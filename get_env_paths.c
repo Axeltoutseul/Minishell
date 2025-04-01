@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/27 11:18:49 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 19:07:47 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ char	*get_path_value(char **envp, char *name)
 	char	*path;
 
 	i = 0;
-	size = ft_strlen(name);
-	while (ft_strncmp(envp[i], name, size) != 0)
+	size = ft_strlen(name) + 1;
+	while (envp[i] && ft_strncmp(envp[i], name, size - 1) != 0)
 	{
 		i = i + 1;
 	}
+	if (!envp[i] || (envp[i] && !ft_strchr(envp[i], '=')))
+		return (NULL);
 	path = ft_strdup(envp[i] + size);
 	return (path);
 }
@@ -34,6 +36,8 @@ int	get_shell_level(char **envp)
 	int		shlvl;
 
 	i = 0;
+	if (!envp[0])
+		return (-1);
 	while (ft_strncmp(envp[i], "SHLVL=", 6) != 0)
 	{
 		i = i + 1;
@@ -42,17 +46,15 @@ int	get_shell_level(char **envp)
 	return (shlvl);
 }
 
-char	**split_path(char **envp)
+char	**split_path(char *env_line)
 {
 	int		i;
 	char	**splitted_path;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
-	{
-		i = i + 1;
-	}
-	splitted_path = ft_split(envp[i] + 5, ':');
+	if (!env_line)
+		return (NULL);
+	splitted_path = ft_split(env_line, ':');
 	i = 0;
 	while (splitted_path[i])
 	{
@@ -65,13 +67,15 @@ char	**split_path(char **envp)
 char	*get_command_path(char *cmd, char **env)
 {
 	char	**paths;
+	char	*path_line;
 	char	*full_path;
 
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		return (ft_strdup(cmd));
 	}
-	paths = split_path(env);
+	path_line = get_path_value(env, "PATH");
+	paths = split_path(path_line);
 	if (paths == 0)
 	{
 		return (0);

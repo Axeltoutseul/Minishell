@@ -3,33 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:53:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/28 15:29:06 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:11:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_status;
-
 static char	*expand_special_var(const char *in, int *i)
 {
+	t_shell	*shell;
+
+	shell = get_shell_instance();
 	if (in[*i + 1] == '?')
 	{
 		*i = *i + 2;
-		return (ft_itoa(g_exit_status));
+		return (ft_itoa(shell->exit_status));
 	}
 	if (in[*i + 1] == '$')
 	{
 		*i = *i + 2;
-		return (ft_itoa(my_getpid()));
+		return (ft_itoa(getpid()));
 	}
 	return (NULL);
 }
 
-char	*expand_var(const char *in, int *i)
+char	*expand_var(const char *in, int *i, char **env)
 {
 	int		j;
 	char	*name;
@@ -49,11 +50,11 @@ char	*expand_var(const char *in, int *i)
 	}
 	name = ft_strndup(in + *i + 1, j - *i - 1);
 	*i = j;
-	val = getenv(name);
+	val = get_path_value(env, name);
 	if (val == NULL)
-		val = "";
+		val = ft_strdup("");
 	free(name);
-	return (ft_strdup(val));
+	return (val);
 }
 
 void	check_state(int i, int *state, const char *input)
@@ -68,13 +69,13 @@ void	check_state(int i, int *state, const char *input)
 		*state = 0;
 }
 
-char	*handle_dollar_case(const char *input, int *i)
+char	*handle_dollar_case(const char *input, int *i, char **env)
 {
 	char	*temp;
 
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 	{
-		temp = expand_var(input, i);
+		temp = expand_var(input, i, env);
 		return (temp);
 	}
 	if (!input[*i + 1] || (!ft_isalnum(input[*i + 1]) && input[*i + 1] != '_'))
@@ -82,25 +83,27 @@ char	*handle_dollar_case(const char *input, int *i)
 		*i = *i + 1;
 		return (ft_strdup("$"));
 	}
-	temp = expand_var(input, i);
+	temp = expand_var(input, i, env);
 	return (temp);
 }
 
-char	*do_expand_loop(const char *input, int *i, int *state, char *result)
+char	*do_expand_loop(const char *input, int *i, char *result, char **env)
 {
 	char	*temp;
 	char	ch[2];
+	int		state;
 
+	state = 0;
 	while (input[*i])
 	{
-		if (input[*i] == '$' && *state != 1)
+		if (input[*i] == '$' && state != 1)
 		{
-			temp = handle_dollar_case(input, i);
+			temp = handle_dollar_case(input, i, env);
 			result = append_str(result, temp);
 			free(temp);
 			continue ;
 		}
-		check_state(*i, state, input);
+		check_state(*i, &state, input);
 		ch[0] = input[*i];
 		ch[1] = '\0';
 		result = append_str(result, ch);

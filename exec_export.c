@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:44:58 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/28 17:34:44 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/03/30 15:56:10 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	exec_export(t_shell *shell, t_prompt *prompt)
 		write_export(shell->export_lines);
 	else
 		add_lines(shell, prompt);
+	free_2d_array(shell->env);
+	shell->env = get_env_lines(shell->env_lines);
 }
 
 void	add_to_env_and_export(t_env *new, t_env *temp, t_shell *shell)
 {
 	add_env_line(&shell->env_lines, new);
 	add_env_line(&shell->export_lines, temp);
-	my_setenv(&shell->env_lines, new->name, new->value, 1);
 }
 
 void	add_lines(t_shell *shell, t_prompt *prompt)
@@ -83,7 +84,17 @@ void	update_line(char *arg, t_env **env)
 		i++;
 	var_name = ft_strndup(arg, i);
 	value = ft_strdup(ft_strchr(arg, '=') + 1);
-	my_setenv(env, var_name, value, 1);
-	free(temp->value);
+	while (temp)
+	{
+		if (ft_strcmp(var_name, temp->name) == 0)
+		{
+			free(temp->value);
+			free(temp->line);
+			temp->value = value;
+			temp->line = ft_strjoin(temp->name, "=");
+			temp->line = join_and_free(temp->line, temp->value);
+		}
+		temp = temp->next;
+	}
 	free(var_name);
 }

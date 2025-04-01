@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 21:21:24 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/28 11:44:49 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/03/30 15:09:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	**prepare_tokens(char **tokens, char **heredoc)
 	return (tokens);
 }
 
-static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
+static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count,
+				char **env)
 {
 	int			i;
 	t_command	*cmd;
@@ -34,7 +35,7 @@ static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 	i = 0;
 	while (i < count)
 	{
-		cmd = parse_command(raw_cmds[i]);
+		cmd = parse_command(raw_cmds[i], env);
 		if (!cmd)
 			return (0);
 		pipeline->commands[i] = *cmd;
@@ -44,7 +45,7 @@ static int	fill_pipeline(t_pipeline *pipeline, char **raw_cmds, int count)
 	return (1);
 }
 
-t_pipeline	*parse_input(const char *line)
+t_pipeline	*parse_input(const char *line, char **env)
 {
 	t_pipeline	*pipeline;
 	char		**raw_cmds;
@@ -62,7 +63,7 @@ t_pipeline	*parse_input(const char *line)
 	pipeline->commands = malloc(sizeof(t_command) * count);
 	if (!pipeline->commands)
 		return (free(pipeline), free_2d_array(raw_cmds), NULL);
-	if (!fill_pipeline(pipeline, raw_cmds, count))
+	if (!fill_pipeline(pipeline, raw_cmds, count, env))
 		return (free_2d_array(raw_cmds),
 			free(pipeline->commands), free(pipeline), NULL);
 	i = -1;
