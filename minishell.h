@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/04/01 02:09:48 by qacjl            ###   ########.fr       */
+/*   Updated: 2025/04/01 12:00:52 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 char		**remove_hd_tokens(char **tokens, char **heredoc);
-char		*get_command_path(char *cmd, char **env);
 char		**split_pipeline(const char *line);
 char		*preprocess_line(const char *line);
 char		**build_new_tokens(char **tokens, t_redir **redir, int size);
@@ -54,7 +53,6 @@ int			handle_redirection_char(const char *file, const char *op);
 int			redirect_file(const char *target, int std_fd, int flags, int mode);
 void		setup_signal(void);
 void		handle_sigint(int sig);
-void		handle_sigquit(int sig);
 char		*expand_variables(const char *input, char **env);
 int			apply_redirections(char **token);
 int			apply_command_redirections(t_command *cmd);
@@ -107,7 +105,6 @@ void		free_env_lines(t_env *env);
 void		free_new_and_temp(t_env *new, t_env *temp);
 char		**get_lines_export(char **envp);
 char		**get_lines(char **envp);
-char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
 int			is_in_list(t_env *env, char *var_name);
 t_env		*new_line(char *env_line);
@@ -147,9 +144,7 @@ int			process_hd_token(char **tokens, int *i, char **heredoc);
 int			count_tokens_without_hd(char **tokens);
 char		**build_tokens_without_hd(char **tokens, char **heredoc,
 				int new_count);
-int			count_non_redir_tokens(char **tokens);
 char		**build_tokens_without_redir(char **tokens, int non_redir_count);
-char		**build_new_tokens(char **tokens, t_redir **redir, int size);
 int			handle_token_build_new_tokens(t_build_ctx *ctx);
 t_redir		*create_redirection_token(char **tokens, int *i);
 char		*create_redirection_op(char *token);
