@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:53:33 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/30 15:38:21 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:11:47 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_exit_status;
-
 static char	*expand_special_var(const char *in, int *i)
 {
+	t_shell	*shell;
+
+	shell = get_shell_instance();
 	if (in[*i + 1] == '?')
 	{
 		*i = *i + 2;
-		return (ft_itoa(g_exit_status));
+		return (ft_itoa(shell->exit_status));
 	}
 	if (in[*i + 1] == '$')
 	{
 		*i = *i + 2;
-		return (ft_itoa(my_getpid()));
+		return (ft_itoa(getpid()));
 	}
 	return (NULL);
 }

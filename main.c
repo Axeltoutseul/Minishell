@@ -6,28 +6,11 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:28:15 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/31 16:29:09 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:00:08 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	contains_redirection(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		if (!ft_strcmp(tokens[i], ">")
-			|| !ft_strcmp(tokens[i], ">>")
-			|| !ft_strcmp(tokens[i], "<")
-			|| !ft_strcmp(tokens[i], "<<"))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static void	check_cmd(t_pipeline *pipeline)
 {
@@ -86,7 +69,42 @@ void	exec_command(t_shell *shell, t_prompt *prompt, char **env, char *line)
 	exec_command2(pipeline, shell, env);
 }
 
+static int	process_input(t_shell *shell, char **env)
+{
+	char		*line;
+	t_prompt	*prompt;
+
+	line = readline("\001\033[0;32m\002minishell> \001\033[0m\002");
+	if (line == NULL)
+	{
+		write(1, "exit\n", 5);
+		shell->exit_status = 1;
+		return (-1);
+	}
+	verif_history(shell, line);
+	prompt = init_prompt(line, shell->env);
+	exec_command(shell, prompt, env, line);
+	update_vars(shell);
+	free_prompt(prompt);
+	free(line);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
+{
+	t_shell		*shell;
+
+	(void)argc;
+	(void)argv;
+	shell = init_shell(env);
+	set_shell_instance(shell);
+	check_signal(&shell->shlvl);
+	while (process_input(shell, env) != -1)
+		;
+	free_terminal(shell);
+	return (shell->exit_status);
+}
+/*int	main(int argc, char **argv, char **env)
 {
 	t_shell		*shell;
 	char		*line;
@@ -95,6 +113,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	shell = init_shell(env);
+	set_shell_instance(shell);
 	check_signal(&shell->shlvl);
 	while (1)
 	{
@@ -102,6 +121,7 @@ int	main(int argc, char **argv, char **env)
 		if (line == NULL)
 		{
 			write(1, "exit\n", 5);
+			shell->exit_status = 1;
 			break ;
 		}
 		verif_history(shell, line);
@@ -112,5 +132,5 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	free_terminal(shell);
-	return (0);
-}
+	return (shell->exit_status);
+}*/

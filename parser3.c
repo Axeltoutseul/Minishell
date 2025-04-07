@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:22:16 by qacjl             #+#    #+#             */
-/*   Updated: 2025/03/27 18:23:58 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:08:19 by quenalla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*create_redirection_op(char *token)
 {
-	return (ft_strtrim(token, " \t"));
+	return (ft_strdup(token));
 }
 
 t_redir	*create_redirection_token(char **tokens, int *i)
@@ -22,7 +22,7 @@ t_redir	*create_redirection_token(char **tokens, int *i)
 	char	*temp;
 	t_redir	*new_redir;
 
-	temp = ft_strtrim(tokens[*i + 1], " \t");
+	temp = ft_strdup(tokens[*i + 1]);
 	if (!temp)
 		return (NULL);
 	if (temp[0] == '\0')

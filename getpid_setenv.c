@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   getpid_setenv.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 15:23:14 by quenalla          #+#    #+#             */
-/*   Updated: 2025/03/28 15:41:13 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/04/01 02:10:53 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	contains_redirection(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		if (!ft_strcmp(tokens[i], ">")
+			|| !ft_strcmp(tokens[i], ">>")
+			|| !ft_strcmp(tokens[i], "<")
+			|| !ft_strcmp(tokens[i], "<<"))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 pid_t	my_getpid(void)
 {
@@ -29,17 +46,29 @@ pid_t	my_getpid(void)
 	return ((pid_t)ft_atoi(buf));
 }
 
+static t_env	*create_env_node(const char *name, const char *value)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->name = ft_strdup(name);
+	node->value = ft_strdup(value);
+	node->next = NULL;
+	return (node);
+}
+
 int	my_setenv(t_env **env, const char *name, const char *value, int overwrite)
 {
 	t_env	*curr;
-	t_env	*new_node;
 
-	if (name == NULL || value == NULL)
+	if (!name || !value)
 		return (-1);
 	curr = *env;
 	while (curr)
 	{
-		if (ft_strcmp(curr->name, name) == 0)
+		if (!ft_strcmp(curr->name, name))
 		{
 			if (overwrite)
 			{
@@ -50,12 +79,10 @@ int	my_setenv(t_env **env, const char *name, const char *value, int overwrite)
 		}
 		curr = curr->next;
 	}
-	new_node = malloc(sizeof(t_env));
-	if (new_node == NULL)
+	curr = create_env_node(name, value);
+	if (!curr)
 		return (-1);
-	new_node->name = ft_strdup(name);
-	new_node->value = ft_strdup(value);
-	new_node->next = *env;
-	*env = new_node;
+	curr->next = *env;
+	*env = curr;
 	return (0);
 }

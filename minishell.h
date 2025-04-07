@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:43:55 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/31 16:28:52 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:30:43 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "libft/libft.h"
 
 // Token
+void		set_shell_instance(t_shell *shell);
+t_shell		*get_shell_instance(void);
+void		reset_signals(void);
 char		**advanced_tokenize_modified(const char *line);
 int			count_raw_cmds(char **raw_cmds);
 void		process_default(char c, t_state *state, char **curr);
@@ -30,17 +33,17 @@ void		process_in_single(char c, t_state *state, char **curr);
 void		process_in_double(char c, t_state *state, char **curr);
 void		process_escaping(char c, t_state *state, char **curr);
 char		**remove_hd_tokens(char **tokens, char **heredoc);
-char		*get_command_path(char *cmd, char **env);
 void		update_quote_state(int *state, char c);
 char		**split_pipeline(const char *line);
 char		*preprocess_line(const char *line);
 char		**build_new_tokens(char **tokens, t_redir **redir, int size);
 int			count_non_redir_tokens(char **tokens);
-int			invalid_prompt(char *line, int *state);
+int			invalid_prompt(char	*line, int *state);
 char		*get_line_without_space(char *line);
 char		**prepare_tokens(char **tokens, char **heredoc);
 
 // Redirection
+int			contains_redirection(char **tokens);
 int			handle_heredoc(const char *delimiter);
 void		free_pipeline(t_pipeline *pipeline);
 void		execute_pipeline(t_shell *shell, t_pipeline *pipeline, char **env);
@@ -84,18 +87,18 @@ void		free_2d_array(char **strs);
 void		free_terminal(t_shell *shell);
 t_shell		*init_shell(char **envp);
 char		**get_env_lines(t_env *env);
+void		copy_env(t_env **env, char **envp);
+void		copy_export(t_env **export, char **envp);
 void		update_vars(t_shell *shell);
 
 // Gestion de l'environnement
 char		*get_path_value(char **envp, char *name);
 int			get_shell_level(char **envp);
-char		*get_command_path(char *cmd, char **env);
+char		*get_command_path(char *cmd, t_shell *shell);
 char		*get_env_value(char **env, char *key);
 char		*search_cmd_in_paths(char **paths, char *cmd);
 void		add_env_line(t_env **env, t_env *new);
 void		add_lines(t_shell *shell, t_prompt *prompt);
-void		copy_env(t_env **env, char **envp);
-void		copy_export(t_env **export, char **envp);
 int			env_size(t_env *env);
 void		exec_cd(t_shell *shell, t_prompt *prompt);
 void		exec_export(t_shell *shell, t_prompt *prompt);

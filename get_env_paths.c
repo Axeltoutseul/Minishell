@@ -6,7 +6,7 @@
 /*   By: axbaudri <axbaudri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:49:59 by axbaudri          #+#    #+#             */
-/*   Updated: 2025/03/31 20:11:00 by axbaudri         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:28:46 by axbaudri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,14 @@ char	**split_path(char *env_line)
 	return (splitted_path);
 }
 
-char	*get_command_path(char *cmd, char **env)
+char	*get_command_path(char *cmd, t_shell *shell)
 {
-	char	**paths;
-	char	*path_line;
 	char	*full_path;
 
 	if (ft_strchr(cmd, '/') != NULL)
-	{
 		return (ft_strdup(cmd));
-	}
-	path_line = get_path_value(env, "PATH");
-	paths = split_path(path_line);
-	if (paths == 0)
-	{
+	if (shell->splitted_path == 0)
 		return (0);
-	}
-	full_path = search_cmd_in_paths(paths, cmd);
-	free_2d_array(paths);
-	free(path_line);
+	full_path = search_cmd_in_paths(shell->splitted_path, cmd);
 	return (full_path);
 }
